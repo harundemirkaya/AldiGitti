@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
       title: 'Aldı Gitii',
       debugShowCheckedModeBanner: false,
       home: HomePage(),
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(86, 105, 255, 1),
+      ),
     );
   }
 }
