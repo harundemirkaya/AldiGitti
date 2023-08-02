@@ -5,14 +5,19 @@ import 'package:flutter/material.dart';
 class PrimaryTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData? icon;
+  final String placeholderText;
 
-  PrimaryTextField({required this.controller, required this.icon});
+  PrimaryTextField(
+      {required this.controller,
+      required this.icon,
+      required this.placeholderText});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
+        hintText: placeholderText,
         filled: true,
         prefixIcon: Icon(icon),
         fillColor: Colors.white,

@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,6 +45,7 @@ class _HomePageState extends State<HomePage> {
             PrimaryTextField(
               controller: _mailController,
               icon: Icons.mail_outline,
+              placeholderText: "E-Mail Adresiniz",
             ),
             SizedBox(
               height: 20,
@@ -50,6 +53,7 @@ class _HomePageState extends State<HomePage> {
             PrimaryTextField(
               controller: _passwordController,
               icon: Icons.lock_outline,
+              placeholderText: "Şifreniz",
             ),
             SizedBox(
               height: 20,
@@ -109,6 +113,51 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 5,
+            ),
+            PrimaryLoginButton(
+              iconData: "lib/assets/images/google-icon.svg",
+              buttonText: "Google ile Giriş Yap",
+              onPressed: () {},
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            PrimaryLoginButton(
+              iconData: "lib/assets/images/facebook-icon.svg",
+              buttonText: "Facebook ile Giriş Yap",
+              onPressed: () {},
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: RichText(
+                text: TextSpan(
+                  text: 'Hesabınız yok mu? ',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Hemen Kayıt Olun!',
+                      style: TextStyle(color: Colors.blue),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          //
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
