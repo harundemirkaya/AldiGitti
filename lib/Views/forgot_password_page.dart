@@ -62,6 +62,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: PrimaryNextButton(
                 buttonText: "Yenile",
                 buttonIcon: Icons.arrow_right_alt,
+                onPressed: () {},
               ),
             ),
           ],

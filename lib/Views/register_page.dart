@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:aldigitti/Models/RegisterResponseModel.dart';
+import 'package:aldigitti/ViewModels/RegisterViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
@@ -13,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  RegisterViewModel viewModel = RegisterViewModel();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -75,8 +78,23 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             Center(
               child: PrimaryNextButton(
-                buttonText: "Kayıt Ol",
-                buttonIcon: Icons.arrow_right_alt,
+                buttonText: "Register",
+                buttonIcon: Icons.arrow_forward,
+                onPressed: () async {
+                  if (_nameController.text != "" &&
+                      _mailController.text != "" &&
+                      _passwordController.text != "" &&
+                      _passwordAgainController.text != "" &&
+                      _passwordAgainController.text ==
+                          _passwordController.text) {
+                    RegisterResponseModel model = await viewModel.registerUser({
+                      'username': _mailController.text,
+                      'password': _passwordController.text,
+                      'name': _nameController.text,
+                      'surname': _nameController.text,
+                    });
+                  }
+                },
               ),
             ),
             SizedBox(

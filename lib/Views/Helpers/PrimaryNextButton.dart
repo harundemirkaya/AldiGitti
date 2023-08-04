@@ -1,12 +1,16 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class PrimaryNextButton extends StatelessWidget {
   final String buttonText;
   final IconData buttonIcon;
+  final VoidCallback onPressed;
 
-  PrimaryNextButton({required this.buttonText, required this.buttonIcon});
+  const PrimaryNextButton(
+      {Key? key,
+      required this.buttonText,
+      required this.buttonIcon,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +27,7 @@ class PrimaryNextButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        onPressed: () {
-          //
-        },
+        onPressed: onPressed,
         child: Row(
           children: <Widget>[
             Spacer(),

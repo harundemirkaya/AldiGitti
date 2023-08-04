@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:aldigitti/Models/LoginResponseModel.dart';
+import 'package:aldigitti/ViewModels/LoginViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
@@ -16,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  LoginViewModel viewModel = LoginViewModel();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _rememberMe = false;
@@ -110,6 +113,15 @@ class _HomePageState extends State<HomePage> {
               child: PrimaryNextButton(
                 buttonText: "Giriş Yap",
                 buttonIcon: Icons.arrow_right_alt,
+                onPressed: () async {
+                  if (_mailController.text != "" &&
+                      _passwordController.text != "") {
+                    LoginResponseModel model = await viewModel.registerUser({
+                      'username': _mailController.text,
+                      'password': _passwordController.text,
+                    });
+                  }
+                },
               ),
             ),
             SizedBox(
