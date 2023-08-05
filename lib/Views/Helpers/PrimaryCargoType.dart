@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
   Future<void> _showSelectionDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Kargo Tipi Seçin'),
