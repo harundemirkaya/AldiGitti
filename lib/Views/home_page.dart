@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unused_local_variable, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'package:aldigitti/Models/LoginResponseModel.dart';
 import 'package:aldigitti/ViewModels/LoginViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
+import 'package:aldigitti/Views/bottom_navbar.dart';
 import 'package:aldigitti/Views/forgot_password_page.dart';
 import 'package:aldigitti/Views/register_page.dart';
 import 'package:flutter/gestures.dart';
@@ -120,6 +121,14 @@ class _HomePageState extends State<HomePage> {
                       'username': _mailController.text,
                       'password': _passwordController.text,
                     });
+                    if (model.accessToken != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavBar(),
+                        ),
+                      );
+                    }
                   }
                 },
               ),

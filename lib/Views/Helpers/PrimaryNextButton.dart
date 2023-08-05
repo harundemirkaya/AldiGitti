@@ -1,21 +1,25 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class PrimaryNextButton extends StatelessWidget {
   final String buttonText;
-  final IconData buttonIcon;
+  final IconData? buttonIcon;
   final VoidCallback onPressed;
+  final bool isDoubleInfinity; // Değişkeni ekledim
 
-  const PrimaryNextButton(
-      {Key? key,
-      required this.buttonText,
-      required this.buttonIcon,
-      required this.onPressed})
-      : super(key: key);
+  const PrimaryNextButton({
+    Key? key,
+    required this.buttonText,
+    this.buttonIcon,
+    required this.onPressed,
+    this.isDoubleInfinity = false, // Varsayılan değeri false olarak ayarladım
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 271,
+      width: isDoubleInfinity ? double.infinity : 271,
       height: 58,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -39,17 +43,18 @@ class PrimaryNextButton extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(61, 86, 240, 1),
-                shape: BoxShape.circle,
+            if (buttonIcon != null)
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(61, 86, 240, 1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  buttonIcon,
+                  color: Colors.white,
+                ),
               ),
-              child: Icon(
-                buttonIcon,
-                color: Colors.white,
-              ),
-            ),
           ],
         ),
       ),

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
 
 import 'package:aldigitti/Models/RegisterResponseModel.dart';
 import 'package:aldigitti/ViewModels/RegisterViewModel.dart';
