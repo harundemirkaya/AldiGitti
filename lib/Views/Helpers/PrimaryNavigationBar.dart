@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/Views/Helpers/PrimaryFilterBottomSheet.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryNavigationBar extends StatelessWidget {
@@ -39,11 +40,34 @@ class PrimaryNavigationBar extends StatelessWidget {
                   color: Colors.white),
             ),
             Spacer(),
-            if (!onlyBackButton)
-              Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
+            !onlyBackButton
+                ? GestureDetector(
+                    onTap: () {
+                      // TO DO
+                    },
+                    child: Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return PrimaryFilterBottomSheet();
+                        },
+                      );
+                    },
+                    child: Text(
+                      "Filtrele",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
