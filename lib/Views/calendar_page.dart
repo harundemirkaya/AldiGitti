@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors_in_immutables, library_private_types_in_public_api, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -17,7 +19,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tam Ekran Takvim'),
+        title: Text('Takvim'),
       ),
       body: TableCalendar(
         firstDay: DateTime.utc(2010, 10, 16),

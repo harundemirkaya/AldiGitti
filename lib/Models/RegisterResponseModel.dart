@@ -2,6 +2,8 @@
 //
 //     final registerResponseModel = registerResponseModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 RegisterResponseModel registerResponseModelFromJson(String str) =>

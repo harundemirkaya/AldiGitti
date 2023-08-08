@@ -2,6 +2,8 @@
 //
 //     final loginResponseModel = loginResponseModelFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 LoginResponseModel loginResponseModelFromJson(String str) =>

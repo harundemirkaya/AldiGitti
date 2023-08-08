@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api
 import 'package:aldigitti/Views/calendar_page.dart';
-import 'package:aldigitti/Views/forgot_password_page.dart';
-import 'package:aldigitti/Views/home_page.dart';
+import 'package:aldigitti/Views/profile_page.dart';
 import 'package:aldigitti/Views/register_page.dart';
 import 'package:aldigitti/Views/search_page.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     SearchPage(),
     CalendarPage(),
     RegisterPage(),
-    ForgotPasswordPage(),
+    ProfilePage(),
   ];
 
   void onTabTapped(int index) {
