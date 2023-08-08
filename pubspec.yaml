@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: ^0.22.0
   http: ^1.1.0
   intl: ^0.17.0
+  table_calendar: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
     - lib/assets/images/google-icon.svg
     - lib/assets/images/facebook-icon.svg
     - lib/assets/images/slider-1.png
+    - lib/assets/images/journey-line.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class PrimaryNavigationBar extends StatelessWidget {
-  const PrimaryNavigationBar({super.key});
+  final bool onlyBackButton;
+  const PrimaryNavigationBar({super.key, required this.onlyBackButton});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +27,23 @@ class PrimaryNavigationBar extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.menu, color: Colors.white),
+            GestureDetector(
+              onTap: () {
+                if (onlyBackButton) {
+                  Navigator.pop(context);
+                } else {
+                  // TO DO
+                }
+              },
+              child: Icon(onlyBackButton ? Icons.arrow_back : Icons.menu,
+                  color: Colors.white),
+            ),
             Spacer(),
-            Icon(Icons.notifications, color: Colors.white),
+            if (!onlyBackButton)
+              Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
           ],
         ),
       ),

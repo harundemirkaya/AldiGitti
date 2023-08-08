@@ -6,14 +6,14 @@ class PrimaryNextButton extends StatelessWidget {
   final String buttonText;
   final IconData? buttonIcon;
   final VoidCallback onPressed;
-  final bool isDoubleInfinity; // Değişkeni ekledim
+  final bool isDoubleInfinity;
 
   const PrimaryNextButton({
     Key? key,
     required this.buttonText,
     this.buttonIcon,
     required this.onPressed,
-    this.isDoubleInfinity = false, // Varsayılan değeri false olarak ayarladım
+    this.isDoubleInfinity = false,
   }) : super(key: key);
 
   @override

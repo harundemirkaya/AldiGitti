@@ -6,6 +6,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFrom.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFromDate.dart';
+import 'package:aldigitti/Views/journeys_page.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,9 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           Column(
             children: [
-              PrimaryNavigationBar(),
+              PrimaryNavigationBar(
+                onlyBackButton: false,
+              ),
               SizedBox(
                 height: 50,
               ),
@@ -89,7 +92,14 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     PrimaryNextButton(
                       buttonText: "Ara",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JourneysPage(),
+                          ),
+                        );
+                      },
                       isDoubleInfinity: true,
                     ),
                   ],
