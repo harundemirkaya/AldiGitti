@@ -6,16 +6,19 @@ class PrimaryTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData? icon;
   final String placeholderText;
+  final ValueChanged<String>? onChanged;
 
   PrimaryTextField(
       {required this.controller,
       required this.icon,
-      required this.placeholderText});
+      required this.placeholderText,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onChanged: (onChanged != null) ? onChanged! : (String value) {},
       decoration: InputDecoration(
         hintText: placeholderText,
         filled: true,

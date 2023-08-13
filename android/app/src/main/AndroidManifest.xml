@@ -3,6 +3,8 @@
         android:label="aldigitti"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyByasp53gOABTWi4gwPcSeRYNuP65aWCi8"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

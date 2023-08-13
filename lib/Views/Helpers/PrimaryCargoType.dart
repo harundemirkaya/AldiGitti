@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element
 
 import 'package:flutter/material.dart';
 
 class PrimaryCargoType extends StatefulWidget {
-  const PrimaryCargoType({super.key});
+  final bool? isPublisher;
+  const PrimaryCargoType({super.key, this.isPublisher});
 
   @override
   _PrimaryCargoTypeState createState() => _PrimaryCargoTypeState();
@@ -12,38 +13,108 @@ class PrimaryCargoType extends StatefulWidget {
 class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
   String dropdownValue = 'Belge';
 
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = (widget.isPublisher ?? false) ? '0' : "Belge";
+  }
+
+  bool isBelgeSelected = false;
+  bool isPaketSelected = false;
+  bool isKoliSelected = false;
+  bool isCanliHayvanSelected = false;
+
   Future<void> _showSelectionDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Kargo Tipi Seçin'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                GestureDetector(
-                  child: Text("Belge"),
-                  onTap: () => _updateValueAndPop('Belge'),
+          title: Text((widget.isPublisher ?? false)
+              ? "Kabul Edebileceğiniz Kargo Tiplerini Seçin"
+              : 'Kargo Tipi Seçin'),
+          content: (widget.isPublisher ?? false)
+              ? StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        CheckboxListTile(
+                          title: Text("Belge"),
+                          value: isBelgeSelected,
+                          onChanged: (newValue) {
+                            setState(() {
+                              isBelgeSelected = newValue!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("Paket"),
+                          value: isPaketSelected,
+                          onChanged: (newValue) {
+                            setState(() {
+                              isPaketSelected = newValue!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("Koli"),
+                          value: isKoliSelected,
+                          onChanged: (newValue) {
+                            setState(() {
+                              isKoliSelected = newValue!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("Canlı Hayvan"),
+                          value: isCanliHayvanSelected,
+                          onChanged: (newValue) {
+                            setState(() {
+                              isCanliHayvanSelected = newValue!;
+                            });
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              int selectedCount = 0;
+                              if (isBelgeSelected) selectedCount++;
+                              if (isPaketSelected) selectedCount++;
+                              if (isKoliSelected) selectedCount++;
+                              if (isCanliHayvanSelected) selectedCount++;
+
+                              _updateValueAndPop(selectedCount.toString());
+                            },
+                            child: Text("Seç"))
+                      ],
+                    );
+                  },
+                )
+              : SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Text("Belge"),
+                        onTap: () => _updateValueAndPop('Belge'),
+                      ),
+                      Padding(padding: EdgeInsets.all(8.0)),
+                      GestureDetector(
+                        child: Text("Paket"),
+                        onTap: () => _updateValueAndPop('Paket'),
+                      ),
+                      Padding(padding: EdgeInsets.all(8.0)),
+                      GestureDetector(
+                        child: Text("Koli"),
+                        onTap: () => _updateValueAndPop('Koli'),
+                      ),
+                      Padding(padding: EdgeInsets.all(8.0)),
+                      GestureDetector(
+                        child: Text("Canlı Hayvan"),
+                        onTap: () => _updateValueAndPop('C. Hayvan'),
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(padding: EdgeInsets.all(8.0)),
-                GestureDetector(
-                  child: Text("Paket"),
-                  onTap: () => _updateValueAndPop('Paket'),
-                ),
-                Padding(padding: EdgeInsets.all(8.0)),
-                GestureDetector(
-                  child: Text("Koli"),
-                  onTap: () => _updateValueAndPop('Koli'),
-                ),
-                Padding(padding: EdgeInsets.all(8.0)),
-                GestureDetector(
-                  child: Text("Canlı Hayvan"),
-                  onTap: () => _updateValueAndPop('C. Hayvan'),
-                ),
-              ],
-            ),
-          ),
         );
       },
     );
@@ -51,7 +122,11 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
 
   void _updateValueAndPop(String value) {
     setState(() {
-      dropdownValue = value;
+      if (!(widget.isPublisher ?? false)) {
+        dropdownValue = value;
+      } else {
+        dropdownValue = "$value Adet";
+      }
     });
     Navigator.of(context).pop();
   }

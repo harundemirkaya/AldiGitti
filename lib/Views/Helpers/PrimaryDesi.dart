@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class PrimaryDesi extends StatefulWidget {
-  const PrimaryDesi({super.key});
+  final bool? isPublisher;
+  const PrimaryDesi({super.key, this.isPublisher});
 
   @override
   State<PrimaryDesi> createState() => _PrimaryDesiState();
@@ -16,39 +17,58 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
     TextEditingController widthController = TextEditingController();
     TextEditingController heightController = TextEditingController();
     TextEditingController lengthController = TextEditingController();
-
+    TextEditingController maxDesiController = TextEditingController();
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Desi Hesaplama'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: widthController,
-                  decoration: InputDecoration(hintText: "Genişlik (cm)"),
-                  keyboardType: TextInputType.number,
+          content: (widget.isPublisher ?? false)
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: maxDesiController,
+                      decoration: InputDecoration(hintText: "Max Desi"),
+                      keyboardType: TextInputType.number,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    ElevatedButton(
+                      child: Text("Seç"),
+                      onPressed: () => _calculateDesi(widthController.text,
+                          heightController.text, lengthController.text),
+                    ),
+                  ],
+                )
+              : SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      TextField(
+                        controller: widthController,
+                        decoration: InputDecoration(hintText: "Genişlik (cm)"),
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextField(
+                        controller: heightController,
+                        decoration: InputDecoration(hintText: "Yükseklik (cm)"),
+                        keyboardType: TextInputType.number,
+                      ),
+                      TextField(
+                        controller: lengthController,
+                        decoration: InputDecoration(hintText: "Uzunluk (cm)"),
+                        keyboardType: TextInputType.number,
+                      ),
+                      ElevatedButton(
+                        child: Text("Hesapla"),
+                        onPressed: () => _calculateDesi(widthController.text,
+                            heightController.text, lengthController.text),
+                      ),
+                    ],
+                  ),
                 ),
-                TextField(
-                  controller: heightController,
-                  decoration: InputDecoration(hintText: "Yükseklik (cm)"),
-                  keyboardType: TextInputType.number,
-                ),
-                TextField(
-                  controller: lengthController,
-                  decoration: InputDecoration(hintText: "Uzunluk (cm)"),
-                  keyboardType: TextInputType.number,
-                ),
-                ElevatedButton(
-                  child: Text("Hesapla"),
-                  onPressed: () => _calculateDesi(widthController.text,
-                      heightController.text, lengthController.text),
-                ),
-              ],
-            ),
-          ),
         );
       },
     );
