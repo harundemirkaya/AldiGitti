@@ -55,7 +55,7 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       Row(
                         children: [
                           Text(
-                            dataProvider.fromName,
+                            dataProvider.customerFromName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -99,7 +99,7 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       Row(
                         children: [
                           Text(
-                            dataProvider.toName,
+                            dataProvider.customerToName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -118,14 +118,21 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
               bottom: 0,
               child: GestureDetector(
                 onTap: () {
-                  if (dataProvider.toName != "Nereye" &&
-                      dataProvider.fromName != "Nereden") {
-                    var toName = dataProvider.toName;
-                    var toLat = dataProvider.toLat;
-                    var toLong = dataProvider.toLong;
-                    dataProvider.setToData(dataProvider.fromName,
-                        dataProvider.fromLat, dataProvider.fromLat);
-                    dataProvider.setFromData(toName, toLat, toLong);
+                  if (dataProvider.customerToName != "Nereye" &&
+                      dataProvider.customerFromName != "Nereden") {
+                    var toName = dataProvider.customerToName;
+                    var toLat = dataProvider.customerToLat;
+                    var toLong = dataProvider.customerToLong;
+
+                    dataProvider
+                        .setCustomerToName(dataProvider.customerFromName);
+                    dataProvider.setCustomerToLat(dataProvider.customerFromLat);
+                    dataProvider
+                        .setCustomerToLong(dataProvider.customerFromLong);
+
+                    dataProvider.setCustomerFromName(toName);
+                    dataProvider.setCustomerFromLat(toLat);
+                    dataProvider.setCustomerFromLong(toLong);
                   }
                 },
                 child: Icon(

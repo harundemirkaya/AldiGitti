@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_final_fields, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_interpolation_to_compose_strings, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, file_names, prefer_final_fields, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_interpolation_to_compose_strings, use_build_context_synchronously, avoid_print
 
 import 'dart:convert';
 
@@ -81,18 +81,22 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
                                     "," +
                                     coordinates.longitude.toString()); */
                             if (widget.isFrom) {
-                              dataProvider.setFromData(
+                              dataProvider.setCustomerFromName(
                                   placePredictions[index]
                                       .structuredFormatting
-                                      .mainText,
-                                  coordinates.latitude ?? 0,
+                                      .mainText);
+                              dataProvider.setCustomerFromLat(
+                                  coordinates.latitude ?? 0);
+                              dataProvider.setCustomerFromLong(
                                   coordinates.longitude ?? 0);
                             } else {
-                              dataProvider.setToData(
+                              dataProvider.setCustomerToName(
                                   placePredictions[index]
                                       .structuredFormatting
-                                      .mainText,
-                                  coordinates.latitude ?? 0,
+                                      .mainText);
+                              dataProvider
+                                  .setCustomerToLat(coordinates.latitude ?? 0);
+                              dataProvider.setCustomerToLong(
                                   coordinates.longitude ?? 0);
                             }
                             Navigator.pop(context);

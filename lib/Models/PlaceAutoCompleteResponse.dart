@@ -2,6 +2,8 @@
 //
 //     final placeAutoCompleteResponse = placeAutoCompleteResponseFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 PlaceAutoCompleteResponse placeAutoCompleteResponseFromJson(String str) =>

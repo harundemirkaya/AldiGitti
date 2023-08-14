@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures, file_names
 
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryToFromDate extends StatefulWidget {
   const PrimaryToFromDate({super.key});
@@ -28,6 +30,7 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
     final screenSize = MediaQuery.of(context).size;
     var formatter = DateFormat('dd/MM/yyyy');
     String formattedDate = formatter.format(selectedDate);
