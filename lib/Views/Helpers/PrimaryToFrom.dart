@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PrimaryToFrom extends StatefulWidget {
-  const PrimaryToFrom({super.key});
+  final bool isPublisher;
+  const PrimaryToFrom({
+    super.key,
+    this.isPublisher = false,
+  });
 
   @override
   State<PrimaryToFrom> createState() => _PrimaryToFromState();
@@ -35,6 +39,7 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       MaterialPageRoute(
                         builder: (context) => PrimaryLocationSelection(
                           isFrom: true,
+                          isPublisher: (widget.isPublisher) ? true : false,
                         ),
                       ),
                     );
@@ -55,7 +60,9 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       Row(
                         children: [
                           Text(
-                            dataProvider.customerFromName,
+                            widget.isPublisher
+                                ? dataProvider.driverFromName
+                                : dataProvider.customerFromName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -80,6 +87,7 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       MaterialPageRoute(
                         builder: (context) => PrimaryLocationSelection(
                           isFrom: false,
+                          isPublisher: (widget.isPublisher) ? true : false,
                         ),
                       ),
                     );
@@ -99,7 +107,9 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       Row(
                         children: [
                           Text(
-                            dataProvider.customerToName,
+                            widget.isPublisher
+                                ? dataProvider.driverToName
+                                : dataProvider.customerToName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,

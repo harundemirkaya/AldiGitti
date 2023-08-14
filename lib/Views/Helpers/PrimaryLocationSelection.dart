@@ -13,8 +13,10 @@ import 'package:provider/provider.dart';
 
 class PrimaryLocationSelection extends StatefulWidget {
   final bool isFrom;
+  final bool isPublisher;
 
-  const PrimaryLocationSelection({this.isFrom = false});
+  const PrimaryLocationSelection(
+      {this.isFrom = false, this.isPublisher = false});
   @override
   _PrimaryLocationSelectionState createState() =>
       _PrimaryLocationSelectionState();
@@ -25,6 +27,7 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
   List<Prediction> placePredictions = [];
 
   Future<void> placeAutoComplete(String query) async {
+    // TO DO for View Model
     Uri uri =
         Uri.https("maps.googleapis.com", "/maps/api/place/autocomplete/json", {
       "input": query,
@@ -46,7 +49,7 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: Text('Konum Seçimi')),
+      appBar: AppBar(title: Text(widget.isFrom ? "Nereden" : "Nereye")),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
@@ -54,7 +57,7 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
             PrimaryTextField(
               controller: _locationController,
               icon: Icons.map,
-              placeholderText: "Konum Arayın",
+              placeholderText: widget.isFrom ? "Nereden" : "Nereye",
               onChanged: (String? value) async {
                 await placeAutoComplete(value ?? "i");
                 setState(() {});
@@ -81,23 +84,45 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
                                     "," +
                                     coordinates.longitude.toString()); */
                             if (widget.isFrom) {
-                              dataProvider.setCustomerFromName(
-                                  placePredictions[index]
-                                      .structuredFormatting
-                                      .mainText);
-                              dataProvider.setCustomerFromLat(
-                                  coordinates.latitude ?? 0);
-                              dataProvider.setCustomerFromLong(
-                                  coordinates.longitude ?? 0);
+                              if (widget.isPublisher) {
+                                dataProvider.setDriverFromName(
+                                    placePredictions[index]
+                                        .structuredFormatting
+                                        .mainText);
+                                dataProvider.setDriverFromLat(
+                                    coordinates.latitude ?? 0);
+                                dataProvider.setDriverFromLong(
+                                    coordinates.longitude ?? 0);
+                              } else {
+                                dataProvider.setCustomerFromName(
+                                    placePredictions[index]
+                                        .structuredFormatting
+                                        .mainText);
+                                dataProvider.setCustomerFromLat(
+                                    coordinates.latitude ?? 0);
+                                dataProvider.setCustomerFromLong(
+                                    coordinates.longitude ?? 0);
+                              }
                             } else {
-                              dataProvider.setCustomerToName(
-                                  placePredictions[index]
-                                      .structuredFormatting
-                                      .mainText);
-                              dataProvider
-                                  .setCustomerToLat(coordinates.latitude ?? 0);
-                              dataProvider.setCustomerToLong(
-                                  coordinates.longitude ?? 0);
+                              if (widget.isPublisher) {
+                                dataProvider.setDriverToName(
+                                    placePredictions[index]
+                                        .structuredFormatting
+                                        .mainText);
+                                dataProvider
+                                    .setDriverToLat(coordinates.latitude ?? 0);
+                                dataProvider.setDriverToLong(
+                                    coordinates.longitude ?? 0);
+                              } else {
+                                dataProvider.setCustomerToName(
+                                    placePredictions[index]
+                                        .structuredFormatting
+                                        .mainText);
+                                dataProvider.setCustomerToLat(
+                                    coordinates.latitude ?? 0);
+                                dataProvider.setCustomerToLong(
+                                    coordinates.longitude ?? 0);
+                              }
                             }
                             Navigator.pop(context);
                           } catch (e) {

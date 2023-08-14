@@ -33,7 +33,9 @@ class _PublishPageState extends State<PublishPage> {
             ),
             child: Column(
               children: [
-                PrimaryToFrom(),
+                PrimaryToFrom(
+                  isPublisher: true,
+                ),
                 SizedBox(
                   height: 15,
                 ),

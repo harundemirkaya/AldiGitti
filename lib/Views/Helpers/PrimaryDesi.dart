@@ -13,8 +13,6 @@ class PrimaryDesi extends StatefulWidget {
 }
 
 class _PrimaryDesiState extends State<PrimaryDesi> {
-  double _desi = 0;
-
   Future<void> _showDesiCalculationDialog(BuildContext context) async {
     TextEditingController widthController = TextEditingController();
     TextEditingController heightController = TextEditingController();

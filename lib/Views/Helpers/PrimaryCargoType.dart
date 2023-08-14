@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element, override_on_non_overriding_member
 
 import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:flutter/material.dart';

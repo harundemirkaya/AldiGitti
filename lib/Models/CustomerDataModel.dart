@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, file_names
 
 class CustomerDataModel {
   String _customerFromName;
@@ -10,7 +10,7 @@ class CustomerDataModel {
   double _customerToLong;
 
   String _customerDate;
-  String _cargoType;
+  String _customerCargoType;
   double _customerDesi;
 
   CustomerDataModel(
@@ -21,7 +21,7 @@ class CustomerDataModel {
       required double customerToLat,
       required double customerToLong,
       required String customerDate,
-      required String cargoType,
+      required String customerCargoType,
       required double customerDesi})
       : _customerFromName = customerFromName,
         _customerFromLat = customerFromLat,
@@ -30,7 +30,7 @@ class CustomerDataModel {
         _customerToLat = customerToLat,
         _customerToLong = customerToLong,
         _customerDate = customerDate,
-        _cargoType = cargoType,
+        _customerCargoType = customerCargoType,
         _customerDesi = customerDesi;
 
   String get customerFromName => _customerFromName;
@@ -42,7 +42,7 @@ class CustomerDataModel {
   double get customerToLong => _customerToLong;
 
   String get customerDate => _customerDate;
-  String get cargoType => _cargoType;
+  String get customerCargoType => _customerCargoType;
   double get customerDesi => _customerDesi;
 
   void setCustomerFromName(String customerFromName) {
@@ -73,8 +73,8 @@ class CustomerDataModel {
     _customerDate = customerDate;
   }
 
-  void setCargoType(String cargoType) {
-    _cargoType = cargoType;
+  void setCargoType(String customerCargoType) {
+    _customerCargoType = customerCargoType;
   }
 
   void setCustomerDesi(double customerDesi) {
