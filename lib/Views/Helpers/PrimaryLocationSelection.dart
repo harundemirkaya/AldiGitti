@@ -1,14 +1,20 @@
-// ignore_for_file: prefer_const_constructors, file_names, prefer_final_fields, library_private_types_in_public_api, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, file_names, prefer_final_fields, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_interpolation_to_compose_strings, use_build_context_synchronously
 
 import 'dart:convert';
 
 import 'package:aldigitti/Models/PlaceAutoCompleteResponse.dart';
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:aldigitti/Services/NetworkManager.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryLocationSelection extends StatefulWidget {
+  final bool isFrom;
+
+  const PrimaryLocationSelection({this.isFrom = false});
   @override
   _PrimaryLocationSelectionState createState() =>
       _PrimaryLocationSelectionState();
@@ -30,16 +36,15 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
     if (response != null) {
       PlaceAutoCompleteResponse result =
           PlaceAutoCompleteResponse.fromJson(jsonData);
-      if (result.predictions != null) {
+      if (result.predictions != []) {
         placePredictions = result.predictions;
-        print(placePredictions.length);
-        print(placePredictions[0].structuredFormatting.mainText);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: Text('Konum Seçimi')),
       body: Padding(
@@ -50,6 +55,10 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
               controller: _locationController,
               icon: Icons.map,
               placeholderText: "Konum Arayın",
+              onChanged: (String? value) async {
+                await placeAutoComplete(value ?? "i");
+                setState(() {});
+              },
             ),
             SizedBox(
               height: 20,
@@ -57,45 +66,83 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
             Expanded(
               child: ListView.builder(
                   itemCount: placePredictions.length,
-                  itemBuilder: (context, index) => Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
+                  itemBuilder: (context, index) => GestureDetector(
+                        onTap: () async {
+                          GeoCode geoCode = GeoCode();
+
+                          try {
+                            Coordinates coordinates =
+                                await geoCode.forwardGeocoding(
+                                    address:
+                                        placePredictions[index].description);
+                            /* Navigator.pop(
+                                context,
+                                coordinates.latitude.toString() +
+                                    "," +
+                                    coordinates.longitude.toString()); */
+                            if (widget.isFrom) {
+                              dataProvider.setFromData(
+                                  placePredictions[index]
+                                      .structuredFormatting
+                                      .mainText,
+                                  coordinates.latitude ?? 0,
+                                  coordinates.longitude ?? 0);
+                            } else {
+                              dataProvider.setToData(
+                                  placePredictions[index]
+                                      .structuredFormatting
+                                      .mainText,
+                                  coordinates.latitude ?? 0,
+                                  coordinates.longitude ?? 0);
+                            }
+                            Navigator.pop(context);
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
                                         placePredictions[index]
                                             .structuredFormatting
                                             .mainText,
-                                        overflow: TextOverflow.ellipsis),
-                                    Text(
-                                      placePredictions[index].description,
-                                      style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 12),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        placePredictions[index].description,
+                                        style: TextStyle(
+                                            color: Colors.grey[600],
+                                            fontSize: 12),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios)
-                            ],
-                          ),
-                          Divider()
-                        ],
+                                Spacer(),
+                                Icon(Icons.arrow_forward_ios)
+                              ],
+                            ),
+                            Divider()
+                          ],
+                        ),
                       )),
             ),
             Spacer(),
             PrimaryNextButton(
               buttonText: "Ara",
-              onPressed: () async {
-                await placeAutoComplete(_locationController.text);
-                setState(() {});
-              },
+              onPressed: () {},
               isDoubleInfinity: true,
             ),
           ],

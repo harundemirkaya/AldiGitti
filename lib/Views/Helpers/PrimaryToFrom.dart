@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names
 
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLocationSelection.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryToFrom extends StatefulWidget {
   const PrimaryToFrom({super.key});
@@ -11,10 +13,9 @@ class PrimaryToFrom extends StatefulWidget {
 }
 
 class _PrimaryToFromState extends State<PrimaryToFrom> {
-  var toText = "Nereye";
-  var fromText = "Nereden";
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -32,7 +33,9 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PrimaryLocationSelection(),
+                        builder: (context) => PrimaryLocationSelection(
+                          isFrom: true,
+                        ),
                       ),
                     );
                   },
@@ -43,15 +46,16 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                           Text(
                             "Nereden",
                             style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromRGBO(144, 144, 144, 1)),
+                              fontSize: 16,
+                              color: Color.fromRGBO(144, 144, 144, 1),
+                            ),
                           ),
                         ],
                       ),
                       Row(
                         children: [
                           Text(
-                            fromText,
+                            dataProvider.fromName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -74,7 +78,9 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PrimaryLocationSelection(),
+                        builder: (context) => PrimaryLocationSelection(
+                          isFrom: false,
+                        ),
                       ),
                     );
                   },
@@ -93,7 +99,7 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
                       Row(
                         children: [
                           Text(
-                            toText,
+                            dataProvider.toName,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -107,24 +113,28 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
               ],
             ),
             Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    if (toText != "Nereye" && fromText != "Nereden") {
-                      var temp = toText;
-                      toText = fromText;
-                      fromText = temp;
-                      setState(() {});
-                    }
-                  },
-                  child: Icon(
-                    Icons.change_circle,
-                    size: 66,
-                    color: Color.fromRGBO(61, 86, 240, 1),
-                  ),
-                )),
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  if (dataProvider.toName != "Nereye" &&
+                      dataProvider.fromName != "Nereden") {
+                    var toName = dataProvider.toName;
+                    var toLat = dataProvider.toLat;
+                    var toLong = dataProvider.toLong;
+                    dataProvider.setToData(dataProvider.fromName,
+                        dataProvider.fromLat, dataProvider.fromLat);
+                    dataProvider.setFromData(toName, toLat, toLong);
+                  }
+                },
+                child: Icon(
+                  Icons.change_circle,
+                  size: 66,
+                  color: Color.fromRGBO(61, 86, 240, 1),
+                ),
+              ),
+            ),
           ],
         ),
       ),
