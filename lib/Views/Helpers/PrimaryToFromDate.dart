@@ -24,7 +24,8 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
     );
     if (picked != null && picked != selectedDate)
       setState(() {
-        selectedDate = picked;
+        final dataProvider = Provider.of<DataProvider>(context, listen: false);
+        dataProvider.setCustomerDate(DateFormat('dd/MM/yy').format(picked));
       });
   }
 
@@ -32,8 +33,6 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context, listen: true);
     final screenSize = MediaQuery.of(context).size;
-    var formatter = DateFormat('dd/MM/yyyy');
-    String formattedDate = formatter.format(selectedDate);
     return GestureDetector(
       onTap: () => _selectDate(context),
       child: Container(
@@ -56,7 +55,7 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
                     fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
               ),
               Text(
-                formattedDate,
+                dataProvider.customerDate,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,

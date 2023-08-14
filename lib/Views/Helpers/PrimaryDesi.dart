@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names
 
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryDesi extends StatefulWidget {
   final bool? isPublisher;
@@ -100,7 +102,8 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
       );
     } else {
       setState(() {
-        _desi = calculateResult;
+        final dataProvider = Provider.of<DataProvider>(context, listen: false);
+        dataProvider.setCustomerDesi(calculateResult);
       });
 
       Navigator.of(context).pop();
@@ -109,6 +112,7 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
     final screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => _showDesiCalculationDialog(context),
@@ -132,7 +136,7 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
                     fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
               ),
               Text(
-                _desi.toStringAsFixed(2),
+                dataProvider.customerDesi.toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,

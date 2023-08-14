@@ -12,7 +12,7 @@ class DataProvider with ChangeNotifier {
     customerToName: "Nereye",
     customerToLat: 0,
     customerToLong: 0,
-    customerDate: "",
+    customerDate: DateFormat('dd/MM/yy').format(DateTime.now()),
     cargoType: "Belge",
     customerDesi: 0,
   );

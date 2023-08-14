@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element
 
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PrimaryCargoType extends StatefulWidget {
   final bool? isPublisher;
@@ -11,14 +13,7 @@ class PrimaryCargoType extends StatefulWidget {
 }
 
 class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
-  String dropdownValue = 'Belge';
-
   @override
-  void initState() {
-    super.initState();
-    dropdownValue = (widget.isPublisher ?? false) ? '0' : "Belge";
-  }
-
   bool isBelgeSelected = false;
   bool isPaketSelected = false;
   bool isKoliSelected = false;
@@ -122,10 +117,11 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
 
   void _updateValueAndPop(String value) {
     setState(() {
+      final dataProvider = Provider.of<DataProvider>(context, listen: false);
       if (!(widget.isPublisher ?? false)) {
-        dropdownValue = value;
+        dataProvider.setCargoType(value);
       } else {
-        dropdownValue = "$value Adet";
+        //dropdownValue = "$value Adet"; TO DO
       }
     });
     Navigator.of(context).pop();
@@ -133,6 +129,7 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
     final screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => _showSelectionDialog(context),
@@ -156,7 +153,7 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
                     fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
               ),
               Text(
-                dropdownValue,
+                (widget.isPublisher ?? false) ? "0" : dataProvider.cargoType,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,
