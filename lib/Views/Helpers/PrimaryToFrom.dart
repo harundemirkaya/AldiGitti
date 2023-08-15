@@ -128,21 +128,39 @@ class _PrimaryToFromState extends State<PrimaryToFrom> {
               bottom: 0,
               child: GestureDetector(
                 onTap: () {
-                  if (dataProvider.customerToName != "Nereye" &&
-                      dataProvider.customerFromName != "Nereden") {
-                    var toName = dataProvider.customerToName;
-                    var toLat = dataProvider.customerToLat;
-                    var toLong = dataProvider.customerToLong;
+                  if (widget.isPublisher) {
+                    if (dataProvider.driverToName != "Nereye" &&
+                        dataProvider.driverFromName != "Nereden") {
+                      var toName = dataProvider.driverToName;
+                      var toLat = dataProvider.driverToLat;
+                      var toLong = dataProvider.driverToLong;
 
-                    dataProvider
-                        .setCustomerToName(dataProvider.customerFromName);
-                    dataProvider.setCustomerToLat(dataProvider.customerFromLat);
-                    dataProvider
-                        .setCustomerToLong(dataProvider.customerFromLong);
+                      dataProvider.setDriverToName(dataProvider.driverFromName);
+                      dataProvider.setDriverToLat(dataProvider.driverFromLat);
+                      dataProvider.setDriverToLong(dataProvider.driverFromLong);
 
-                    dataProvider.setCustomerFromName(toName);
-                    dataProvider.setCustomerFromLat(toLat);
-                    dataProvider.setCustomerFromLong(toLong);
+                      dataProvider.setDriverFromName(toName);
+                      dataProvider.setDriverFromLat(toLat);
+                      dataProvider.setDriverFromLong(toLong);
+                    }
+                  } else {
+                    if (dataProvider.customerToName != "Nereye" &&
+                        dataProvider.customerFromName != "Nereden") {
+                      var toName = dataProvider.customerToName;
+                      var toLat = dataProvider.customerToLat;
+                      var toLong = dataProvider.customerToLong;
+
+                      dataProvider
+                          .setCustomerToName(dataProvider.customerFromName);
+                      dataProvider
+                          .setCustomerToLat(dataProvider.customerFromLat);
+                      dataProvider
+                          .setCustomerToLong(dataProvider.customerFromLong);
+
+                      dataProvider.setCustomerFromName(toName);
+                      dataProvider.setCustomerFromLat(toLat);
+                      dataProvider.setCustomerFromLong(toLong);
+                    }
                   }
                 },
                 child: Icon(
