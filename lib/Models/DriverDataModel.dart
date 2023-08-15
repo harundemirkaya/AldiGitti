@@ -77,8 +77,8 @@ class DriverDataModel {
     _driverDate = driverDate;
   }
 
-  void setCargoType(String cargoType) {
-    _driverCargoType = driverCargoType;
+  void setDriverCargoType(String cargoType) {
+    _driverCargoType = cargoType;
   }
 
   void setDriverDesi(double driverDesi) {

@@ -73,7 +73,7 @@ class CustomerDataModel {
     _customerDate = customerDate;
   }
 
-  void setCargoType(String customerCargoType) {
+  void setCustomerCargoType(String customerCargoType) {
     _customerCargoType = customerCargoType;
   }
 

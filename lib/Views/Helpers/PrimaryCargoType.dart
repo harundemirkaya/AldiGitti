@@ -77,7 +77,6 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
                               if (isPaketSelected) selectedCount++;
                               if (isKoliSelected) selectedCount++;
                               if (isCanliHayvanSelected) selectedCount++;
-
                               _updateValueAndPop(selectedCount.toString());
                             },
                             child: Text("Seç"))
@@ -118,10 +117,10 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
   void _updateValueAndPop(String value) {
     setState(() {
       final dataProvider = Provider.of<DataProvider>(context, listen: false);
-      if (!(widget.isPublisher ?? false)) {
-        dataProvider.setCargoType(value);
+      if (widget.isPublisher ?? false) {
+        dataProvider.setDriverCargoType(value);
       } else {
-        //dropdownValue = "$value Adet"; TO DO
+        dataProvider.setCustomerCargoType(value);
       }
     });
     Navigator.of(context).pop();
@@ -150,10 +149,14 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
               Text(
                 "Kargo Tipi",
                 style: TextStyle(
-                    fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
+                  fontSize: 16,
+                  color: Color.fromRGBO(144, 144, 144, 1),
+                ),
               ),
               Text(
-                (widget.isPublisher ?? false) ? "0" : dataProvider.cargoType,
+                (widget.isPublisher ?? false)
+                    ? dataProvider.driverCargoType
+                    : dataProvider.customerCargoType,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,

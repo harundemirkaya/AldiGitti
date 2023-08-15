@@ -29,7 +29,7 @@ class DataProvider with ChangeNotifier {
   double get customerToLong => _customerDataModel.customerToLong;
 
   String get customerDate => _customerDataModel.customerDate;
-  String get cargoType => _customerDataModel.customerCargoType;
+  String get customerCargoType => _customerDataModel.customerCargoType;
   double get customerDesi => _customerDataModel.customerDesi;
 
   void setCustomerFromName(String fromName) {
@@ -67,8 +67,8 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setCargoType(String cargoType) {
-    _customerDataModel.setCargoType(cargoType);
+  void setCustomerCargoType(String cargoType) {
+    _customerDataModel.setCustomerCargoType(cargoType);
     notifyListeners();
   }
 
@@ -86,7 +86,7 @@ class DataProvider with ChangeNotifier {
     driverToLat: 0,
     driverToLong: 0,
     driverDate: DateFormat('dd/MM/yy').format(DateTime.now()),
-    driverCargoType: "Belge",
+    driverCargoType: "0",
     driverDesi: 0,
     driverPrice: 0,
   );
@@ -140,7 +140,7 @@ class DataProvider with ChangeNotifier {
   }
 
   void setDriverCargoType(String cargoType) {
-    _driverDataModel.setCargoType(cargoType);
+    _driverDataModel.setDriverCargoType(cargoType);
     notifyListeners();
   }
 

@@ -6,7 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PrimaryToFromDate extends StatefulWidget {
-  const PrimaryToFromDate({super.key});
+  final bool isPublisher;
+  const PrimaryToFromDate({super.key, this.isPublisher = false});
 
   @override
   State<PrimaryToFromDate> createState() => _PrimaryToFromDateState();
@@ -25,7 +26,11 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
     if (picked != null && picked != selectedDate)
       setState(() {
         final dataProvider = Provider.of<DataProvider>(context, listen: false);
-        dataProvider.setCustomerDate(DateFormat('dd/MM/yy').format(picked));
+        if (widget.isPublisher) {
+          dataProvider.setDriverDate(DateFormat('dd/MM/yy').format(picked));
+        } else {
+          dataProvider.setCustomerDate(DateFormat('dd/MM/yy').format(picked));
+        }
       });
   }
 
@@ -55,7 +60,9 @@ class _PrimaryToFromDateState extends State<PrimaryToFromDate> {
                     fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
               ),
               Text(
-                dataProvider.customerDate,
+                widget.isPublisher
+                    ? dataProvider.driverDate
+                    : dataProvider.customerDate,
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,

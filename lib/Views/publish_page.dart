@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/Provider/DataProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryDesi.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
@@ -8,6 +9,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFrom.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFromDate.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PublishPage extends StatefulWidget {
   const PublishPage({super.key});
@@ -20,6 +22,7 @@ class _PublishPageState extends State<PublishPage> {
   TextEditingController priceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -41,7 +44,9 @@ class _PublishPageState extends State<PublishPage> {
                 ),
                 Row(
                   children: [
-                    PrimaryToFromDate(),
+                    PrimaryToFromDate(
+                      isPublisher: true,
+                    ),
                     Spacer(),
                     PrimaryCargoType(
                       isPublisher: true,
@@ -56,15 +61,25 @@ class _PublishPageState extends State<PublishPage> {
                   height: 10,
                 ),
                 PrimaryTextField(
-                    controller: priceController,
-                    icon: Icons.payments,
-                    placeholderText: "Fiyat"),
+                  controller: priceController,
+                  icon: Icons.payments,
+                  placeholderText: "Fiyat",
+                  onChanged: (String value) {
+                    setState(() {
+                      if (value != "") {
+                        dataProvider.setDriverPrice(double.parse(value));
+                      }
+                    });
+                  },
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 PrimaryNextButton(
                   buttonText: "Yayınla",
-                  onPressed: () {},
+                  onPressed: () {
+                    print(dataProvider.driverPrice);
+                  },
                   isDoubleInfinity: true,
                 ),
               ],

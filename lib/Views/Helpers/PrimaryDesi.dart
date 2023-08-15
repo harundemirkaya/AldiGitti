@@ -38,8 +38,8 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
                     ),
                     ElevatedButton(
                       child: Text("Seç"),
-                      onPressed: () => _calculateDesi(widthController.text,
-                          heightController.text, lengthController.text),
+                      onPressed: () =>
+                          _calculateDesi("", "", "", maxDesiController.text),
                     ),
                   ],
                 )
@@ -64,7 +64,7 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
                       ElevatedButton(
                         child: Text("Hesapla"),
                         onPressed: () => _calculateDesi(widthController.text,
-                            heightController.text, lengthController.text),
+                            heightController.text, lengthController.text, ""),
                       ),
                     ],
                   ),
@@ -74,38 +74,44 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
     );
   }
 
-  void _calculateDesi(String width, String height, String length) {
-    double w = double.tryParse(width) ?? 0;
-    double h = double.tryParse(height) ?? 0;
-    double l = double.tryParse(length) ?? 0;
-
-    var calculateResult = (w * h * l) / 3000;
-    if (calculateResult > 100) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Hata'),
-            content: Text('En fazla 100 desi hesaplanabilir'),
-            actions: [
-              TextButton(
-                child: Text('Tamam'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
+  void _calculateDesi(
+      String width, String height, String length, String maxDesi) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: false);
+    if (widget.isPublisher ?? false) {
       setState(() {
-        final dataProvider = Provider.of<DataProvider>(context, listen: false);
-        dataProvider.setCustomerDesi(calculateResult);
+        dataProvider.setDriverDesi(double.parse(maxDesi));
       });
+    } else {
+      double w = double.tryParse(width) ?? 0;
+      double h = double.tryParse(height) ?? 0;
+      double l = double.tryParse(length) ?? 0;
 
-      Navigator.of(context).pop();
+      var calculateResult = (w * h * l) / 3000;
+      if (calculateResult > 100) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Hata'),
+              content: Text('En fazla 100 desi hesaplanabilir'),
+              actions: [
+                TextButton(
+                  child: Text('Tamam'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        setState(() {
+          dataProvider.setDriverDesi(calculateResult);
+        });
+      }
     }
+    Navigator.of(context).pop();
   }
 
   @override
@@ -134,7 +140,9 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
                     fontSize: 16, color: Color.fromRGBO(144, 144, 144, 1)),
               ),
               Text(
-                dataProvider.customerDesi.toStringAsFixed(2),
+                (widget.isPublisher ?? false)
+                    ? dataProvider.driverDesi.toStringAsFixed(2)
+                    : dataProvider.customerDesi.toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.black,
