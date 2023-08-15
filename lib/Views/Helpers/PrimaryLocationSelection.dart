@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:aldigitti/Models/PlaceAutoCompleteResponse.dart';
 import 'package:aldigitti/Provider/DataProvider.dart';
-import 'package:aldigitti/Services/NetworkManager.dart';
+import 'package:aldigitti/ViewModels/PrimaryLocationSelectionViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:flutter/material.dart';
@@ -26,24 +26,8 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
   TextEditingController _locationController = TextEditingController();
   List<Prediction> placePredictions = [];
 
-  Future<void> placeAutoComplete(String query) async {
-    // TO DO for View Model
-    Uri uri =
-        Uri.https("maps.googleapis.com", "/maps/api/place/autocomplete/json", {
-      "input": query,
-      "key": "AIzaSyByasp53gOABTWi4gwPcSeRYNuP65aWCi8",
-    });
-
-    String? response = await NetworkManager.fetchGoogleMapAPI(uri);
-    Map<String, dynamic> jsonData = json.decode(response ?? "");
-    if (response != null) {
-      PlaceAutoCompleteResponse result =
-          PlaceAutoCompleteResponse.fromJson(jsonData);
-      if (result.predictions != []) {
-        placePredictions = result.predictions;
-      }
-    }
-  }
+  PrimaryLocationSelectionViewModel viewModel =
+      PrimaryLocationSelectionViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +43,8 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
               icon: Icons.map,
               placeholderText: widget.isFrom ? "Nereden" : "Nereye",
               onChanged: (String? value) async {
-                await placeAutoComplete(value ?? "i");
+                placePredictions =
+                    await viewModel.placeAutoComplete(value ?? "i");
                 setState(() {});
               },
             ),
