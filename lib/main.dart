@@ -1,14 +1,15 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:aldigitti/Provider/DataProvider.dart';
+import 'package:aldigitti/Providers/DataProvider.dart';
+import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:aldigitti/Views/home_page.dart';
 import 'package:aldigitti/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,8 +22,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DataProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DataProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
       child: MaterialApp(
         title: 'Aldı Gitii',
         localizationsDelegates: [

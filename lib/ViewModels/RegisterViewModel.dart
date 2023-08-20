@@ -1,11 +1,18 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
+import 'package:aldigitti/Models/UserModel.dart';
+import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class RegisterViewModel {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final BuildContext context;
+
+  RegisterViewModel({required this.context});
 
   Future<bool> register(String email, String password, String name) async {
     try {
@@ -22,6 +29,8 @@ class RegisterViewModel {
             'email': email,
           });
           print("✅ PRINT DEBUG ✅ Register Success");
+          Provider.of<UserProvider>(context, listen: false)
+              .setUser(UserModel(uid: userCredential.user!.uid));
           return true;
         } catch (firestoreError) {
           print("❌ PRINT DEBUG ❌ Firestore Error: $firestoreError");

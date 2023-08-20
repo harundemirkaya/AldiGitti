@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names
 
-import 'package:aldigitti/Provider/DataProvider.dart';
+import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLocationSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

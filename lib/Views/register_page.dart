@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable, use_build_context_synchronously
 
-import 'package:aldigitti/Models/RegisterResponseModel.dart';
 import 'package:aldigitti/ViewModels/RegisterViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
@@ -16,7 +15,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  RegisterViewModel viewModel = RegisterViewModel();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
+    RegisterViewModel viewModel = RegisterViewModel(context: context);
     return Scaffold(
       appBar: AppBar(
         title: SizedBox(

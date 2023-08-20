@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures, file_names
 
-import 'package:aldigitti/Provider/DataProvider.dart';
+import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

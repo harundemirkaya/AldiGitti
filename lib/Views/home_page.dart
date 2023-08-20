@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable, use_build_context_synchronously, unnecessary_null_comparison
 
-import 'package:aldigitti/Models/LoginResponseModel.dart';
 import 'package:aldigitti/ViewModels/LoginViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
@@ -19,12 +18,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  LoginViewModel viewModel = LoginViewModel();
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _rememberMe = false;
   @override
   Widget build(BuildContext context) {
+    LoginViewModel viewModel = LoginViewModel(context: context);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.fromLTRB(28, 70, 28, 40),
@@ -178,11 +177,11 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          //
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPage()),
+                              builder: (context) => RegisterPage(),
+                            ),
                           );
                         },
                     ),

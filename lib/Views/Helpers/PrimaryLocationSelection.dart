@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:aldigitti/Models/PlaceAutoCompleteResponse.dart';
-import 'package:aldigitti/Provider/DataProvider.dart';
+import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/PrimaryLocationSelectionViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';

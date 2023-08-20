@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:aldigitti/Provider/DataProvider.dart';
+import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryDesi.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
