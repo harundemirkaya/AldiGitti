@@ -10,7 +10,7 @@ class DriverDataModel {
   double _driverToLong;
 
   String _driverDate;
-  String _driverCargoType;
+  List<String> _driverCargoType;
   double _driverDesi;
   double _driverPrice;
 
@@ -22,7 +22,7 @@ class DriverDataModel {
     required double driverToLat,
     required double driverToLong,
     required String driverDate,
-    required String driverCargoType,
+    required List<String> driverCargoType,
     required double driverDesi,
     required double driverPrice,
   })  : _driverFromName = driverFromName,
@@ -45,7 +45,7 @@ class DriverDataModel {
   double get driverToLong => _driverToLong;
 
   String get driverDate => _driverDate;
-  String get driverCargoType => _driverCargoType;
+  List<String> get driverCargoType => _driverCargoType;
   double get driverDesi => _driverDesi;
   double get driverPrice => _driverPrice;
 
@@ -77,7 +77,7 @@ class DriverDataModel {
     _driverDate = driverDate;
   }
 
-  void setDriverCargoType(String cargoType) {
+  void setDriverCargoType(List<String> cargoType) {
     _driverCargoType = cargoType;
   }
 

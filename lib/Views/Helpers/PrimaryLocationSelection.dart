@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors, file_names, prefer_final_fields, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_interpolation_to_compose_strings, use_build_context_synchronously, avoid_print
 
-import 'dart:convert';
-
 import 'package:aldigitti/Models/PlaceAutoCompleteResponse.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/PrimaryLocationSelectionViewModel.dart';
@@ -32,6 +30,7 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
+    bool isClicked = false;
     return Scaffold(
       appBar: AppBar(title: Text(widget.isFrom ? "Nereden" : "Nereye")),
       body: Padding(
@@ -56,62 +55,66 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
                   itemCount: placePredictions.length,
                   itemBuilder: (context, index) => GestureDetector(
                         onTap: () async {
-                          GeoCode geoCode = GeoCode();
+                          if (!isClicked) {
+                            isClicked = true;
+                            GeoCode geoCode = GeoCode();
 
-                          try {
-                            Coordinates coordinates =
-                                await geoCode.forwardGeocoding(
-                                    address:
-                                        placePredictions[index].description);
-                            /* Navigator.pop(
+                            try {
+                              Coordinates coordinates =
+                                  await geoCode.forwardGeocoding(
+                                      address:
+                                          placePredictions[index].description);
+                              /* Navigator.pop(
                                 context,
                                 coordinates.latitude.toString() +
                                     "," +
                                     coordinates.longitude.toString()); */
-                            if (widget.isFrom) {
-                              if (widget.isPublisher) {
-                                dataProvider.setDriverFromName(
-                                    placePredictions[index]
-                                        .structuredFormatting
-                                        .mainText);
-                                dataProvider.setDriverFromLat(
-                                    coordinates.latitude ?? 0);
-                                dataProvider.setDriverFromLong(
-                                    coordinates.longitude ?? 0);
+                              if (widget.isFrom) {
+                                if (widget.isPublisher) {
+                                  dataProvider.setDriverFromName(
+                                      placePredictions[index]
+                                          .structuredFormatting
+                                          .mainText);
+                                  dataProvider.setDriverFromLat(
+                                      coordinates.latitude ?? 0);
+                                  dataProvider.setDriverFromLong(
+                                      coordinates.longitude ?? 0);
+                                } else {
+                                  dataProvider.setCustomerFromName(
+                                      placePredictions[index]
+                                          .structuredFormatting
+                                          .mainText);
+                                  dataProvider.setCustomerFromLat(
+                                      coordinates.latitude ?? 0);
+                                  dataProvider.setCustomerFromLong(
+                                      coordinates.longitude ?? 0);
+                                }
                               } else {
-                                dataProvider.setCustomerFromName(
-                                    placePredictions[index]
-                                        .structuredFormatting
-                                        .mainText);
-                                dataProvider.setCustomerFromLat(
-                                    coordinates.latitude ?? 0);
-                                dataProvider.setCustomerFromLong(
-                                    coordinates.longitude ?? 0);
+                                if (widget.isPublisher) {
+                                  dataProvider.setDriverToName(
+                                      placePredictions[index]
+                                          .structuredFormatting
+                                          .mainText);
+                                  dataProvider.setDriverToLat(
+                                      coordinates.latitude ?? 0);
+                                  dataProvider.setDriverToLong(
+                                      coordinates.longitude ?? 0);
+                                } else {
+                                  dataProvider.setCustomerToName(
+                                      placePredictions[index]
+                                          .structuredFormatting
+                                          .mainText);
+                                  dataProvider.setCustomerToLat(
+                                      coordinates.latitude ?? 0);
+                                  dataProvider.setCustomerToLong(
+                                      coordinates.longitude ?? 0);
+                                }
                               }
-                            } else {
-                              if (widget.isPublisher) {
-                                dataProvider.setDriverToName(
-                                    placePredictions[index]
-                                        .structuredFormatting
-                                        .mainText);
-                                dataProvider
-                                    .setDriverToLat(coordinates.latitude ?? 0);
-                                dataProvider.setDriverToLong(
-                                    coordinates.longitude ?? 0);
-                              } else {
-                                dataProvider.setCustomerToName(
-                                    placePredictions[index]
-                                        .structuredFormatting
-                                        .mainText);
-                                dataProvider.setCustomerToLat(
-                                    coordinates.latitude ?? 0);
-                                dataProvider.setCustomerToLong(
-                                    coordinates.longitude ?? 0);
-                              }
+                              Navigator.pop(context);
+                              isClicked = false;
+                            } catch (e) {
+                              print(e);
                             }
-                            Navigator.pop(context);
-                          } catch (e) {
-                            print(e);
                           }
                         },
                         child: Column(

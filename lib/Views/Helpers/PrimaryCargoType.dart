@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element, override_on_non_overriding_member
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, file_names, unused_element, override_on_non_overriding_member, curly_braces_in_flow_control_structures
 
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:flutter/material.dart';
@@ -72,12 +72,18 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              int selectedCount = 0;
-                              if (isBelgeSelected) selectedCount++;
-                              if (isPaketSelected) selectedCount++;
-                              if (isKoliSelected) selectedCount++;
-                              if (isCanliHayvanSelected) selectedCount++;
-                              _updateValueAndPop(selectedCount.toString());
+                              List<String> selectedCargoTypes = [];
+
+                              if (isBelgeSelected)
+                                selectedCargoTypes.add("Belge");
+                              if (isPaketSelected)
+                                selectedCargoTypes.add("Paket");
+                              if (isKoliSelected)
+                                selectedCargoTypes.add("Koli");
+                              if (isCanliHayvanSelected)
+                                selectedCargoTypes.add("Canlı Hayvan");
+
+                              _updateValueAndPop("", selectedCargoTypes);
                             },
                             child: Text("Seç"))
                       ],
@@ -89,22 +95,22 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
                     children: <Widget>[
                       GestureDetector(
                         child: Text("Belge"),
-                        onTap: () => _updateValueAndPop('Belge'),
+                        onTap: () => _updateValueAndPop('Belge', null),
                       ),
                       Padding(padding: EdgeInsets.all(8.0)),
                       GestureDetector(
                         child: Text("Paket"),
-                        onTap: () => _updateValueAndPop('Paket'),
+                        onTap: () => _updateValueAndPop('Paket', null),
                       ),
                       Padding(padding: EdgeInsets.all(8.0)),
                       GestureDetector(
                         child: Text("Koli"),
-                        onTap: () => _updateValueAndPop('Koli'),
+                        onTap: () => _updateValueAndPop('Koli', null),
                       ),
                       Padding(padding: EdgeInsets.all(8.0)),
                       GestureDetector(
                         child: Text("Canlı Hayvan"),
-                        onTap: () => _updateValueAndPop('C. Hayvan'),
+                        onTap: () => _updateValueAndPop('C. Hayvan', null),
                       ),
                     ],
                   ),
@@ -114,11 +120,13 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
     );
   }
 
-  void _updateValueAndPop(String value) {
+  void _updateValueAndPop(String value, List<String>? values) {
     setState(() {
       final dataProvider = Provider.of<DataProvider>(context, listen: false);
       if (widget.isPublisher ?? false) {
-        dataProvider.setDriverCargoType(value);
+        if (values != null) {
+          dataProvider.setDriverCargoType(values);
+        }
       } else {
         dataProvider.setCustomerCargoType(value);
       }
@@ -155,7 +163,7 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
               ),
               Text(
                 (widget.isPublisher ?? false)
-                    ? dataProvider.driverCargoType
+                    ? dataProvider.driverCargoType.length.toString()
                     : dataProvider.customerCargoType,
                 style: TextStyle(
                   fontSize: 16,

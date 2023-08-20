@@ -8,6 +8,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFrom.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFromDate.dart';
+import 'package:aldigitti/Views/journey_control_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -78,7 +79,18 @@ class _PublishPageState extends State<PublishPage> {
                 PrimaryNextButton(
                   buttonText: "Yayınla",
                   onPressed: () {
-                    print(dataProvider.driverPrice);
+                    if (dataProvider.driverToName != "Nereye" &&
+                        dataProvider.driverFromName != "Nereden" &&
+                        dataProvider.driverCargoType.length != 0 &&
+                        dataProvider.driverDesi != 0 &&
+                        dataProvider.driverPrice != 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JourneyControlPage(),
+                        ),
+                      );
+                    }
                   },
                   isDoubleInfinity: true,
                 ),

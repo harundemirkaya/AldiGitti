@@ -86,7 +86,7 @@ class DataProvider with ChangeNotifier {
     driverToLat: 0,
     driverToLong: 0,
     driverDate: DateFormat('dd/MM/yy').format(DateTime.now()),
-    driverCargoType: "0",
+    driverCargoType: [],
     driverDesi: 0,
     driverPrice: 0,
   );
@@ -100,7 +100,7 @@ class DataProvider with ChangeNotifier {
   double get driverToLong => _driverDataModel.driverToLong;
 
   String get driverDate => _driverDataModel.driverDate;
-  String get driverCargoType => _driverDataModel.driverCargoType;
+  List<String> get driverCargoType => _driverDataModel.driverCargoType;
   double get driverDesi => _driverDataModel.driverDesi;
   double get driverPrice => _driverDataModel.driverPrice;
 
@@ -110,11 +110,13 @@ class DataProvider with ChangeNotifier {
   }
 
   void setDriverFromLat(double fromLat) {
+    print(fromLat);
     _driverDataModel.setDriverFromLat(fromLat);
     notifyListeners();
   }
 
   void setDriverFromLong(double fromLong) {
+    print(fromLong);
     _driverDataModel.setDriverFromLong(fromLong);
     notifyListeners();
   }
@@ -125,11 +127,13 @@ class DataProvider with ChangeNotifier {
   }
 
   void setDriverToLat(double toLat) {
+    print(toLat);
     _driverDataModel.setDriverToLat(toLat);
     notifyListeners();
   }
 
   void setDriverToLong(double toLong) {
+    print(toLong);
     _driverDataModel.setDriverToLong(toLong);
     notifyListeners();
   }
@@ -139,7 +143,7 @@ class DataProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setDriverCargoType(String cargoType) {
+  void setDriverCargoType(List<String> cargoType) {
     _driverDataModel.setDriverCargoType(cargoType);
     notifyListeners();
   }
