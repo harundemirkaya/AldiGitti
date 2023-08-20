@@ -1,24 +1,39 @@
-// ignore_for_file: avoid_print, file_names
+// ignore_for_file: file_names
 
-import 'package:aldigitti/Models/RegisterResponseModel.dart';
-import 'package:aldigitti/Services/NetworkManager.dart';
-import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterViewModel {
-  NetworkManager networkManager = NetworkManager();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<RegisterResponseModel> registerUser(Map<String, dynamic> user) async {
-    final response = await networkManager.post('/auth/register', user);
-    if (response.statusCode == 201) {
-      print("✅ PRINT DEBUG ✅ Success Register");
-      print('HTTP Status Code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      return RegisterResponseModel.fromJson(jsonDecode(response.body));
-    } else {
-      print("❌ PRINT DEBUG ❌ Failed Register");
-      print('HTTP Status Code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to register user');
+  Future<bool> register(String email, String password, String name) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (userCredential.user != null) {
+        try {
+          await _firestore
+              .collection('users')
+              .doc(userCredential.user!.uid)
+              .set({
+            'name': name,
+            'email': email,
+          });
+          print("✅ PRINT DEBUG ✅ Register Success");
+          return true;
+        } catch (firestoreError) {
+          print("❌ PRINT DEBUG ❌ Firestore Error: $firestoreError");
+          return false;
+        }
+      } else {
+        print("❌ PRINT DEBUG ❌ Register Failed: User is null");
+        return false;
+      }
+    } catch (authError) {
+      print("❌ PRINT DEBUG ❌ FirebaseAuth Error: $authError");
+      return false;
     }
   }
 }

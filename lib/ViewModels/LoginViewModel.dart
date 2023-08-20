@@ -1,24 +1,24 @@
-// ignore_for_file: avoid_print, file_names
+// ignore_for_file: file_names
 
-import 'package:aldigitti/Models/LoginResponseModel.dart';
-import 'package:aldigitti/Services/NetworkManager.dart';
-import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginViewModel {
-  NetworkManager networkManager = NetworkManager();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<LoginResponseModel> registerUser(Map<String, dynamic> user) async {
-    final response = await networkManager.post('/auth/login', user);
-    if (response.statusCode == 201) {
-      print("✅ PRINT DEBUG ✅ Success Login");
-      print('HTTP Status Code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      return LoginResponseModel.fromJson(jsonDecode(response.body));
-    } else {
-      print("❌ PRINT DEBUG ❌ Failed Login");
-      print('HTTP Status Code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to register user');
+  Future<bool> login(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (userCredential.user != null) {
+        print("✅ PRINT DEBUG ✅ Login Success");
+        return true;
+      } else {
+        print("❌ PRINT DEBUG ❌ Login Failed: User is null");
+        return false;
+      }
+    } catch (authError) {
+      print("❌ PRINT DEBUG ❌ FirebaseAuth Login Error: $authError");
+      return false;
     }
   }
 }

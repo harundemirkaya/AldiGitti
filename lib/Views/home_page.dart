@@ -117,11 +117,9 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () async {
                   if (_mailController.text != "" &&
                       _passwordController.text != "") {
-                    LoginResponseModel model = await viewModel.registerUser({
-                      'username': _mailController.text,
-                      'password': _passwordController.text,
-                    });
-                    if (model.accessToken != null) {
+                    bool isLogin = await viewModel.login(
+                        _mailController.text, _passwordController.text);
+                    if (isLogin) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

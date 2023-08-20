@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable, use_build_context_synchronously
 
 import 'package:aldigitti/Models/RegisterResponseModel.dart';
 import 'package:aldigitti/ViewModels/RegisterViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryLoginButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
+import 'package:aldigitti/Views/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -87,12 +88,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       _passwordAgainController.text != "" &&
                       _passwordAgainController.text ==
                           _passwordController.text) {
-                    RegisterResponseModel model = await viewModel.registerUser({
-                      'username': _mailController.text,
-                      'password': _passwordController.text,
-                      'name': _nameController.text,
-                      'surname': _nameController.text,
-                    });
+                    bool isRegistered = await viewModel.register(
+                        _mailController.text,
+                        _passwordController.text,
+                        _nameController.text);
+                    if (isRegistered) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavBar(),
+                        ),
+                      );
+                    }
                   }
                 },
               ),
