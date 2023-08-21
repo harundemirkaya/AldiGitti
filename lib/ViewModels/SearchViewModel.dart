@@ -4,8 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SearchViewModel {
-  Future<List<Journey>> fetchNearbyJourneys(double userFromLat,
-      double userFromLong, double userToLat, double userToLong) async {
+  Future<List<Journey>> fetchNearbyJourneys(
+      double userFromLat,
+      double userFromLong,
+      double userToLat,
+      double userToLong,
+      String userDate,
+      String userCargoType,
+      double userDesi) async {
     double maxDistance = 100;
 
     QuerySnapshot journeysSnapshot =
@@ -18,19 +24,27 @@ class SearchViewModel {
       if (data != null) {
         double fromLat = data['fromLatitude'];
         double fromLong = data['fromLongitude'];
-
         double toLat = data['toLatitude'];
         double toLong = data['toLongitude'];
+        String date = data['date'];
+        List<dynamic> cargoType = data['cargoType'];
+        double desi = data['maxDesi'];
 
-        double distanceFrom = Geolocator.distanceBetween(
-                userFromLat, userFromLong, fromLat, fromLong) /
-            1000;
-        double distanceTo =
-            Geolocator.distanceBetween(userToLat, userToLong, toLat, toLong) /
-                1000;
+        print(userCargoType);
 
-        if (distanceFrom <= maxDistance && distanceTo <= maxDistance) {
-          filteredJourneys.add(Journey.fromMap(data));
+        if (date == userDate &&
+            cargoType.contains(userCargoType) &&
+            desi >= userDesi) {
+          double distanceFrom = Geolocator.distanceBetween(
+                  userFromLat, userFromLong, fromLat, fromLong) /
+              1000;
+          double distanceTo =
+              Geolocator.distanceBetween(userToLat, userToLong, toLat, toLong) /
+                  1000;
+
+          if (distanceFrom <= maxDistance && distanceTo <= maxDistance) {
+            filteredJourneys.add(Journey.fromMap(data));
+          }
         }
       }
     }

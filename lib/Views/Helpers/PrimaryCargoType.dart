@@ -81,7 +81,7 @@ class _PrimaryCargoTypeState extends State<PrimaryCargoType> {
                               if (isKoliSelected)
                                 selectedCargoTypes.add("Koli");
                               if (isCanliHayvanSelected)
-                                selectedCargoTypes.add("Canlı Hayvan");
+                                selectedCargoTypes.add("C. Hayvan");
 
                               _updateValueAndPop("", selectedCargoTypes);
                             },

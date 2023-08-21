@@ -105,7 +105,10 @@ class _SearchPageState extends State<SearchPage> {
                                 dataProvider.customerFromLat,
                                 dataProvider.customerFromLong,
                                 dataProvider.customerToLat,
-                                dataProvider.customerToLong);
+                                dataProvider.customerToLong,
+                                dataProvider.customerDate,
+                                dataProvider.customerCargoType,
+                                dataProvider.customerDesi);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
