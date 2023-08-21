@@ -14,6 +14,9 @@ class DriverDataModel {
   double _driverDesi;
   double _driverPrice;
 
+  String _driverDepartureTime;
+  String _driverArrivalTime;
+
   DriverDataModel({
     required String driverFromName,
     required double driverFromLat,
@@ -25,6 +28,8 @@ class DriverDataModel {
     required List<String> driverCargoType,
     required double driverDesi,
     required double driverPrice,
+    required String driverDepartureTime,
+    required String driverArrivalTime,
   })  : _driverFromName = driverFromName,
         _driverFromLat = driverFromLat,
         _driverFromLong = driverFromLong,
@@ -34,7 +39,9 @@ class DriverDataModel {
         _driverDate = driverDate,
         _driverCargoType = driverCargoType,
         _driverDesi = driverDesi,
-        _driverPrice = driverPrice;
+        _driverPrice = driverPrice,
+        _driverDepartureTime = driverDepartureTime,
+        _driverArrivalTime = driverArrivalTime;
 
   String get driverFromName => _driverFromName;
   double get driverFromLat => _driverFromLat;
@@ -48,6 +55,9 @@ class DriverDataModel {
   List<String> get driverCargoType => _driverCargoType;
   double get driverDesi => _driverDesi;
   double get driverPrice => _driverPrice;
+
+  String get driverDepartureTime => _driverDepartureTime;
+  String get driverArrivalTime => _driverArrivalTime;
 
   void setDriverFromName(String driverFromName) {
     _driverFromName = driverFromName;
@@ -87,5 +97,13 @@ class DriverDataModel {
 
   void setDriverPrice(double driverPrice) {
     _driverPrice = driverPrice;
+  }
+
+  void setDriverDepartureTime(String driverDepartureTime) {
+    _driverDepartureTime = driverDepartureTime;
+  }
+
+  void setDriverArrivalTime(String driverArrivalTime) {
+    _driverArrivalTime = driverArrivalTime;
   }
 }

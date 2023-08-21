@@ -12,6 +12,8 @@ class Journey {
   final String driverName;
   final double toLatitude;
   final double price;
+  final String departureTime;
+  final String arrivalTime;
 
   Journey({
     required this.cargoType,
@@ -25,6 +27,8 @@ class Journey {
     required this.driverID,
     required this.driverName,
     required this.toLatitude,
+    required this.departureTime,
+    required this.arrivalTime,
     this.price = 0.0,
   });
 
@@ -44,6 +48,8 @@ class Journey {
       driverName: data['driverName'] ?? '',
       toLatitude: data['toLatitude'] ?? 0.0,
       price: data['price'] ?? 0.0,
+      departureTime: data['departureTime'] ?? '',
+      arrivalTime: data['arrivalTime'] ?? '',
     );
   }
 }

@@ -14,6 +14,8 @@ class PublishViewModel {
     required List<String> cargoType,
     required double maxDesi,
     required double price,
+    required String departureTime,
+    required String arrivalTime,
   }) async {
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
     var driverUID = FirebaseAuth.instance.currentUser?.uid;
@@ -36,6 +38,8 @@ class PublishViewModel {
           'driverID': driverUID,
           'driverName': driverName,
           'price': price,
+          'departureTime': departureTime,
+          'arrivalTime': arrivalTime,
         });
         print("✅ PRINT DEBUG ✅ Successfully Added Journey");
         return true;

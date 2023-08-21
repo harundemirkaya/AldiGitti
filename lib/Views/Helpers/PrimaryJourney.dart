@@ -13,8 +13,21 @@ class PrimaryJourney extends StatefulWidget {
 }
 
 class _PrimaryJourneyState extends State<PrimaryJourney> {
+  Duration calculateDuration(String departure, String arrival) {
+    // Saatleri "HH:mm" formatında varsayalım
+    DateTime departureTime = DateTime.parse("2023-08-21 $departure");
+    DateTime arrivalTime = DateTime.parse("2023-08-21 $arrival");
+
+    return arrivalTime.difference(departureTime);
+  }
+
   @override
   Widget build(BuildContext context) {
+    Duration duration = calculateDuration(
+        widget.journey.departureTime, widget.journey.arrivalTime);
+    String durationStr =
+        "${duration.inHours} Saat ${duration.inMinutes.remainder(60)} Dakika";
+
     final screenSize = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
@@ -41,7 +54,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "09:45",
+                        widget.journey.departureTime,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -52,13 +65,12 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                   width: screenSize.width * 0.4,
                   child: Column(
                     children: [
-                      Text(
-                        "3.5 SAAT",
-                        overflow: TextOverflow.ellipsis,
+                      SizedBox(
+                        height: 15,
                       ),
                       SvgPicture.asset("lib/assets/images/journey-line.svg"),
                       Text(
-                        "1 STOP",
+                        durationStr,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -74,7 +86,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        "13:15",
+                        widget.journey.arrivalTime,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],

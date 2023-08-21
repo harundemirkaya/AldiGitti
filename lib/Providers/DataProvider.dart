@@ -89,6 +89,8 @@ class DataProvider with ChangeNotifier {
     driverCargoType: [],
     driverDesi: 0,
     driverPrice: 0,
+    driverArrivalTime: "",
+    driverDepartureTime: "",
   );
 
   String get driverFromName => _driverDataModel.driverFromName;
@@ -103,6 +105,9 @@ class DataProvider with ChangeNotifier {
   List<String> get driverCargoType => _driverDataModel.driverCargoType;
   double get driverDesi => _driverDataModel.driverDesi;
   double get driverPrice => _driverDataModel.driverPrice;
+
+  String get driverDepartureTime => _driverDataModel.driverDepartureTime;
+  String get driverArrivalTime => _driverDataModel.driverArrivalTime;
 
   void setDriverFromName(String fromName) {
     _driverDataModel.setDriverFromName(fromName);
@@ -155,6 +160,16 @@ class DataProvider with ChangeNotifier {
 
   void setDriverPrice(double driverPrice) {
     _driverDataModel.setDriverPrice(driverPrice);
+    notifyListeners();
+  }
+
+  void setDriverDepartureTime(String departureTime) {
+    _driverDataModel.setDriverDepartureTime(departureTime);
+    notifyListeners();
+  }
+
+  void setDriverArrivalTime(String arrivalTime) {
+    _driverDataModel.setDriverArrivalTime(arrivalTime);
     notifyListeners();
   }
 }

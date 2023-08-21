@@ -131,6 +131,26 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
                   height: 20,
                 ),
                 Text(
+                  "Kalkış Saati - Varış Saati",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "${dataProvider.driverDepartureTime} - ${dataProvider.driverArrivalTime}",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
                   "Fiyat",
                   style: TextStyle(
                     fontSize: 20,
@@ -164,6 +184,8 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
                       cargoType: dataProvider.driverCargoType,
                       maxDesi: dataProvider.driverDesi,
                       price: dataProvider.driverPrice,
+                      departureTime: dataProvider.driverDepartureTime,
+                      arrivalTime: dataProvider.driverArrivalTime,
                     );
                     if (isPublish) {
                       Navigator.pop(context);

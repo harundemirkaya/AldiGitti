@@ -5,6 +5,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryDesi.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
+import 'package:aldigitti/Views/Helpers/PrimarySetClock.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFrom.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFromDate.dart';
@@ -21,6 +22,7 @@ class PublishPage extends StatefulWidget {
 
 class _PublishPageState extends State<PublishPage> {
   TextEditingController priceController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context, listen: true);
@@ -73,6 +75,10 @@ class _PublishPageState extends State<PublishPage> {
                     });
                   },
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                PrimarySetClock(),
                 SizedBox(
                   height: 20,
                 ),
