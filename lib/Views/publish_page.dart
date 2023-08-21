@@ -28,7 +28,7 @@ class _PublishPageState extends State<PublishPage> {
     return Scaffold(
       body: Column(
         children: [
-          PrimaryNavigationBar(onlyBackButton: false),
+          PrimaryNavigationBar(backButton: false),
           Padding(
             padding: EdgeInsets.only(
               top: 30,
@@ -81,7 +81,7 @@ class _PublishPageState extends State<PublishPage> {
                   onPressed: () {
                     if (dataProvider.driverToName != "Nereye" &&
                         dataProvider.driverFromName != "Nereden" &&
-                        dataProvider.driverCargoType.length != 0 &&
+                        dataProvider.driverCargoType.isNotEmpty &&
                         dataProvider.driverDesi != 0 &&
                         dataProvider.driverPrice != 0) {
                       Navigator.push(

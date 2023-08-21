@@ -79,7 +79,9 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
     final dataProvider = Provider.of<DataProvider>(context, listen: false);
     if (widget.isPublisher ?? false) {
       setState(() {
-        dataProvider.setDriverDesi(double.parse(maxDesi));
+        if (maxDesi != "") {
+          dataProvider.setDriverDesi(double.parse(maxDesi));
+        }
       });
     } else {
       double w = double.tryParse(width) ?? 0;

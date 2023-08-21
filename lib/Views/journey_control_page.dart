@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, use_build_context_synchronously
 
 import 'package:aldigitti/Providers/DataProvider.dart';
-import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:aldigitti/ViewModels/PublishViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
@@ -20,13 +19,12 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context, listen: true);
-    final userProvider = Provider.of<UserProvider>(context, listen: true);
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          PrimaryNavigationBar(onlyBackButton: true),
+          PrimaryNavigationBar(backButton: true),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
             child: Column(

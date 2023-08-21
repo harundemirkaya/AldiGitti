@@ -20,7 +20,7 @@ class _JourneysPageState extends State<JourneysPage> {
     return Scaffold(
       body: Column(
         children: [
-          PrimaryNavigationBar(onlyBackButton: true),
+          PrimaryNavigationBar(backButton: true, filterButton: true),
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(

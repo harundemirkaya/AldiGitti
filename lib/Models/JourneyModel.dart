@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class Journey {
   final List<String> cargoType;
   final double fromLatitude;

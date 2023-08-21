@@ -4,8 +4,10 @@ import 'package:aldigitti/Views/Helpers/PrimaryFilterBottomSheet.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryNavigationBar extends StatelessWidget {
-  final bool onlyBackButton;
-  const PrimaryNavigationBar({super.key, required this.onlyBackButton});
+  final bool backButton;
+  final bool filterButton;
+  const PrimaryNavigationBar(
+      {super.key, this.backButton = false, this.filterButton = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +32,18 @@ class PrimaryNavigationBar extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                if (onlyBackButton) {
+                if (backButton) {
                   Navigator.pop(context);
                 } else {
                   // TO DO
                 }
               },
-              child: Icon(onlyBackButton ? Icons.arrow_back : Icons.menu,
+              child: Icon(backButton ? Icons.arrow_back : Icons.menu,
                   color: Colors.white),
             ),
             Spacer(),
-            !onlyBackButton
+            filterButton
                 ? GestureDetector(
-                    onTap: () {
-                      // TO DO
-                    },
-                    child: Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  )
-                : GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -67,7 +60,18 @@ class PrimaryNavigationBar extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                  )
+                : !backButton
+                    ? GestureDetector(
+                        onTap: () {
+                          // TO DO
+                        },
+                        child: Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(""),
           ],
         ),
       ),
