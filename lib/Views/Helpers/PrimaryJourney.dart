@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
 
+import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PrimaryJourney extends StatefulWidget {
-  const PrimaryJourney({super.key});
+  final Journey journey;
+  const PrimaryJourney({super.key, required this.journey});
 
   @override
   State<PrimaryJourney> createState() => _PrimaryJourneyState();
@@ -26,7 +28,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
           children: [
             Align(
               alignment: Alignment.topRight,
-              child: Text("Hamza AKGÜL"),
+              child: Text(widget.journey.driverName),
             ),
             Row(
               children: [
@@ -35,7 +37,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                   child: Column(
                     children: [
                       Text(
-                        "İstanbul",
+                        widget.journey.fromName,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
@@ -68,7 +70,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                   child: Column(
                     children: [
                       Text(
-                        "Balıkesir",
+                        widget.journey.toName,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
@@ -91,12 +93,12 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
                   SizedBox(width: 5),
                   Expanded(
                     child: Text(
-                      "Max 5 Desi - Belge, Paket",
+                      "Max ${widget.journey.maxDesi} Desi, ${widget.journey.cargoType.join(', ')}",
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    "95₺",
+                    "${widget.journey.price.toString()} ₺",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

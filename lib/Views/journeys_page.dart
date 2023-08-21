@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourney.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 class JourneysPage extends StatefulWidget {
-  const JourneysPage({super.key});
+  final List<Journey> journeys;
+  const JourneysPage({super.key, required this.journeys});
 
   @override
   State<JourneysPage> createState() => _JourneysPageState();
@@ -26,11 +28,13 @@ class _JourneysPageState extends State<JourneysPage> {
                 right: screenSize.width * 0.05,
               ),
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: widget.journeys.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 20),
-                    child: PrimaryJourney(),
+                    child: PrimaryJourney(
+                      journey: widget.journeys[index],
+                    ),
                   );
                 },
               ),

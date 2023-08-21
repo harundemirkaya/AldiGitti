@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
                 return BottomNavBar();
               }
             }
-            return CircularProgressIndicator(); // Firebase ilk başlatıldığında bir yükleme göstergesi gösterilir.
+            return CircularProgressIndicator();
           },
         ),
         theme: ThemeData(

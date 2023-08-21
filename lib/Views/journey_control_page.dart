@@ -158,12 +158,14 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
                     bool isPublish = await viewModel.addJourney(
                       fromLatitude: dataProvider.driverFromLat,
                       fromLongitude: dataProvider.driverFromLong,
+                      fromName: dataProvider.driverFromName,
                       toLatitude: dataProvider.driverToLat,
                       toLongitude: dataProvider.driverToLong,
+                      toName: dataProvider.driverToName,
                       date: dataProvider.driverDate,
                       cargoType: dataProvider.driverCargoType,
                       maxDesi: dataProvider.driverDesi,
-                      driverID: userProvider.user!.uid,
+                      price: dataProvider.driverPrice,
                     );
                     if (isPublish) {
                       Navigator.pop(context);

@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, curly_braces_in_flow_control_structures, avoid_print
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, curly_braces_in_flow_control_structures, avoid_print, use_build_context_synchronously
 
+import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/SearchViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
@@ -99,18 +100,20 @@ class _SearchPageState extends State<SearchPage> {
                     PrimaryNextButton(
                       buttonText: "Ara",
                       onPressed: () async {
-                        List<DocumentSnapshot> nearbyJourneys =
+                        List<Journey> nearbyJourneys =
                             await viewModel.fetchNearbyJourneys(
                                 dataProvider.customerFromLat,
-                                dataProvider.customerFromLong);
-
-                        print(nearbyJourneys[0].data().toString());
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => JourneysPage(),
-                        //   ),
-                        // );
+                                dataProvider.customerFromLong,
+                                dataProvider.customerToLat,
+                                dataProvider.customerToLong);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JourneysPage(
+                              journeys: nearbyJourneys,
+                            ),
+                          ),
+                        );
                       },
                       isDoubleInfinity: true,
                     ),
