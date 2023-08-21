@@ -2,8 +2,10 @@
 
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/Providers/UserProvider.dart';
+import 'package:aldigitti/Views/bottom_navbar.dart';
 import 'package:aldigitti/Views/home_page.dart';
 import 'package:aldigitti/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,7 +40,20 @@ class MyApp extends StatelessWidget {
           const Locale('tr', 'TR'), // Türkçe
         ],
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              User? user = snapshot.data;
+              if (user == null) {
+                return HomePage();
+              } else {
+                return BottomNavBar();
+              }
+            }
+            return CircularProgressIndicator(); // Firebase ilk başlatıldığında bir yükleme göstergesi gösterilir.
+          },
+        ),
         theme: ThemeData(
           primaryColor: Color.fromRGBO(86, 105, 255, 1),
         ),
