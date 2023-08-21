@@ -6,15 +6,27 @@ import 'dart:convert';
 class NetworkManager {
   final String baseUrl = 'https://api.demoapp.gq/v1';
 
-  Future<http.Response> post(String endpoint, Map<String, dynamic> body) async {
-    final response = await http.post(
-      Uri.parse(baseUrl + endpoint),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(body),
-    );
-    return response;
+  Future<Map<String, double>> fetchCoordinates(String placeId) async {
+    const apiKey = 'AIzaSyByasp53gOABTWi4gwPcSeRYNuP65aWCi8';
+    final url =
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data['status'] == 'OK') {
+        var location = data['result']['geometry']['location'];
+        return {
+          'lat': location['lat'],
+          'lng': location['lng'],
+        };
+      } else {
+        throw Exception('Error fetching place details: ${data['status']}');
+      }
+    } else {
+      throw Exception('Failed to fetch place details');
+    }
   }
 
   static Future<String?> fetchGoogleMapAPI(Uri uri,

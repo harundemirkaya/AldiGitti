@@ -5,9 +5,7 @@ import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:aldigitti/ViewModels/PublishViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class JourneyControlPage extends StatefulWidget {

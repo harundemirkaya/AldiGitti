@@ -24,4 +24,27 @@ class PrimaryLocationSelectionViewModel {
     }
     return [];
   }
+
+  Future<Map<String, double>> fetchCoordinatesFromPlaceId(
+      String placeId) async {
+    const apiKey = "AIzaSyByasp53gOABTWi4gwPcSeRYNuP65aWCi8";
+    final uri =
+        Uri.https("maps.googleapis.com", "/maps/api/place/details/json", {
+      "placeid": placeId,
+      "key": apiKey,
+    });
+
+    String? response = await NetworkManager.fetchGoogleMapAPI(uri);
+    Map<String, dynamic> jsonData = json.decode(response ?? "");
+
+    if (jsonData['status'] == 'OK') {
+      var location = jsonData['result']['geometry']['location'];
+      return {
+        'lat': location['lat'].toDouble(),
+        'lng': location['lng'].toDouble(),
+      };
+    } else {
+      throw Exception('Error fetching place details: ${jsonData['status']}');
+    }
+  }
 }

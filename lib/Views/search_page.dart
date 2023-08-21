@@ -1,5 +1,7 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, curly_braces_in_flow_control_structures
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, curly_braces_in_flow_control_structures, avoid_print
 
+import 'package:aldigitti/Providers/DataProvider.dart';
+import 'package:aldigitti/ViewModels/SearchViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryDesi.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
@@ -7,8 +9,10 @@ import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFrom.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryToFromDate.dart';
 import 'package:aldigitti/Views/journeys_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -55,6 +59,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context, listen: true);
+    SearchViewModel viewModel = SearchViewModel();
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -92,13 +98,19 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     PrimaryNextButton(
                       buttonText: "Ara",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => JourneysPage(),
-                          ),
-                        );
+                      onPressed: () async {
+                        List<DocumentSnapshot> nearbyJourneys =
+                            await viewModel.fetchNearbyJourneys(
+                                dataProvider.customerFromLat,
+                                dataProvider.customerFromLong);
+
+                        print(nearbyJourneys[0].data().toString());
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => JourneysPage(),
+                        //   ),
+                        // );
                       },
                       isDoubleInfinity: true,
                     ),

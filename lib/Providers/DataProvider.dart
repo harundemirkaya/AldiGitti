@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_final_fields
+// ignore_for_file: file_names, prefer_final_fields, avoid_print
 
 import 'package:aldigitti/Models/CustomerDataModel.dart';
 import 'package:aldigitti/Models/DriverDataModel.dart';
