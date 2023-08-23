@@ -32,20 +32,21 @@ class _JourneysPageState extends State<JourneysPage> {
                 itemCount: widget.journeys.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                      padding: EdgeInsets.only(bottom: 20),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => JourneyDetail(
-                                journey: widget.journeys[index],
-                              ),
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JourneyDetail(
+                              journey: widget.journeys[index],
                             ),
-                          );
-                        },
-                        child: PrimaryJourney(journey: widget.journeys[index]),
-                      ));
+                          ),
+                        );
+                      },
+                      child: PrimaryJourney(journey: widget.journeys[index]),
+                    ),
+                  );
                 },
               ),
             ),

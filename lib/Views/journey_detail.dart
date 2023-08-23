@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
+import 'package:aldigitti/ViewModels/JourneyDetailViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/message_chat_page.dart';
+import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -26,6 +28,7 @@ class _JourneyDetailState extends State<JourneyDetail> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final dataProvider = Provider.of<DataProvider>(context, listen: true);
+    JourneyDetailViewModel viewModel = JourneyDetailViewModel();
     double distanceFrom = Geolocator.distanceBetween(
             dataProvider.customerFromLat,
             dataProvider.customerFromLong,
@@ -160,7 +163,7 @@ class _JourneyDetailState extends State<JourneyDetail> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     Text(
                       "Kabul Edilebilir Maksimum Desi",
@@ -177,7 +180,7 @@ class _JourneyDetailState extends State<JourneyDetail> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     Text(
                       "Kargo Ücreti",
@@ -194,7 +197,7 @@ class _JourneyDetailState extends State<JourneyDetail> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     Row(
                       children: [
@@ -231,7 +234,7 @@ class _JourneyDetailState extends State<JourneyDetail> {
                     ),
                     PrimaryNextButton(
                       isDoubleInfinity: true,
-                      buttonText: "Rezervasyon İsteği Gönder",
+                      buttonText: "Sürücü ile İrtibata Geç",
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -242,12 +245,31 @@ class _JourneyDetailState extends State<JourneyDetail> {
                           ),
                         );
                       },
-                    )
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    PrimaryNextButton(
+                      isDoubleInfinity: true,
+                      buttonText: "Rezervasyon İsteği Gönder",
+                      onPressed: () async {
+                        bool isReservationSuccess = await viewModel
+                            .addReservation(widget.journey.journeyId);
+                        if (isReservationSuccess) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SuccessReservationPage(),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

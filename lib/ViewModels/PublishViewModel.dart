@@ -25,7 +25,12 @@ class PublishViewModel {
             await _firestore.collection('users').doc(driverUID).get();
         String driverName = userDocument['name'] ?? '';
 
-        await _firestore.collection('journeys').add({
+        DocumentReference journeyRef = _firestore.collection('journeys').doc();
+
+        String journeyId = journeyRef.id;
+
+        await journeyRef.set({
+          'journeyId': journeyId,
           'fromLatitude': fromLatitude,
           'fromLongitude': fromLongitude,
           'fromName': fromName,
@@ -41,7 +46,8 @@ class PublishViewModel {
           'departureTime': departureTime,
           'arrivalTime': arrivalTime,
         });
-        print("✅ PRINT DEBUG ✅ Successfully Added Journey");
+
+        print("✅ PRINT DEBUG ✅ Successfully Added Journey with ID: $journeyId");
         return true;
       } catch (e) {
         print("❌ Error while adding journey: $e");
