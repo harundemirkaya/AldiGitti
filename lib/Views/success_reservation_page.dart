@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 
@@ -17,12 +17,10 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
       body: SafeArea(
         child: Center(
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Elemanları merkeze hizala
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check_circle,
-                  size: 100.0, color: Colors.green), // Tik ikonu
-              SizedBox(height: 20.0), // Boşluk
+              Icon(Icons.check_circle, size: 100.0, color: Colors.green),
+              SizedBox(height: 20.0),
               Text(
                 'Rezervasyon Başarılı',
                 style: TextStyle(
@@ -30,18 +28,18 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                   fontWeight: FontWeight.bold,
                   color: Colors.green[900],
                 ),
-              ), // Başarılı mesajı
-              SizedBox(height: 20.0), // Boşluk
+              ),
+              SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Rezervasyonlarımı gör butonuna tıklanınca ne yapılacağını buraya yazın.
+                  Navigator.pop(context);
                 },
                 child: Text('Rezervasyonlarımı Gör'),
                 style: ElevatedButton.styleFrom(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
                 ),
-              ), // Rezervasyonlarımı gör butonu
+              ),
             ],
           ),
         ),
