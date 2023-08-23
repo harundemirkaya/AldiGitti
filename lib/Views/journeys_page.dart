@@ -3,6 +3,7 @@
 import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourney.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
+import 'package:aldigitti/Views/journey_detail.dart';
 import 'package:flutter/material.dart';
 
 class JourneysPage extends StatefulWidget {
@@ -31,11 +32,20 @@ class _JourneysPageState extends State<JourneysPage> {
                 itemCount: widget.journeys.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: PrimaryJourney(
-                      journey: widget.journeys[index],
-                    ),
-                  );
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => JourneyDetail(
+                                journey: widget.journeys[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: PrimaryJourney(journey: widget.journeys[index]),
+                      ));
                 },
               ),
             ),

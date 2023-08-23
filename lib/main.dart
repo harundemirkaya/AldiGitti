@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           },
         ),
         theme: ThemeData(
-          primaryColor: Color.fromRGBO(86, 105, 255, 1),
+          primaryColor: Color.fromRGBO(61, 86, 240, 1),
         ),
       ),
     );

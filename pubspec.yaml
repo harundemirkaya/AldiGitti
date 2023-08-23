@@ -79,6 +79,7 @@ flutter:
     - lib/assets/images/facebook-icon.svg
     - lib/assets/images/slider-1.png
     - lib/assets/images/journey-line.svg
+    - lib/assets/images/col-line-journey.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

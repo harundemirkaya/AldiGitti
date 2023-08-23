@@ -42,6 +42,7 @@ class _PrimarySetClockState extends State<PrimarySetClock> {
             controller: departureTimeController,
             decoration: InputDecoration(
               labelText: 'Kalkış Saati',
+              alignLabelWithHint: true,
             ),
             readOnly: true,
             onTap: () {
@@ -55,6 +56,7 @@ class _PrimarySetClockState extends State<PrimarySetClock> {
             controller: arrivalTimeController,
             decoration: InputDecoration(
               labelText: 'Varış Saati',
+              alignLabelWithHint: true,
             ),
             readOnly: true,
             onTap: () {

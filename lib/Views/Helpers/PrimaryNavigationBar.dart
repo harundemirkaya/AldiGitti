@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 class PrimaryNavigationBar extends StatelessWidget {
   final bool backButton;
   final bool filterButton;
+  final String userName;
   const PrimaryNavigationBar(
-      {super.key, this.backButton = false, this.filterButton = false});
+      {super.key,
+      this.backButton = false,
+      this.filterButton = false,
+      this.userName = ""});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +22,8 @@ class PrimaryNavigationBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Color.fromRGBO(61, 86, 240, 1),
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(40),
-          bottomRight: Radius.circular(40),
+          bottomLeft: Radius.circular((userName != "") ? 0 : 40),
+          bottomRight: Radius.circular((userName != "") ? 0 : 40),
         ),
       ),
       child: Padding(
@@ -41,6 +45,22 @@ class PrimaryNavigationBar extends StatelessWidget {
               child: Icon(backButton ? Icons.arrow_back : Icons.menu,
                   color: Colors.white),
             ),
+            (userName != "")
+                ? Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        userName,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  )
+                : SizedBox(),
             Spacer(),
             filterButton
                 ? GestureDetector(

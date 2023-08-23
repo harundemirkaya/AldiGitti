@@ -14,10 +14,8 @@ class PrimaryJourney extends StatefulWidget {
 
 class _PrimaryJourneyState extends State<PrimaryJourney> {
   Duration calculateDuration(String departure, String arrival) {
-    // Saatleri "HH:mm" formatında varsayalım
     DateTime departureTime = DateTime.parse("2023-08-21 $departure");
     DateTime arrivalTime = DateTime.parse("2023-08-21 $arrival");
-
     return arrivalTime.difference(departureTime);
   }
 
