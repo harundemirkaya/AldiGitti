@@ -57,8 +57,6 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
                           var coordinates =
                               await viewModel.fetchCoordinatesFromPlaceId(
                                   placePredictions[index].placeId);
-                          print(coordinates['lat']);
-                          print(coordinates['lng']);
 
                           if (!isClicked) {
                             isClicked = true;

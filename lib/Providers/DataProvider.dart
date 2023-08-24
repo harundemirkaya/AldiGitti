@@ -115,13 +115,11 @@ class DataProvider with ChangeNotifier {
   }
 
   void setDriverFromLat(double fromLat) {
-    print(fromLat);
     _driverDataModel.setDriverFromLat(fromLat);
     notifyListeners();
   }
 
   void setDriverFromLong(double fromLong) {
-    print(fromLong);
     _driverDataModel.setDriverFromLong(fromLong);
     notifyListeners();
   }
@@ -132,13 +130,11 @@ class DataProvider with ChangeNotifier {
   }
 
   void setDriverToLat(double toLat) {
-    print(toLat);
     _driverDataModel.setDriverToLat(toLat);
     notifyListeners();
   }
 
   void setDriverToLong(double toLong) {
-    print(toLong);
     _driverDataModel.setDriverToLong(toLong);
     notifyListeners();
   }

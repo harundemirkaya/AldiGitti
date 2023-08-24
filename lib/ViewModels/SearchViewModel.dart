@@ -30,8 +30,6 @@ class SearchViewModel {
         List<dynamic> cargoType = data['cargoType'];
         double desi = data['maxDesi'];
 
-        print(data);
-
         if (date == userDate &&
             cargoType.contains(userCargoType) &&
             desi >= userDesi) {

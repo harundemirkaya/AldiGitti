@@ -4,6 +4,7 @@ import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:aldigitti/Views/bottom_navbar.dart';
 import 'package:aldigitti/Views/home_page.dart';
+import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:aldigitti/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

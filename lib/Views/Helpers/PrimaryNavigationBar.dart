@@ -7,11 +7,16 @@ class PrimaryNavigationBar extends StatelessWidget {
   final bool backButton;
   final bool filterButton;
   final String userName;
-  const PrimaryNavigationBar(
-      {super.key,
-      this.backButton = false,
-      this.filterButton = false,
-      this.userName = ""});
+  final Color bgColor;
+  final Color backButtonColor;
+  const PrimaryNavigationBar({
+    super.key,
+    this.backButton = false,
+    this.filterButton = false,
+    this.userName = "",
+    this.bgColor = const Color.fromRGBO(61, 86, 240, 1),
+    this.backButtonColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class PrimaryNavigationBar extends StatelessWidget {
     return Container(
       height: containerHeight,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(61, 86, 240, 1),
+        color: bgColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular((userName != "") ? 0 : 40),
           bottomRight: Radius.circular((userName != "") ? 0 : 40),
@@ -42,8 +47,10 @@ class PrimaryNavigationBar extends StatelessWidget {
                   // TO DO
                 }
               },
-              child: Icon(backButton ? Icons.arrow_back : Icons.menu,
-                  color: Colors.white),
+              child: Icon(
+                backButton ? Icons.arrow_back : Icons.menu,
+                color: backButtonColor,
+              ),
             ),
             (userName != "")
                 ? Row(

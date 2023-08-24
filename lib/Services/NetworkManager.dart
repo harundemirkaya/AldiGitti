@@ -37,7 +37,7 @@ class NetworkManager {
         return response.body;
       }
     } catch (e) {
-      print(e.toString());
+      print("❌ PRINT DEBUG ❌ Error: $e");
     }
     return null;
   }

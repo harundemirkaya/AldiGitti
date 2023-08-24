@@ -235,15 +235,29 @@ class _JourneyDetailState extends State<JourneyDetail> {
                     PrimaryNextButton(
                       isDoubleInfinity: true,
                       buttonText: "Sürücü ile İrtibata Geç",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MessageChatPage(
-                              uid: widget.journey.driverID,
-                            ),
-                          ),
-                        );
+                      onPressed: () async {
+                        List<dynamic> isCurrentUser =
+                            await viewModel.driverUserIsCurrentUserControl(
+                                widget.journey.journeyId);
+                        if (!isCurrentUser[0]) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Hata"),
+                                content: Text(isCurrentUser[1]),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Tamam'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                     SizedBox(
@@ -253,14 +267,32 @@ class _JourneyDetailState extends State<JourneyDetail> {
                       isDoubleInfinity: true,
                       buttonText: "Rezervasyon İsteği Gönder",
                       onPressed: () async {
-                        bool isReservationSuccess = await viewModel
+                        List<dynamic> isReservationSuccess = await viewModel
                             .addReservation(widget.journey.journeyId);
-                        if (isReservationSuccess) {
+                        if (isReservationSuccess[0]) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => SuccessReservationPage(),
                             ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Hata"),
+                                content: Text(isReservationSuccess[1]),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Tamam'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         }
                       },
