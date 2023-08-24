@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
+import 'package:aldigitti/Views/bottom_navbar.dart';
+import 'package:aldigitti/Views/my_journeys_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SuccessReservationPage extends StatefulWidget {
   const SuccessReservationPage({super.key});
@@ -50,7 +54,15 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                     SizedBox(height: 20.0),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        final appProvider =
+                            Provider.of<AppProvider>(context, listen: false);
+                        appProvider.setBottomNavBarIndex(1);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavBar()),
+                          (route) => route.settings.name == '/bottomNavBar',
+                        );
                       },
                       child: Text(
                         'Rezervasyonlarımı Gör',

@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Views/live_map.dart';
 import 'package:aldigitti/Views/my_journeys_page.dart';
 import 'package:aldigitti/Views/profile_page.dart';
 import 'package:aldigitti/Views/publish_page.dart';
 import 'package:aldigitti/Views/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -12,8 +14,6 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  int _currentIndex = 0;
-
   final List<Widget> _children = [
     SearchPage(),
     MyJourneysPage(),
@@ -22,19 +22,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
     ProfilePage(),
   ];
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final appProvider = Provider.of<AppProvider>(context, listen: true);
     return Scaffold(
-      body: _children[_currentIndex],
+      body: _children[appProvider.bottomNavBarIndex],
       bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
+        onTap: (index) {
+          appProvider.setBottomNavBarIndex(index);
+        },
+        currentIndex: appProvider.bottomNavBarIndex,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.blue,
         selectedLabelStyle: TextStyle(color: Colors.blue),
