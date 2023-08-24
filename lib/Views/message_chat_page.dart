@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields
 
 import 'package:aldigitti/ViewModels/MessageChatViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
@@ -19,12 +19,6 @@ class _MessageChatPageState extends State<MessageChatPage> {
   List<String> messages = ["Deneme 1", "Deneme 2", "Deneme 3"];
   TextEditingController _messageController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    fetchUserName();
-  }
-
   Future<void> fetchUserName() async {
     String name = await viewModel.fetchRemoteUserName(widget.uid);
     setState(() {
@@ -32,6 +26,13 @@ class _MessageChatPageState extends State<MessageChatPage> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(

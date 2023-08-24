@@ -80,6 +80,7 @@ flutter:
     - lib/assets/images/slider-1.png
     - lib/assets/images/journey-line.svg
     - lib/assets/images/col-line-journey.svg
+    - lib/assets/images/location-line.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

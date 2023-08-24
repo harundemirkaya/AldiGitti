@@ -6,6 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 class JourneyDetailViewModel {
   Future<List<dynamic>> addReservation(String journeyID) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    String date = "";
+    String fromName = "";
+    String toName = "";
+
     var uid = FirebaseAuth.instance.currentUser?.uid;
 
     if (uid == null) return [false, "Unknown Error"];
@@ -24,6 +29,9 @@ class JourneyDetailViewModel {
     var journeyData = journeySnapshot.data();
 
     if (journeyData is Map<String, dynamic>) {
+      date = journeyData['date'];
+      fromName = journeyData['fromName'];
+      toName = journeyData['toName'];
       if (journeyData.containsKey('reservations')) {
         reservations = List<String>.from(journeyData['reservations'] as List);
         driverID = journeyData['driverID'];
@@ -52,12 +60,13 @@ class JourneyDetailViewModel {
       return [false, "Kullanıcı Bulunamadı"];
     }
 
-    List<String> myReservations = [];
+    List<Map<String, dynamic>> myReservations = [];
     var userData = userSnapshot.data();
 
     if (userData is Map<String, dynamic>) {
       if (userData.containsKey('myReservations')) {
-        myReservations = List<String>.from(userData['myReservations'] as List);
+        myReservations =
+            List<Map<String, dynamic>>.from(userData['myReservations'] as List);
       }
     }
 
@@ -65,7 +74,15 @@ class JourneyDetailViewModel {
       print("❌ PRINT DEBUG ❌ Reservation Already Exists");
       return [false, "Bu yolculuğa zaten rezervasyon yaptınız."];
     } else {
-      myReservations.add(journeyID);
+      Map<String, dynamic> newReservation = {
+        'journeyID': journeyID,
+        'date': date,
+        'fromName': fromName,
+        'toName': toName,
+        'status': "Onay Bekliyor",
+      };
+      myReservations.add(newReservation);
+
       await userRef
           .set({'myReservations': myReservations}, SetOptions(merge: true));
     }

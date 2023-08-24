@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:aldigitti/Views/Helpers/PrimaryProfileEditRow.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -147,8 +148,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onTap: () {
-                    //
+                  onTap: () async {
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    await auth.signOut();
                   },
                 ),
               ],
