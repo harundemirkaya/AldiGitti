@@ -79,33 +79,37 @@ class _PrimaryJourneyRowState extends State<PrimaryJourneyRow> {
                           Divider()
                         ],
                       )
-                    : Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.notifications,
-                                size: 20,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                widget.status,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor,
-                                ),
+                    : SizedBox(
+                        child: (widget.status != "")
+                            ? Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.notifications,
+                                        size: 20,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        widget.status,
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Divider(),
+                                ],
                               )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Divider(),
-                        ],
+                            : SizedBox(),
                       ),
                 Text(
                   widget.date,

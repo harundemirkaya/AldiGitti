@@ -47,6 +47,17 @@ class PublishViewModel {
           'arrivalTime': arrivalTime,
         });
 
+        await _firestore.collection('users').doc(driverUID).update({
+          'myJourneys': FieldValue.arrayUnion([
+            {
+              'journeyId': journeyId,
+              'fromName': fromName,
+              'toName': toName,
+              'date': date
+            }
+          ])
+        });
+
         print("✅ PRINT DEBUG ✅ Successfully Added Journey with ID: $journeyId");
         return true;
       } catch (e) {

@@ -19,7 +19,7 @@ class MyJourneysViewModel {
       Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
       List<Map<String, dynamic>> reservations =
           List<Map<String, dynamic>>.from(data?['myReservations'] ?? []);
-
+      print(reservations);
       return reservations;
     } catch (error) {
       print("Error fetching reservations: $error");
@@ -42,8 +42,8 @@ class MyJourneysViewModel {
     Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
 
     List<Map<String, dynamic>> journeys =
-        List<Map<String, dynamic>>.from(data?['journeys'] ?? []);
-
+        List<Map<String, dynamic>>.from(data?['myJourneys'] ?? []);
+    print(journeys);
     return journeys;
   }
 }

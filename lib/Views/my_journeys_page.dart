@@ -4,7 +4,6 @@ import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/MyJourneysViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class MyJourneysPage extends StatefulWidget {
@@ -110,14 +109,14 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                         children: [
                           Spacer(),
                           Image.asset(
-                            "lib/assets/images/cargo-icon.png",
+                            "lib/assets/images/car-icon.png",
                             width: 190,
                           ),
                           SizedBox(
                             height: 20,
                           ),
                           Text(
-                            "Henüz Bir Rezervasyonunuz Yok",
+                            "Henüz Bir Yolculuğunuz Yok",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 17,
@@ -128,14 +127,14 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                         ],
                       )
                     : ListView.builder(
-                        itemCount: 3,
+                        itemCount: userJourneys.length,
                         itemBuilder: (BuildContext context, int index) {
                           return PrimaryJourneyRow(
                             isReservation: false,
-                            date: 'Bugün, 16:20',
-                            fromName: "Küçükçekmece",
-                            toName: "Balıkesir",
-                            status: "Yeni Rezervasyon İsteği",
+                            date: userJourneys[index]['date'],
+                            fromName: userJourneys[index]['fromName'],
+                            toName: userJourneys[index]['toName'],
+                            status: userJourneys[index]['status'] ?? "",
                           );
                         },
                       ),

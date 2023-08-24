@@ -82,6 +82,7 @@ flutter:
     - lib/assets/images/col-line-journey.svg
     - lib/assets/images/location-line.svg
     - lib/assets/images/cargo-icon.png
+    - lib/assets/images/car-icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
