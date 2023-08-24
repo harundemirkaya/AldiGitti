@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/MyJourneysViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyJourneysPage extends StatefulWidget {
   const MyJourneysPage({super.key});
@@ -17,6 +19,8 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
   List<Map<String, dynamic>> userReservations = [];
 
   Future<void> fetchJourneysAndReservations() async {
+    Provider.of<AppProvider>(context, listen: false).showLoading(context);
+
     List<Map<String, dynamic>> journeys = await viewModel.fetchUserJourneys();
     List<Map<String, dynamic>> reservations =
         await viewModel.fetchUserReservations();
@@ -24,6 +28,8 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
       userJourneys = journeys;
       userReservations = reservations;
     });
+
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
   }
 
   @override

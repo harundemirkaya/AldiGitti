@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/Providers/UserProvider.dart';
 import 'package:aldigitti/Views/bottom_navbar.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => DataProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => AppProvider()),
       ],
       child: MaterialApp(
         title: 'Aldı Gitii',
