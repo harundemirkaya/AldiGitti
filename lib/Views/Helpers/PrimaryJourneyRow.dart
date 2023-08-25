@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, file_names, prefer_is_not_empty
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +9,8 @@ class PrimaryJourneyRow extends StatefulWidget {
   final String fromName;
   final String toName;
   final String status;
+  final List<dynamic> reservations;
+
   const PrimaryJourneyRow({
     super.key,
     required this.date,
@@ -16,6 +18,7 @@ class PrimaryJourneyRow extends StatefulWidget {
     required this.toName,
     required this.isReservation,
     required this.status,
+    required this.reservations,
   });
 
   @override
@@ -80,7 +83,7 @@ class _PrimaryJourneyRowState extends State<PrimaryJourneyRow> {
                         ],
                       )
                     : SizedBox(
-                        child: (widget.status != "")
+                        child: (!widget.reservations.isEmpty)
                             ? Column(
                                 children: [
                                   Row(
@@ -94,7 +97,7 @@ class _PrimaryJourneyRowState extends State<PrimaryJourneyRow> {
                                         width: 5,
                                       ),
                                       Text(
-                                        widget.status,
+                                        "Yeni Rezervasyon İsteği",
                                         style: TextStyle(
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.bold,

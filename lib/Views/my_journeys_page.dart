@@ -101,6 +101,7 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                             fromName: userReservations[index]['fromName'],
                             toName: userReservations[index]['toName'],
                             status: userReservations[index]['status'],
+                            reservations: [],
                           );
                         },
                       ),
@@ -135,6 +136,7 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                             fromName: userJourneys[index]['fromName'],
                             toName: userJourneys[index]['toName'],
                             status: userJourneys[index]['status'] ?? "",
+                            reservations: userJourneys[index]['reservations'],
                           );
                         },
                       ),

@@ -3,7 +3,6 @@
 import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/bottom_navbar.dart';
-import 'package:aldigitti/Views/my_journeys_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
