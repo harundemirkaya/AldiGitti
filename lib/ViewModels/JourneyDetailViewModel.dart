@@ -132,9 +132,7 @@ class JourneyDetailViewModel {
     var journeyData = journeySnapshot.data();
 
     if (journeyData is Map<String, dynamic>) {
-      if (journeyData.containsKey('reservations')) {
-        driverID = journeyData['driverID'];
-      }
+      driverID = journeyData['driverID'];
     }
 
     if (driverID == uid) {

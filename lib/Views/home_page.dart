@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                     activeTrackColor: Theme.of(context).primaryColor,
                     onChanged: (bool value) {
                       setState(() {
-                        _rememberMe = value; // Durum değişkenini güncelle
+                        _rememberMe = value;
                       });
                     },
                   ),

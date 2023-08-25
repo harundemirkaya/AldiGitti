@@ -7,6 +7,7 @@ class PrimaryNextButton extends StatelessWidget {
   final IconData? buttonIcon;
   final VoidCallback onPressed;
   final bool isDoubleInfinity;
+  final Color bgColor;
 
   const PrimaryNextButton({
     Key? key,
@@ -14,6 +15,7 @@ class PrimaryNextButton extends StatelessWidget {
     this.buttonIcon,
     required this.onPressed,
     this.isDoubleInfinity = false,
+    this.bgColor = const Color.fromRGBO(61, 86, 240, 1),
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class PrimaryNextButton extends StatelessWidget {
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: bgColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -47,7 +49,7 @@ class PrimaryNextButton extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                  color: Color.fromRGBO(61, 86, 240, 1),
+                  color: Theme.of(context).primaryColor,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

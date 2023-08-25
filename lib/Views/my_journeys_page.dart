@@ -3,6 +3,7 @@
 import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/MyJourneysViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
+import 'package:aldigitti/Views/journey_plan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -130,13 +131,31 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                     : ListView.builder(
                         itemCount: userJourneys.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return PrimaryJourneyRow(
-                            isReservation: false,
-                            date: userJourneys[index]['date'],
-                            fromName: userJourneys[index]['fromName'],
-                            toName: userJourneys[index]['toName'],
-                            status: userJourneys[index]['status'] ?? "",
-                            reservations: userJourneys[index]['reservations'],
+                          return GestureDetector(
+                            onTap: () async {
+                              bool? shouldRefresh = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => JourneyPlanPage(
+                                    journey: userJourneys[index],
+                                  ),
+                                ),
+                              );
+                              if (shouldRefresh == true) {
+                                setState(() {
+                                  fetchJourneysAndReservations();
+                                });
+                              }
+                            },
+                            child: PrimaryJourneyRow(
+                              isReservation: false,
+                              date: userJourneys[index]['date'],
+                              fromName: userJourneys[index]['fromName'],
+                              toName: userJourneys[index]['toName'],
+                              status: userJourneys[index]['status'] ?? "",
+                              reservations:
+                                  userJourneys[index]['reservations'] ?? [],
+                            ),
                           );
                         },
                       ),
