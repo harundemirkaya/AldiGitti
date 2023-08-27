@@ -9,6 +9,7 @@ class PrimaryJourneyRow extends StatefulWidget {
   final String fromName;
   final String toName;
   final String status;
+  final List<dynamic> reservationInvitations;
   final List<dynamic> reservations;
 
   const PrimaryJourneyRow({
@@ -19,6 +20,7 @@ class PrimaryJourneyRow extends StatefulWidget {
     required this.isReservation,
     required this.status,
     required this.reservations,
+    required this.reservationInvitations,
   });
 
   @override
@@ -83,7 +85,7 @@ class _PrimaryJourneyRowState extends State<PrimaryJourneyRow> {
                         ],
                       )
                     : SizedBox(
-                        child: (!widget.reservations.isEmpty)
+                        child: (!widget.reservationInvitations.isEmpty)
                             ? Column(
                                 children: [
                                   Row(

@@ -24,7 +24,6 @@ class JourneyDetailViewModel {
       return [false, "Yolculuk Başladı ya da İptal Edildi."];
     }
 
-    List<String> reservations = [];
     String driverID = "";
     var journeyData = journeySnapshot.data();
 
@@ -33,9 +32,6 @@ class JourneyDetailViewModel {
       fromName = journeyData['fromName'];
       toName = journeyData['toName'];
       driverID = journeyData['driverID'];
-      if (journeyData.containsKey('reservations')) {
-        reservations = List<String>.from(journeyData['reservations'] as List);
-      }
     }
 
     if (driverID == uid) {
@@ -43,37 +39,34 @@ class JourneyDetailViewModel {
       return [false, "Sürücü kendi yolculuğuna rezervasyon yapamaz"];
     }
 
-    if (!reservations.contains(uid)) {
-      reservations.add(uid);
-      await journeyRef
-          .set({'reservations': reservations}, SetOptions(merge: true));
+    DocumentReference driverRef = firestore.collection('users').doc(driverID);
+    DocumentSnapshot driverSnapshot = await driverRef.get();
 
-      DocumentReference driverRef = firestore.collection('users').doc(driverID);
-      DocumentSnapshot driverSnapshot = await driverRef.get();
+    if (driverSnapshot.exists) {
+      var driverData = driverSnapshot.data();
+      List<Map<String, dynamic>> driverJourneys = [];
 
-      if (driverSnapshot.exists) {
-        var driverData = driverSnapshot.data();
-        List<Map<String, dynamic>> driverJourneys = [];
-
-        if (driverData is Map<String, dynamic>) {
-          if (driverData.containsKey('myJourneys')) {
-            driverJourneys = List<Map<String, dynamic>>.from(
-                driverData['myJourneys'] as List);
-          }
-
-          var matchedJourney = driverJourneys
-              .firstWhere((journey) => journey['journeyId'] == journeyID);
-          if (!matchedJourney.containsKey('reservations')) {
-            matchedJourney['reservations'] = [];
-          }
-          matchedJourney['reservations'].add(uid);
-          await driverRef
-              .set({'myJourneys': driverJourneys}, SetOptions(merge: true));
+      if (driverData is Map<String, dynamic>) {
+        if (driverData.containsKey('myJourneys')) {
+          driverJourneys =
+              List<Map<String, dynamic>>.from(driverData['myJourneys'] as List);
         }
+
+        var matchedJourney = driverJourneys
+            .firstWhere((journey) => journey['journeyId'] == journeyID);
+        if (!matchedJourney.containsKey('reservationInvitations')) {
+          matchedJourney['reservationInvitations'] = [];
+        }
+
+        if (matchedJourney['reservationInvitations'].contains(uid)) {
+          print("❌ PRINT DEBUG ❌ Rezervasyon İsteği Zaten Gönderilmiş");
+          return [false, "Rezervasyon İsteği Zaten Gönderilmiş."];
+        }
+
+        matchedJourney['reservationInvitations'].add(uid);
+        await driverRef
+            .set({'myJourneys': driverJourneys}, SetOptions(merge: true));
       }
-    } else {
-      print("❌ PRINT DEBUG ❌ UID zaten reservations listesinde var");
-      return [false, "Bu yolculuğa zaten rezervasyon yaptınız."];
     }
 
     DocumentReference userRef = firestore.collection('users').doc(uid);

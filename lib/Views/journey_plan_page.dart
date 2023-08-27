@@ -77,7 +77,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    if (widget.journey['reservations'] != null) ...[
+                    if (widget.journey['reservationInvitations'] != null) ...[
                       SizedBox(
                         height: screenSize.height * 0.1,
                         child: Row(
@@ -126,6 +126,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                       fromName: widget.journey['fromName'],
                       toName: widget.journey['toName'],
                       status: '',
+                      reservationInvitations: [],
                       reservations: [],
                     ),
                     SizedBox(

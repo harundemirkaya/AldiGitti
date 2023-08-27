@@ -5,6 +5,7 @@ import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/JourneyDetailViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
+import 'package:aldigitti/Views/message_chat_page.dart';
 import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -255,6 +256,14 @@ class _JourneyDetailState extends State<JourneyDetail> {
                                 ],
                               );
                             },
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MessageChatPage(uid: widget.journey.driverID),
+                            ),
                           );
                         }
                       },
