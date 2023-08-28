@@ -146,4 +146,97 @@ class JourneyPlanViewModel {
       return false;
     }
   }
+
+  Future<bool> deleteReservation(String journeyID) async {
+    try {
+      var currentUserID = FirebaseAuth.instance.currentUser?.uid;
+      if (currentUserID == null) {
+        print("❌ PRINT DEBUG ❌ Oturum açmış kullanıcı bulunamadı.");
+        return false;
+      }
+
+      DocumentSnapshot journeySnapshot =
+          await _firestore.collection('journeys').doc(journeyID).get();
+
+      if (!journeySnapshot.exists) {
+        print("❌ PRINT DEBUG ❌ Belirtilen ID ile yolculuk bulunamadı.");
+        return false;
+      }
+
+      Map<String, dynamic> journeyData =
+          journeySnapshot.data() as Map<String, dynamic>;
+      if (journeyData['status'] == 'İptal Edildi') {
+        print("❌ PRINT DEBUG ❌ Bu yolculuk zaten iptal edilmiş.");
+        return false;
+      }
+
+      String driverID =
+          (journeySnapshot.data() as Map<String, dynamic>)['driverID'] ?? "";
+
+      if (driverID.isEmpty) {
+        print("❌ PRINT DEBUG ❌ Yolculukta sürücü ID'si bulunamadı.");
+        return false;
+      }
+
+      DocumentReference currentUserRef =
+          _firestore.collection('users').doc(currentUserID);
+      DocumentSnapshot currentUserSnapshot = await currentUserRef.get();
+
+      if (currentUserSnapshot.exists) {
+        Map<String, dynamic> currentUserData =
+            currentUserSnapshot.data() as Map<String, dynamic>;
+        List<Map<String, dynamic>> currentUserJourneys =
+            List<Map<String, dynamic>>.from(
+                currentUserData['myReservations'] ?? []);
+
+        currentUserJourneys
+            .removeWhere((journey) => journey['journeyID'] == journeyID);
+
+        await currentUserRef.update({'myReservations': currentUserJourneys});
+      }
+
+      DocumentReference driverRef =
+          _firestore.collection('users').doc(driverID);
+      DocumentSnapshot driverSnapshot = await driverRef.get();
+
+      if (driverSnapshot.exists) {
+        DocumentReference journeyRef =
+            _firestore.collection('journeys').doc(journeyID);
+        DocumentSnapshot journeyUpdateSnapshot = await journeyRef.get();
+
+        if (journeyUpdateSnapshot.exists) {
+          Map<String, dynamic> journeyData =
+              journeyUpdateSnapshot.data() as Map<String, dynamic>;
+          List<String> reservationsList =
+              List<String>.from(journeyData['reservations'] ?? []);
+
+          reservationsList.remove(currentUserID);
+
+          await journeyRef.update({'reservations': reservationsList});
+        }
+        Map<String, dynamic> driverData =
+            driverSnapshot.data() as Map<String, dynamic>;
+        List<Map<String, dynamic>> driverJourneys =
+            List<Map<String, dynamic>>.from(driverData['myJourneys'] ?? []);
+
+        for (Map<String, dynamic> journey in driverJourneys) {
+          if (journey['journeyID'] == journeyID &&
+              journey.containsKey('reservationInvitations')) {
+            List<String> reservations =
+                List<String>.from(journey['reservationInvitations']);
+            reservations.remove(currentUserID);
+            journey['reservationInvitations'] = reservations;
+            break;
+          }
+        }
+
+        await driverRef.update({'myJourneys': driverJourneys});
+      }
+
+      return true;
+    } catch (e) {
+      print("❌ PRINT DEBUG ❌ $e");
+      return false;
+    }
+  }
 }

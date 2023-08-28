@@ -13,10 +13,12 @@ import 'package:provider/provider.dart';
 
 class JourneyPlanPage extends StatefulWidget {
   final Map<String, dynamic> journey;
+  final bool isReservation;
 
   JourneyPlanPage({
     Key? key,
     required this.journey,
+    required this.isReservation,
   }) : super(key: key);
 
   @override
@@ -31,8 +33,10 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
     if (!mounted) return;
     Provider.of<AppProvider>(context, listen: false).showLoading(context);
 
-    Map<String, String> userNames = await viewModel
-        .getReservationNamesWithUIDs(widget.journey['journeyId']);
+    Map<String, String> userNames = await viewModel.getReservationNamesWithUIDs(
+        widget.isReservation
+            ? widget.journey['journeyID']
+            : widget.journey['journeyId']);
     setState(() {
       reservationUserNames = userNames;
     });
@@ -267,8 +271,10 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
               child: PrimaryNextButton(
                 buttonText: "Yolculuğu Görüntüle",
                 onPressed: () async {
-                  Journey? selectedJourney = await viewModel
-                      .fetchJourneyById(widget.journey['journeyId']);
+                  Journey? selectedJourney = await viewModel.fetchJourneyById(
+                      (widget.isReservation)
+                          ? widget.journey['journeyID']
+                          : widget.journey['journeyId']);
                   if (selectedJourney != null) {
                     Navigator.push(
                       context,
@@ -304,31 +310,59 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
             SizedBox(
               width: double.infinity,
               child: PrimaryNextButton(
-                buttonText: "Yolculuğu Sil",
+                buttonText: (widget.isReservation)
+                    ? "Rezervasyonu İptal Et"
+                    : "Yolculuğu Sil",
                 bgColor: Colors.red,
                 onPressed: () async {
-                  Map<bool, String> isDeleted = await viewModel
-                      .deleteJourney(widget.journey['journeyId']);
-                  if (isDeleted.keys.first) {
-                    Navigator.pop(context, true);
+                  if (widget.isReservation) {
+                    bool isDeleted = await viewModel
+                        .deleteReservation(widget.journey['journeyID']);
+                    if (isDeleted) {
+                      Navigator.pop(context, true);
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Hata"),
+                            content: Text("Hata Oluştu. Tekrar Deneyiniz."),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Tamam'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Hata"),
-                          content: Text(isDeleted.values.last),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Tamam'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    Map<bool, String> isDeleted = await viewModel
+                        .deleteJourney(widget.journey['journeyId']);
+                    if (isDeleted.keys.first) {
+                      Navigator.pop(context, true);
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Hata"),
+                            content: Text(isDeleted.values.last),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Tamam'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
                 },
               ),

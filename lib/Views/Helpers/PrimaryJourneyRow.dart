@@ -61,19 +61,23 @@ class _PrimaryJourneyRowState extends State<PrimaryJourneyRow> {
                           Row(
                             children: [
                               Icon(
-                                Icons.timelapse_outlined,
+                                Icons.keyboard_arrow_right,
                                 size: 20,
-                                color: Colors.redAccent,
+                                color: (widget.status == "Onaylandı")
+                                    ? Colors.green
+                                    : Colors.redAccent,
                               ),
                               SizedBox(
-                                width: 5,
+                                width: 2,
                               ),
                               Text(
                                 widget.status,
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.redAccent,
+                                  color: (widget.status == "Onaylandı")
+                                      ? Colors.green
+                                      : Colors.redAccent,
                                 ),
                               )
                             ],

@@ -96,14 +96,27 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                     : ListView.builder(
                         itemCount: userReservations.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return PrimaryJourneyRow(
-                            isReservation: true,
-                            date: userReservations[index]['date'],
-                            fromName: userReservations[index]['fromName'],
-                            toName: userReservations[index]['toName'],
-                            status: userReservations[index]['status'],
-                            reservationInvitations: [],
-                            reservations: [],
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => JourneyPlanPage(
+                                    journey: userReservations[index],
+                                    isReservation: true,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: PrimaryJourneyRow(
+                              isReservation: true,
+                              date: userReservations[index]['date'],
+                              fromName: userReservations[index]['fromName'],
+                              toName: userReservations[index]['toName'],
+                              status: userReservations[index]['status'],
+                              reservationInvitations: [],
+                              reservations: [],
+                            ),
                           );
                         },
                       ),
@@ -139,6 +152,7 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                                 MaterialPageRoute(
                                   builder: (context) => JourneyPlanPage(
                                     journey: userJourneys[index],
+                                    isReservation: false,
                                   ),
                                 ),
                               );
