@@ -7,6 +7,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/journey_detail.dart';
+import 'package:aldigitti/Views/reservation_invitations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -77,43 +78,62 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    if (widget.journey['reservationInvitations'] != null) ...[
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.notifications,
-                              color: Theme.of(context).primaryColor,
-                              size: 40,
+                    if (widget.journey['reservationInvitations'] != null &&
+                        widget
+                            .journey['reservationInvitations'].isNotEmpty) ...[
+                      GestureDetector(
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReservationInvitationsPage(
+                                reservationInvitations:
+                                    widget.journey['reservationInvitations'],
+                                journeyID: widget.journey['journeyId'],
+                              ),
                             ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Spacer(),
-                                Text(
-                                  "Rezervasyon İstekleriniz Mevcut",
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryColor,
+                          );
+                          setState(() {
+                            fetchReservationUserNames();
+                          });
+                        },
+                        child: SizedBox(
+                          height: screenSize.height * 0.1,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.notifications,
+                                color: Theme.of(context).primaryColor,
+                                size: 40,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Spacer(),
+                                  Text(
+                                    "Rezervasyon İstekleriniz Mevcut",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "Rezervasyon İsteklerinizi Görüntüleyin",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey,
+                                  Text(
+                                    "Rezervasyon İsteklerinizi Görüntüleyin",
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ],
+                                  Spacer(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -147,6 +167,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         return Column(
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CircleAvatar(
                                   radius: 30,
@@ -158,6 +179,20 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                   width: 10,
                                 ),
                                 Expanded(child: Text(userName)),
+                                GestureDetector(
+                                  onTap: () {
+                                    // TO DO
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
+                                    child: Icon(
+                                      Icons.message,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                             SizedBox(
