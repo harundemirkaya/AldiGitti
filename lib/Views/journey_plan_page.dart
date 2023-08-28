@@ -25,14 +25,14 @@ class JourneyPlanPage extends StatefulWidget {
 
 class _JourneyPlanPageState extends State<JourneyPlanPage> {
   final JourneyPlanViewModel viewModel = JourneyPlanViewModel();
-  List<String> reservationUserNames = [];
+  Map<String, String> reservationUserNames = {};
 
   Future<void> fetchReservationUserNames() async {
     if (!mounted) return;
     Provider.of<AppProvider>(context, listen: false).showLoading(context);
 
-    List<String> userNames =
-        await viewModel.getReservationNames(widget.journey['journeyId']);
+    Map<String, String> userNames = await viewModel
+        .getReservationNamesWithUIDs(widget.journey['journeyId']);
     setState(() {
       reservationUserNames = userNames;
     });
@@ -163,7 +163,9 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                       height: 10,
                     ),
                     if (reservationUserNames.isNotEmpty)
-                      ...reservationUserNames.map((userName) {
+                      ...reservationUserNames.entries.map((entry) {
+                        String userID = entry.key;
+                        String userName = entry.value;
                         return Column(
                           children: [
                             Row(
@@ -188,6 +190,48 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                         Theme.of(context).primaryColor,
                                     child: Icon(
                                       Icons.message,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Rezervasyon İptali"),
+                                          content: Text(
+                                              "Rezervasyon İptal Edilecektir. Onaylıyor musunuz?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Evet'),
+                                              onPressed: () async {
+                                                await viewModel
+                                                    .removeUserFromJourneyReservations(
+                                                        widget.journey[
+                                                            'journeyId'],
+                                                        userID);
+                                                setState(() {
+                                                  reservationUserNames
+                                                      .remove(userID);
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.red,
+                                    child: Icon(
+                                      Icons.close,
                                       color: Colors.white,
                                       size: 20,
                                     ),

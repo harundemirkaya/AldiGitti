@@ -7,14 +7,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 class JourneyPlanViewModel {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<String>> getReservationNames(String journeyID) async {
-    List<String> userNames = [];
+  Future<Map<String, String>> getReservationNamesWithUIDs(
+      String journeyID) async {
+    Map<String, String> userNamesWithUIDs = {};
 
     DocumentSnapshot journeySnapshot =
         await _firestore.collection('journeys').doc(journeyID).get();
 
     if (!journeySnapshot.exists) {
-      return [];
+      return {};
     }
 
     Map<String, dynamic> journeyData =
@@ -25,11 +26,11 @@ class JourneyPlanViewModel {
       DocumentSnapshot userSnapshot =
           await _firestore.collection('users').doc(userID).get();
       if (userSnapshot.exists) {
-        userNames.add(userSnapshot['name']);
+        userNamesWithUIDs[userID] = userSnapshot['name'];
       }
     }
 
-    return userNames;
+    return userNamesWithUIDs;
   }
 
   Future<Map<bool, String>> deleteJourney(String journeyID) async {
@@ -89,6 +90,60 @@ class JourneyPlanViewModel {
     } catch (e) {
       print("❌ PRINT DEBUG ❌ $e");
       return null;
+    }
+  }
+
+  Future<bool> removeUserFromJourneyReservations(
+      String journeyID, String userID) async {
+    try {
+      DocumentReference journeyRef =
+          _firestore.collection('journeys').doc(journeyID);
+      DocumentSnapshot journeySnapshot = await journeyRef.get();
+
+      if (!journeySnapshot.exists) {
+        print("❌ PRINT DEBUG ❌ Journey ID ile eşleşen yolculuk bulunamadı.");
+        return false;
+      }
+
+      Map<String, dynamic> journeyData =
+          journeySnapshot.data() as Map<String, dynamic>;
+      List<String> reservations =
+          List<String>.from(journeyData['reservations'] ?? []);
+
+      if (!reservations.remove(userID)) {
+        print(
+            "❌ PRINT DEBUG ❌ Belirtilen kullanıcı yolculuk rezervasyonlarında bulunamadı.");
+        return false;
+      }
+
+      await journeyRef.update({'reservations': reservations});
+
+      DocumentReference userRef = _firestore.collection('users').doc(userID);
+      DocumentSnapshot userSnapshot = await userRef.get();
+
+      if (!userSnapshot.exists) {
+        print("❌ PRINT DEBUG ❌ User ID ile eşleşen kullanıcı bulunamadı.");
+        return false;
+      }
+
+      Map<String, dynamic> userData =
+          userSnapshot.data() as Map<String, dynamic>;
+      List<Map<String, dynamic>> userReservations =
+          List<Map<String, dynamic>>.from(userData['myReservations'] ?? []);
+
+      for (Map<String, dynamic> reservation in userReservations) {
+        if (reservation['journeyID'] == journeyID) {
+          reservation['status'] = "İptal Edildi";
+          break;
+        }
+      }
+
+      await userRef.update({'myReservations': userReservations});
+
+      return true;
+    } catch (e) {
+      print("❌ PRINT DEBUG ❌ $e");
+      return false;
     }
   }
 }

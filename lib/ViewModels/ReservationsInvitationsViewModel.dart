@@ -42,7 +42,7 @@ class ReservationsInvitationsViewModel {
 
       DocumentSnapshot journeyDoc = await journeyRef.get();
       Map<String, dynamic> journeyData =
-          journeyDoc.data() as Map<String, dynamic>; // Bu satırı ekledik
+          journeyDoc.data() as Map<String, dynamic>;
 
       if (journeyDoc.exists) {
         List<dynamic> reservations = [];
@@ -57,6 +57,34 @@ class ReservationsInvitationsViewModel {
           await journeyRef.update({'reservations': reservations});
           print(
               "✅ PRINT DEBUG ✅ journeyID $journeyID için reservations'a $reservation eklendi.");
+
+          DocumentReference userRef =
+              _firestore.collection('users').doc(reservation);
+          DocumentSnapshot userDoc = await userRef.get();
+
+          if (userDoc.exists) {
+            Map<String, dynamic> userData =
+                userDoc.data() as Map<String, dynamic>;
+            if (userData.containsKey('myReservations')) {
+              List<dynamic> userReservations =
+                  userData['myReservations'] as List<dynamic>;
+
+              bool updated = false;
+              for (var item in userReservations) {
+                if (item['journeyID'] == journeyID) {
+                  item['status'] = "Onaylandı";
+                  updated = true;
+                  break;
+                }
+              }
+
+              if (updated) {
+                await userRef.update({'myReservations': userReservations});
+                print(
+                    "✅ PRINT DEBUG ✅ $reservation kullanıcısının myReservations listesindeki journeyID $journeyID için status 'Onaylandı' olarak güncellendi.");
+              }
+            }
+          }
         } else {
           print(
               "ℹ️ PRINT DEBUG ℹ️ journeyID $journeyID için reservations zaten $reservation içeriyor.");
