@@ -47,23 +47,59 @@ class JourneyPlanViewModel {
         return {false: 'Silinmek istenen yolculuk bulunamadı.'};
       }
 
-      await _firestore.collection('journeys').doc(journeyID).delete();
-
-      DocumentSnapshot userSnapshot =
+      DocumentSnapshot currentUserSnapshot =
           await _firestore.collection('users').doc(currentUserID).get();
 
-      if (!userSnapshot.exists) {
+      if (!currentUserSnapshot.exists) {
         return {false: 'Kullanıcı bulunamadı.'};
       }
 
-      Map<String, dynamic> userData =
-          userSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> currentUserData =
+          currentUserSnapshot.data() as Map<String, dynamic>;
 
       List<Map<String, dynamic>> myJourneys =
-          List<Map<String, dynamic>>.from(userData['myJourneys'] ?? []);
+          List<Map<String, dynamic>>.from(currentUserData['myJourneys'] ?? []);
 
-      myJourneys.removeWhere((journey) => journey['journeyId'] == journeyID);
+      Map<String, dynamic>? targetJourney;
+      for (var journey in myJourneys) {
+        if (journey['journeyId'] == journeyID) {
+          targetJourney = journey;
+          break;
+        }
+      }
 
+      if (targetJourney == null) {
+        return {false: 'Aradığınız yolculuk bulunamadı.'};
+      }
+
+      List<String> reservationInvitations =
+          List<String>.from(targetJourney['reservationInvitations'] ?? []);
+
+      for (String invitedUserId in reservationInvitations) {
+        DocumentSnapshot userSnapshot =
+            await _firestore.collection('users').doc(invitedUserId).get();
+
+        if (userSnapshot.exists) {
+          List<Map<String, dynamic>> userReservations =
+              List<Map<String, dynamic>>.from(
+                  userSnapshot.get('myReservations') ?? []);
+
+          for (var reservation in userReservations) {
+            if (reservation['journeyID'] == journeyID) {
+              reservation['status'] = 'Yolculuk İptal Edildi';
+            }
+          }
+
+          await _firestore
+              .collection('users')
+              .doc(invitedUserId)
+              .update({'myReservations': userReservations});
+        }
+      }
+
+      await _firestore.collection('journeys').doc(journeyID).delete();
+
+      myJourneys.remove(targetJourney);
       await _firestore
           .collection('users')
           .doc(currentUserID)
@@ -159,7 +195,8 @@ class JourneyPlanViewModel {
           await _firestore.collection('journeys').doc(journeyID).get();
 
       if (!journeySnapshot.exists) {
-        print("❌ PRINT DEBUG ❌ Belirtilen ID ile yolculuk bulunamadı.");
+        print(
+            "❌ PRINT DEBUG ❌ Belirtilen ID ile yolculuk bulunamadı. $journeyID");
         return false;
       }
 
@@ -220,7 +257,7 @@ class JourneyPlanViewModel {
             List<Map<String, dynamic>>.from(driverData['myJourneys'] ?? []);
 
         for (Map<String, dynamic> journey in driverJourneys) {
-          if (journey['journeyID'] == journeyID &&
+          if (journey['journeyId'] == journeyID &&
               journey.containsKey('reservationInvitations')) {
             List<String> reservations =
                 List<String>.from(journey['reservationInvitations']);

@@ -97,8 +97,8 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                         itemCount: userReservations.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
+                            onTap: () async {
+                              bool? shouldRefresh = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => JourneyPlanPage(
@@ -107,6 +107,11 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                                   ),
                                 ),
                               );
+                              if (shouldRefresh == true) {
+                                setState(() {
+                                  fetchJourneysAndReservations();
+                                });
+                              }
                             },
                             child: PrimaryJourneyRow(
                               isReservation: true,
