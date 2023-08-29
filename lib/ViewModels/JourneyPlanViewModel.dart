@@ -75,9 +75,18 @@ class JourneyPlanViewModel {
       List<String> reservationInvitations =
           List<String>.from(targetJourney['reservationInvitations'] ?? []);
 
-      for (String invitedUserId in reservationInvitations) {
+      List<String> reservationsJourney =
+          List<String>.from(journeySnapshot.get('reservations') ?? []);
+
+      // Kullanıcıları birleştir
+      List<String> allAffectedUsers = [
+        ...reservationInvitations,
+        ...reservationsJourney
+      ];
+
+      for (String affectedUserId in allAffectedUsers) {
         DocumentSnapshot userSnapshot =
-            await _firestore.collection('users').doc(invitedUserId).get();
+            await _firestore.collection('users').doc(affectedUserId).get();
 
         if (userSnapshot.exists) {
           List<Map<String, dynamic>> userReservations =
@@ -92,7 +101,7 @@ class JourneyPlanViewModel {
 
           await _firestore
               .collection('users')
-              .doc(invitedUserId)
+              .doc(affectedUserId)
               .update({'myReservations': userReservations});
         }
       }

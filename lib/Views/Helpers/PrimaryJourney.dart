@@ -16,7 +16,7 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
   Duration calculateDuration(String departure, String arrival) {
     DateTime departureTime = DateTime.parse("2023-08-21 $departure");
     DateTime arrivalTime = DateTime.parse("2023-08-21 $arrival");
-    return departureTime.difference(arrivalTime);
+    return arrivalTime.difference(departureTime);
   }
 
   @override

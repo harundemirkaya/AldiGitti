@@ -185,62 +185,71 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                   width: 10,
                                 ),
                                 Expanded(child: Text(userName)),
-                                GestureDetector(
-                                  onTap: () {
-                                    // TO DO
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    child: Icon(
-                                      Icons.message,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Rezervasyon İptali"),
-                                          content: Text(
-                                              "Rezervasyon İptal Edilecektir. Onaylıyor musunuz?"),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: Text('Evet'),
-                                              onPressed: () async {
-                                                await viewModel
-                                                    .removeUserFromJourneyReservations(
-                                                        widget.journey[
-                                                            'journeyId'],
-                                                        userID);
-                                                setState(() {
-                                                  reservationUserNames
-                                                      .remove(userID);
-                                                });
-                                                Navigator.of(context).pop();
-                                              },
+                                (!widget.isReservation)
+                                    ? Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              // TO DO
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              child: Icon(
+                                                Icons.message,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
                                             ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    child: Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                  ),
-                                )
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        "Rezervasyon İptali"),
+                                                    content: Text(
+                                                        "Rezervasyon İptal Edilecektir. Onaylıyor musunuz?"),
+                                                    actions: <Widget>[
+                                                      TextButton(
+                                                        child: Text('Evet'),
+                                                        onPressed: () async {
+                                                          await viewModel
+                                                              .removeUserFromJourneyReservations(
+                                                                  widget.journey[
+                                                                      'journeyId'],
+                                                                  userID);
+                                                          setState(() {
+                                                            reservationUserNames
+                                                                .remove(userID);
+                                                          });
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.red,
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    : SizedBox(),
                               ],
                             ),
                             SizedBox(
@@ -326,7 +335,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Hata"),
-                            content: Text("Hata Oluştu. Tekrar Deneyiniz."),
+                            content: Text("Yolculuk zaten iptal edilmiş."),
                             actions: <Widget>[
                               TextButton(
                                 child: Text('Tamam'),
