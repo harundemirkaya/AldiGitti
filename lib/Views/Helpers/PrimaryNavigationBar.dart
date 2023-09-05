@@ -9,9 +9,11 @@ class PrimaryNavigationBar extends StatelessWidget {
   final String userName;
   final Color bgColor;
   final Color backButtonColor;
+  final bool homeButton;
   const PrimaryNavigationBar({
     super.key,
     this.backButton = false,
+    this.homeButton = false,
     this.filterButton = false,
     this.userName = "",
     this.bgColor = const Color.fromRGBO(61, 86, 240, 1),
@@ -43,12 +45,16 @@ class PrimaryNavigationBar extends StatelessWidget {
               onTap: () {
                 if (backButton) {
                   Navigator.pop(context);
+                } else if (homeButton) {
+                  Navigator.popUntil(context, ModalRoute.withName("/"));
                 } else {
                   // TO DO
                 }
               },
               child: Icon(
-                backButton ? Icons.arrow_back : Icons.menu,
+                backButton
+                    ? Icons.arrow_back
+                    : (homeButton ? Icons.home : Icons.menu),
                 color: backButtonColor,
               ),
             ),

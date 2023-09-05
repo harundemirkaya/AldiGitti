@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api
 import 'package:aldigitti/Providers/AppProvider.dart';
-import 'package:aldigitti/Views/live_map.dart';
+import 'package:aldigitti/Views/messages_page.dart';
 import 'package:aldigitti/Views/my_journeys_page.dart';
 import 'package:aldigitti/Views/profile_page.dart';
 import 'package:aldigitti/Views/publish_page.dart';
@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     SearchPage(),
     MyJourneysPage(),
     PublishPage(),
-    LiveMapPage(),
+    MessagesPage(),
     ProfilePage(),
   ];
 
@@ -33,8 +33,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         currentIndex: appProvider.bottomNavBarIndex,
         unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.blue,
-        selectedLabelStyle: TextStyle(color: Colors.blue),
+        selectedItemColor: Theme.of(context).primaryColor,
+        selectedLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
         unselectedLabelStyle: TextStyle(color: Colors.grey),
         type: BottomNavigationBarType.fixed,
         items: [

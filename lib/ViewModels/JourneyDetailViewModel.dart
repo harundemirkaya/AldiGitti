@@ -4,7 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class JourneyDetailViewModel {
-  Future<List<dynamic>> addReservation(String journeyID) async {
+  Future<List<dynamic>> addReservation(
+      String journeyID,
+      String fromAddress,
+      String fromBuildingNo,
+      String fromFloor,
+      String fromApartmentNo,
+      String fromPhone,
+      String toAddress,
+      String toBuildingNo,
+      String toFloor,
+      String toApartmentNo,
+      String toPhone) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     String date = "";
@@ -97,7 +108,18 @@ class JourneyDetailViewModel {
         'fromName': fromName,
         'toName': toName,
         'status': "Onay Bekliyor",
+        'fromAddress': fromAddress,
+        'fromBuildingNo': fromBuildingNo,
+        'fromFloor': fromFloor,
+        'fromApartmentNo': fromApartmentNo,
+        'fromPhone': fromPhone,
+        'toAddress': toAddress,
+        'toBuildingNo': toBuildingNo,
+        'toFloor': toFloor,
+        'toApartmentNo': toApartmentNo,
+        'toPhone': toPhone
       };
+
       myReservations.add(newReservation);
 
       await userRef

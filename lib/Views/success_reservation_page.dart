@@ -21,9 +21,9 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
         body: Column(
           children: [
             PrimaryNavigationBar(
-              backButton: true,
+              homeButton: true,
               bgColor: Colors.greenAccent,
-              backButtonColor: Colors.black,
+              backButtonColor: Colors.white,
             ),
             Spacer(),
             SafeArea(

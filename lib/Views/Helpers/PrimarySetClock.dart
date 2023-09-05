@@ -17,7 +17,6 @@ class _PrimarySetClockState extends State<PrimarySetClock> {
 
   Future<void> _selectTime(
       BuildContext context, TextEditingController controller) async {
-    final dataProvider = Provider.of<DataProvider>(context, listen: false);
     final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -25,11 +24,15 @@ class _PrimarySetClockState extends State<PrimarySetClock> {
 
     if (selectedTime != null &&
         selectedTime != TimeOfDay.fromDateTime(DateTime.now())) {
-      controller.text = selectedTime.format(context);
-      setState(() {
-        dataProvider.setDriverArrivalTime(arrivalTimeController.text);
-        dataProvider.setDriverDepartureTime(departureTimeController.text);
-      });
+      final selectedTimeString = selectedTime.format(context);
+      controller.text = selectedTimeString;
+
+      final dataProvider = Provider.of<DataProvider>(context, listen: false);
+      if (controller == departureTimeController) {
+        dataProvider.setDriverDepartureTime(selectedTimeString);
+      } else {
+        dataProvider.setDriverArrivalTime(selectedTimeString);
+      }
     }
   }
 

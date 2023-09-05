@@ -7,6 +7,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/journey_detail.dart';
+import 'package:aldigitti/Views/receive_cargo_page.dart';
 import 'package:aldigitti/Views/reservation_invitations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -170,92 +171,111 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                       ...reservationUserNames.entries.map((entry) {
                         String userID = entry.key;
                         String userName = entry.value;
-                        return Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: NetworkImage(
-                                    "https://avatars.githubusercontent.com/u/63802051?v=4",
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ReceiveCargoPage(
+                                  journeyID: widget.journey["journeyId"],
+                                  userID: userID,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: NetworkImage(
+                                      "https://avatars.githubusercontent.com/u/63802051?v=4",
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(child: Text(userName)),
-                                (!widget.isReservation)
-                                    ? Row(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              // TO DO
-                                            },
-                                            child: CircleAvatar(
-                                              backgroundColor: Theme.of(context)
-                                                  .primaryColor,
-                                              child: Icon(
-                                                Icons.message,
-                                                color: Colors.white,
-                                                size: 20,
-                                              ),
-                                            ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          userName,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(
-                                            width: 10,
+                                        ),
+                                        Text(
+                                          "Kargoyu Teslim Almak İçin Tıklayın",
+                                          style: TextStyle(
+                                            fontSize: 12,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: Text(
-                                                        "Rezervasyon İptali"),
-                                                    content: Text(
-                                                        "Rezervasyon İptal Edilecektir. Onaylıyor musunuz?"),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child: Text('Evet'),
-                                                        onPressed: () async {
-                                                          await viewModel
-                                                              .removeUserFromJourneyReservations(
-                                                                  widget.journey[
-                                                                      'journeyId'],
-                                                                  userID);
-                                                          setState(() {
-                                                            reservationUserNames
-                                                                .remove(userID);
-                                                          });
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              child: Icon(
-                                                Icons.close,
-                                                color: Colors.white,
-                                                size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  (!widget.isReservation)
+                                      ? Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: Text(
+                                                          "Rezervasyon İptali"),
+                                                      content: Text(
+                                                          "Rezervasyon İptal Edilecektir. Onaylıyor musunuz?"),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child: Text('Evet'),
+                                                          onPressed: () async {
+                                                            await viewModel
+                                                                .removeUserFromJourneyReservations(
+                                                                    widget.journey[
+                                                                        'journeyId'],
+                                                                    userID);
+                                                            setState(() {
+                                                              reservationUserNames
+                                                                  .remove(
+                                                                      userID);
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child: CircleAvatar(
+                                                backgroundColor: Colors.red,
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    : SizedBox(),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
+                                            )
+                                          ],
+                                        )
+                                      : SizedBox(),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
                         );
                       }).toList()
                     else

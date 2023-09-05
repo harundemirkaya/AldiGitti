@@ -6,7 +6,7 @@ import 'package:aldigitti/ViewModels/JourneyDetailViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/message_chat_page.dart';
-import 'package:aldigitti/Views/success_reservation_page.dart';
+import 'package:aldigitti/Views/reservation_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
@@ -275,34 +275,14 @@ class _JourneyDetailState extends State<JourneyDetail> {
                       isDoubleInfinity: true,
                       buttonText: "Rezervasyon İsteği Gönder",
                       onPressed: () async {
-                        List<dynamic> isReservationSuccess = await viewModel
-                            .addReservation(widget.journey.journeyId);
-                        if (isReservationSuccess[0]) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SuccessReservationPage(),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReservationDetailsPage(
+                              journeyID: widget.journey.journeyId,
                             ),
-                          );
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text("Hata"),
-                                content: Text(isReservationSuccess[1]),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: Text('Tamam'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
+                          ),
+                        );
                       },
                     ),
                   ],

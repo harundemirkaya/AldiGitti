@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AppProvider()),
       ],
       child: MaterialApp(
+        initialRoute: '/',
         title: 'Aldı Gitii',
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

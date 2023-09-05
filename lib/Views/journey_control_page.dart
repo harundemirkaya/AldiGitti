@@ -4,6 +4,7 @@ import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/PublishViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
+import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -188,7 +189,13 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
                       arrivalTime: dataProvider.driverArrivalTime,
                     );
                     if (isPublish) {
-                      Navigator.pop(context);
+                      dataProvider.driverReset();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SuccessReservationPage(),
+                        ),
+                      );
                     }
                   },
                   isDoubleInfinity: true,

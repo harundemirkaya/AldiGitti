@@ -20,7 +20,9 @@ class JourneyPlanViewModel {
 
     Map<String, dynamic> journeyData =
         journeySnapshot.data() as Map<String, dynamic>;
-    List<String> userIDs = List<String>.from(journeyData['reservations'] ?? []);
+
+    List<String> userIDs =
+        List<String>.from(journeyData['reservations']?.keys ?? []);
 
     for (String userID in userIDs) {
       DocumentSnapshot userSnapshot =

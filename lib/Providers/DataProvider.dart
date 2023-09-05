@@ -168,4 +168,37 @@ class DataProvider with ChangeNotifier {
     _driverDataModel.setDriverArrivalTime(arrivalTime);
     notifyListeners();
   }
+
+  void customerReset() {
+    _customerDataModel = CustomerDataModel(
+      customerFromName: "Nereden",
+      customerFromLat: 0,
+      customerFromLong: 0,
+      customerToName: "Nereye",
+      customerToLat: 0,
+      customerToLong: 0,
+      customerDate: DateFormat('dd/MM/yy').format(DateTime.now()),
+      customerCargoType: "Belge",
+      customerDesi: 0,
+    );
+    notifyListeners();
+  }
+
+  void driverReset() {
+    _driverDataModel = DriverDataModel(
+      driverFromName: "Nereden",
+      driverFromLat: 0,
+      driverFromLong: 0,
+      driverToName: "Nereye",
+      driverToLat: 0,
+      driverToLong: 0,
+      driverDate: DateFormat('dd/MM/yy').format(DateTime.now()),
+      driverCargoType: [],
+      driverDesi: 0,
+      driverPrice: 0,
+      driverArrivalTime: "",
+      driverDepartureTime: "",
+    );
+    notifyListeners();
+  }
 }
