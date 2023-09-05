@@ -6,6 +6,7 @@ import 'package:aldigitti/ViewModels/JourneyPlanViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
+import 'package:aldigitti/Views/deliver_cargo_page.dart';
 import 'package:aldigitti/Views/journey_detail.dart';
 import 'package:aldigitti/Views/receive_cargo_page.dart';
 import 'package:aldigitti/Views/reservation_invitations_page.dart';
@@ -173,6 +174,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         String userName = entry.value;
                         return GestureDetector(
                           onTap: () {
+                            if (widget.isReservation) return;
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -210,12 +212,14 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Text(
-                                          "Kargoyu Teslim Almak İçin Tıklayın",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                          ),
-                                        ),
+                                        !widget.isReservation
+                                            ? Text(
+                                                "Kargoyu Teslim Almak İçin Tıklayın",
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                ),
+                                              )
+                                            : SizedBox(),
                                       ],
                                     ),
                                   ),
@@ -295,46 +299,26 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: PrimaryNextButton(
-                buttonText: "Yolculuğu Görüntüle",
-                onPressed: () async {
-                  Journey? selectedJourney = await viewModel.fetchJourneyById(
-                      (widget.isReservation)
-                          ? widget.journey['journeyID']
-                          : widget.journey['journeyId']);
-                  if (selectedJourney != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => JourneyDetail(
-                          journey: selectedJourney,
-                        ),
-                      ),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Hata"),
-                          content: Text("Yolculuk Bulunamadı"),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Tamam'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+            widget.isReservation
+                ? SizedBox(
+                    width: double.infinity,
+                    child: PrimaryNextButton(
+                      buttonText: "Kargoyu Teslim Et",
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DeliverCargoPage(
+                              reservationKey: widget.journey['reservationKey'],
+                              paymentStatus:
+                                  widget.journey['paymentStatus'] ?? "",
                             ),
-                          ],
+                          ),
                         );
                       },
-                    );
-                  }
-                },
-              ),
-            ),
+                    ),
+                  )
+                : SizedBox(),
             SizedBox(height: 15),
             SizedBox(
               width: double.infinity,

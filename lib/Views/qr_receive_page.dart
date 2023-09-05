@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -15,30 +18,37 @@ class _QRReceivePageState extends State<QRReceivePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: QRView(
-        key: qrKey,
-        onQRViewCreated: _onQRViewCreated,
-        overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
-          borderWidth: 10,
-          cutOutSize: 250, // QR kodun okunacağı alanın boyutunu ayarlar
-        ),
+      body: Stack(
+        children: [
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+              borderColor: Theme.of(context).primaryColor,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: 250,
+            ),
+          ),
+          PrimaryNavigationBar(
+            backButton: true,
+            bgColor: Colors.transparent,
+          ),
+        ],
       ),
     );
   }
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      // Burada QR kodun içeriğini alabilirsiniz.
-      // Örneğin, bir şeyler yapmak için:
-      print('QR Code Scanned: ${scanData.code}');
+    controller.scannedDataStream.listen(
+      (scanData) {
+        print('QR Code Scanned: ${scanData.code}');
 
-      // QR kodu okunduktan sonra kamera işlevini durdurmak için:
-      controller.pauseCamera();
-    });
+        controller.pauseCamera();
+      },
+    );
   }
 
   @override

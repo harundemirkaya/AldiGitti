@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
 
 class JourneyDetailViewModel {
   Future<List<dynamic>> addReservation(
@@ -102,7 +103,10 @@ class JourneyDetailViewModel {
       print("❌ PRINT DEBUG ❌ Reservation Already Exists");
       return [false, "Bu yolculuğa zaten rezervasyon yaptınız."];
     } else {
+      var uuid = Uuid();
+      String reservationKey = uuid.v4();
       Map<String, dynamic> newReservation = {
+        "reservationKey": reservationKey,
         'journeyID': journeyID,
         'date': date,
         'fromName': fromName,
