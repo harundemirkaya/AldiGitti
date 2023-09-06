@@ -49,6 +49,51 @@ class JourneyPlanViewModel {
         return {false: 'Silinmek istenen yolculuk bulunamadı.'};
       }
 
+      Map<String, dynamic> journeyData =
+          journeySnapshot.data() as Map<String, dynamic>;
+
+      List<Map<String, dynamic>> reservations = journeyData['reservations']
+          .values
+          .toList()
+          .cast<Map<String, dynamic>>();
+
+      for (String reservationUserID in journeyData['reservations'].keys) {
+        DocumentSnapshot userSnapshot =
+            await _firestore.collection('users').doc(reservationUserID).get();
+
+        if (userSnapshot.exists) {
+          List<Map<String, dynamic>> userReservations =
+              List<Map<String, dynamic>>.from(
+                  userSnapshot.get('myReservations') ?? []);
+
+          for (var reservation in userReservations) {
+            if (reservation['journeyID'] == journeyID) {
+              reservation['status'] = 'Yolculuk İptal Edildi';
+            }
+          }
+
+          await _firestore
+              .collection('users')
+              .doc(reservationUserID)
+              .update({'myReservations': userReservations});
+        }
+      }
+
+      bool allConfirmed = true;
+      for (var reservation in reservations) {
+        if (reservation['status'] != "Onaylandı") {
+          allConfirmed = false;
+          break;
+        }
+      }
+
+      if (!allConfirmed) {
+        return {
+          false:
+              'Teslim Aldığınız Kargolar Bulunduğundan Dolayı Yolculuk Silinemez'
+        };
+      }
+
       DocumentSnapshot currentUserSnapshot =
           await _firestore.collection('users').doc(currentUserID).get();
 
@@ -77,14 +122,7 @@ class JourneyPlanViewModel {
       List<String> reservationInvitations =
           List<String>.from(targetJourney['reservationInvitations'] ?? []);
 
-      List<String> reservationsJourney =
-          List<String>.from(journeySnapshot.get('reservations') ?? []);
-
-      // Kullanıcıları birleştir
-      List<String> allAffectedUsers = [
-        ...reservationInvitations,
-        ...reservationsJourney
-      ];
+      List<String> allAffectedUsers = reservationInvitations;
 
       for (String affectedUserId in allAffectedUsers) {
         DocumentSnapshot userSnapshot =
