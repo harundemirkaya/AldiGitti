@@ -1,13 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/ViewModels/DeliverCargoViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class DeliverCargoPage extends StatefulWidget {
+  final String journeyID;
   final String reservationKey;
   final String paymentStatus;
 
@@ -15,6 +16,7 @@ class DeliverCargoPage extends StatefulWidget {
     super.key,
     required this.reservationKey,
     required this.paymentStatus,
+    required this.journeyID,
   });
 
   @override
@@ -22,10 +24,17 @@ class DeliverCargoPage extends StatefulWidget {
 }
 
 class _DeliverCargoPageState extends State<DeliverCargoPage> {
+  DeliverCargoViewModel viewModel = DeliverCargoViewModel();
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController cardNameController = TextEditingController();
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController cvvController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.listenToReservationStatus(widget.journeyID, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +110,7 @@ class _DeliverCargoPageState extends State<DeliverCargoPage> {
                                 onPressed: () {},
                                 isDoubleInfinity: true,
                               )
-                            ],  
+                            ],
                           ),
                         )
                 ],

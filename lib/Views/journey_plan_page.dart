@@ -1,13 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, prefer_const_constructors_in_immutables
 
-import 'package:aldigitti/Models/JourneyModel.dart';
 import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/JourneyPlanViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryJourneyRow.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/deliver_cargo_page.dart';
-import 'package:aldigitti/Views/journey_detail.dart';
 import 'package:aldigitti/Views/receive_cargo_page.dart';
 import 'package:aldigitti/Views/reservation_invitations_page.dart';
 import 'package:flutter/material.dart';
@@ -309,6 +307,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => DeliverCargoPage(
+                              journeyID: widget.journey['journeyID'],
                               reservationKey: widget.journey['reservationKey'],
                               paymentStatus:
                                   widget.journey['paymentStatus'] ?? "",
@@ -329,9 +328,9 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                 bgColor: Colors.red,
                 onPressed: () async {
                   if (widget.isReservation) {
-                    bool isDeleted = await viewModel
+                    Map<bool, String> isDeleted = await viewModel
                         .deleteReservation(widget.journey['journeyID']);
-                    if (isDeleted) {
+                    if (isDeleted.keys.first) {
                       Navigator.pop(context, true);
                     } else {
                       showDialog(
@@ -339,7 +338,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Hata"),
-                            content: Text("Yolculuk zaten iptal edilmiş."),
+                            content: Text(isDeleted.values.last),
                             actions: <Widget>[
                               TextButton(
                                 child: Text('Tamam'),

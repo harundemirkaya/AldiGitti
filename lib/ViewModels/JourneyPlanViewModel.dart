@@ -194,12 +194,12 @@ class JourneyPlanViewModel {
     }
   }
 
-  Future<bool> deleteReservation(String journeyID) async {
+  Future<Map<bool, String>> deleteReservation(String journeyID) async {
     try {
       var currentUserID = FirebaseAuth.instance.currentUser?.uid;
       if (currentUserID == null) {
         print("❌ PRINT DEBUG ❌ Oturum açmış kullanıcı bulunamadı.");
-        return false;
+        return {false: "Kullanıcı Bulunamadı"};
       }
 
       DocumentSnapshot journeySnapshot =
@@ -208,14 +208,27 @@ class JourneyPlanViewModel {
       if (!journeySnapshot.exists) {
         print(
             "❌ PRINT DEBUG ❌ Belirtilen ID ile yolculuk bulunamadı. $journeyID");
-        return false;
+        return {false: "Yolculuk Bulunamadı"};
       }
 
       Map<String, dynamic> journeyData =
           journeySnapshot.data() as Map<String, dynamic>;
       if (journeyData['status'] == 'İptal Edildi') {
         print("❌ PRINT DEBUG ❌ Bu yolculuk zaten iptal edilmiş.");
-        return false;
+        return {false: "Bu yolculuk zaten iptal edilmiş."};
+      }
+
+      if (journeyData['reservations'][currentUserID]['status'] ==
+              'Kargo Teslim Alındı' ||
+          journeyData['reservations'][currentUserID]['status'] ==
+              'Kargo Yola Çıktı' ||
+          journeyData['reservations'][currentUserID]['status'] ==
+              'Kargo Teslim Edildi') {
+        print(
+            "❌ PRINT DEBUG ❌ Kargo Teslim Alındıktan Sonra Rezervasyon İptal Edilemez.");
+        return {
+          false: "Kargo Teslim Alındıktan Sonra Rezervasyon İptal Edilemez."
+        };
       }
 
       String driverID =
@@ -223,7 +236,7 @@ class JourneyPlanViewModel {
 
       if (driverID.isEmpty) {
         print("❌ PRINT DEBUG ❌ Yolculukta sürücü ID'si bulunamadı.");
-        return false;
+        return {false: "Yolculukta sürücü bulunamadı."};
       }
 
       DocumentReference currentUserRef =
@@ -255,8 +268,8 @@ class JourneyPlanViewModel {
         if (journeyUpdateSnapshot.exists) {
           Map<String, dynamic> journeyData =
               journeyUpdateSnapshot.data() as Map<String, dynamic>;
-          List<String> reservationsList =
-              List<String>.from(journeyData['reservations'] ?? []);
+          Map<String, dynamic> reservationsList =
+              Map<String, dynamic>.from(journeyData['reservations'] ?? []);
 
           reservationsList.remove(currentUserID);
 
@@ -281,10 +294,10 @@ class JourneyPlanViewModel {
         await driverRef.update({'myJourneys': driverJourneys});
       }
 
-      return true;
+      return {true: ""};
     } catch (e) {
       print("❌ PRINT DEBUG ❌ $e");
-      return false;
+      return {false: e.toString()};
     }
   }
 }

@@ -1,17 +1,28 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
+import 'package:aldigitti/ViewModels/QRReceiveViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
+import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRReceivePage extends StatefulWidget {
-  const QRReceivePage({Key? key}) : super(key: key);
+  final String journeyID;
+  final String reservationUserID;
+  final String confirmReservationKey;
+  const QRReceivePage({
+    Key? key,
+    required this.confirmReservationKey,
+    required this.journeyID,
+    required this.reservationUserID,
+  }) : super(key: key);
 
   @override
   State<QRReceivePage> createState() => _QRReceivePageState();
 }
 
 class _QRReceivePageState extends State<QRReceivePage> {
+  QRReceiveViewModel viewModel = QRReceiveViewModel();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController controller;
 
@@ -43,10 +54,23 @@ class _QRReceivePageState extends State<QRReceivePage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen(
-      (scanData) {
-        print('QR Code Scanned: ${scanData.code}');
-
-        controller.pauseCamera();
+      (scanData) async {
+        if (scanData.code == widget.confirmReservationKey) {
+          controller.pauseCamera();
+          await viewModel.updateReservationStatus(
+              widget.journeyID, widget.reservationUserID);
+          bool? shouldPop = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SuccessReservationPage(
+                isSuccessQR: true,
+              ),
+            ),
+          );
+          if (shouldPop == true) {
+            Navigator.pop(context);
+          }
+        }
       },
     );
   }

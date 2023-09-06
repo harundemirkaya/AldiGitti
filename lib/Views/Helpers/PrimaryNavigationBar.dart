@@ -44,7 +44,7 @@ class PrimaryNavigationBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 if (backButton) {
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 } else if (homeButton) {
                   Navigator.popUntil(context, ModalRoute.withName("/"));
                 } else {

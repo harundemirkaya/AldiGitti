@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,12 +10,14 @@ class PrimaryTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final bool isTelephoneNumber;
 
-  PrimaryTextField(
-      {required this.controller,
-      required this.icon,
-      required this.placeholderText,
-      this.onChanged,
-      this.isTelephoneNumber = false});
+  const PrimaryTextField({
+    super.key,
+    required this.controller,
+    required this.icon,
+    required this.placeholderText,
+    this.onChanged,
+    this.isTelephoneNumber = false,
+  });
 
   @override
   Widget build(BuildContext context) {

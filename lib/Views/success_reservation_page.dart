@@ -7,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SuccessReservationPage extends StatefulWidget {
-  const SuccessReservationPage({super.key});
+  final bool isSuccessQR;
+  const SuccessReservationPage({
+    super.key,
+    this.isSuccessQR = false,
+  });
 
   @override
   State<SuccessReservationPage> createState() => _SuccessReservationPageState();
@@ -21,9 +25,10 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
         body: Column(
           children: [
             PrimaryNavigationBar(
-              homeButton: true,
+              homeButton: widget.isSuccessQR ? false : true,
+              backButton: widget.isSuccessQR ? true : false,
               bgColor: Colors.greenAccent,
-              backButtonColor: Colors.white,
+              backButtonColor: Colors.black,
             ),
             Spacer(),
             SafeArea(
@@ -34,15 +39,22 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                     Icon(Icons.check_circle, size: 100.0, color: Colors.black),
                     SizedBox(height: 20.0),
                     Text(
-                      'Rezervasyon Başarılı',
+                      widget.isSuccessQR
+                          ? "Kargo Teslim Alındı"
+                          : 'Rezervasyon Başarılı',
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Text(
-                      'Sürücü rezervasyonunu en kısa sürede değerlendirecek.',
+                      widget.isSuccessQR
+                          ? "Tüm rezervasyonlarınızın kargo teslimini gerçekleştirmenizin ardından yola çıkabilirsiniz!"
+                          : 'Sürücü rezervasyonunu en kısa sürede değerlendirecek.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -50,38 +62,42 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 20.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        final appProvider =
-                            Provider.of<AppProvider>(context, listen: false);
-                        appProvider.setBottomNavBarIndex(1);
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavBar()),
-                          (route) => route.settings.name == '/bottomNavBar',
-                        );
-                      },
-                      child: Text(
-                        'Rezervasyonlarımı Gör',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        padding: MaterialStateProperty.all(
-                          EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                            vertical: 12.0,
+                    widget.isSuccessQR
+                        ? SizedBox()
+                        : ElevatedButton(
+                            onPressed: () {
+                              final appProvider = Provider.of<AppProvider>(
+                                  context,
+                                  listen: false);
+                              appProvider.setBottomNavBarIndex(1);
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BottomNavBar(),
+                                ),
+                                (route) =>
+                                    route.settings.name == '/bottomNavBar',
+                              );
+                            },
+                            child: Text(
+                              'Rezervasyonlarımı Gör',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                              padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(
+                                  horizontal: 20.0,
+                                  vertical: 12.0,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),

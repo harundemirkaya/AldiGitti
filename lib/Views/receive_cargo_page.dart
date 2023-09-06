@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables, use_build_context_synchronously
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables, use_build_context_synchronously, unused_local_variable
 
 import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/ReceiveCargoViewModel.dart';
@@ -290,7 +290,12 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => QRReceivePage(),
+                    builder: (context) => QRReceivePage(
+                      journeyID: widget.journeyID,
+                      reservationUserID: widget.userID,
+                      confirmReservationKey:
+                          reservationDetails?['reservationKey'],
+                    ),
                   ),
                 );
               },
