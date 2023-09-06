@@ -101,7 +101,7 @@ class _DeliverCargoPageState extends State<DeliverCargoPage> {
                                 onPressed: () {},
                                 isDoubleInfinity: true,
                               )
-                            ],
+                            ],  
                           ),
                         )
                 ],

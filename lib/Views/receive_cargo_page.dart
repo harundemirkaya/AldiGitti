@@ -6,6 +6,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/qr_receive_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 
 class ReceiveCargoPage extends StatefulWidget {
@@ -79,6 +80,7 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Açık Adres: ",
@@ -87,11 +89,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['fromAddress'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['fromAddress'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -105,11 +109,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['fromBuildingNo'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['fromBuildingNo'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -123,11 +129,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['fromFloor'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['fromFloor'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -141,11 +149,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['fromApartmentNo'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['fromApartmentNo'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -169,19 +179,23 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                     height: 5,
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Açık Adres: ",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['toAddress'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['toAddress'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -195,11 +209,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['toBuildingNo'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['toBuildingNo'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -213,11 +229,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['toFloor'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['toFloor'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -231,11 +249,13 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        reservationDetails?['toApartmentNo'] ?? "",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        child: Text(
+                          reservationDetails?['toApartmentNo'] ?? "",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ],
@@ -247,33 +267,37 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
         ),
       ),
       bottomNavigationBar: Padding(
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 50),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PrimaryNextButton(
-                isDoubleInfinity: true,
-                buttonText: "Rezervasyon Sahibi ile İletişime Geç",
-                onPressed: () {},
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              PrimaryNextButton(
-                isDoubleInfinity: true,
-                bgColor: Colors.green,
-                buttonText: "Kargoyu Al",
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QRReceivePage(),
-                    ),
-                  );
-                },
-              )
-            ],
-          )),
+        padding: EdgeInsets.fromLTRB(30, 10, 30, 50),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PrimaryNextButton(
+              isDoubleInfinity: true,
+              buttonText: "Rezervasyon Sahibi ile İletişime Geç",
+              onPressed: () async {
+                String number = reservationDetails?['fromPhone'];
+                bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            PrimaryNextButton(
+              isDoubleInfinity: true,
+              bgColor: Colors.green,
+              buttonText: "Kargoyu Al",
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QRReceivePage(),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 }

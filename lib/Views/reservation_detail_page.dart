@@ -82,6 +82,7 @@ class _ReservationDetailsPageState extends State<ReservationDetailsPage> {
                         controller: fromPhoneController,
                         icon: Icons.call,
                         placeholderText: "Telefon Numarası",
+                        isTelephoneNumber: true,
                       ),
                       SizedBox(height: 20),
                       Text(
@@ -120,9 +121,11 @@ class _ReservationDetailsPageState extends State<ReservationDetailsPage> {
                         controller: toPhoneController,
                         icon: Icons.call,
                         placeholderText: "Telefon Numarası",
+                        isTelephoneNumber: true,
                       ),
                       Text(
-                          "Kargonuz teslim edilirken teslim alıcı kişinin telefon numarasına kod gönderilecektir."),
+                        "Kargonuz teslim edilirken teslim alıcı kişinin telefon numarasına kod gönderilecektir.",
+                      ),
                       SizedBox(
                         height: 20,
                       ),

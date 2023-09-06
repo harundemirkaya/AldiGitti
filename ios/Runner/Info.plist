@@ -30,6 +30,10 @@
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Kamerayı QR kodunu tarayarak kullanmak için ihtiyaç duyarız</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>sms</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
