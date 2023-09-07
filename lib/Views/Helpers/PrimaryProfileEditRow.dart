@@ -21,7 +21,7 @@ class _ProfileEditRowState extends State<ProfileEditRow> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: widget.onTap,
       child: Row(
         children: [
           Text(

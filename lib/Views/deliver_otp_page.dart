@@ -11,7 +11,7 @@ class DeliverOTPPage extends StatefulWidget {
 }
 
 class _DeliverOTPPageState extends State<DeliverOTPPage> {
-  TextEditingController _otpController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

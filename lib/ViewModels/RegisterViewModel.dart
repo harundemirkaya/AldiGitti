@@ -14,7 +14,14 @@ class RegisterViewModel {
 
   RegisterViewModel({required this.context});
 
-  Future<bool> register(String email, String password, String name) async {
+  Future<bool> register(
+      String email,
+      String password,
+      String name,
+      String surname,
+      String date,
+      String gender,
+      String telephoneNumber) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -25,8 +32,13 @@ class RegisterViewModel {
               .collection('users')
               .doc(userCredential.user!.uid)
               .set({
+            "mail": email,
             'name': name,
+            "surname": surname,
             'email': email,
+            "birthDate": date,
+            "gender": gender,
+            "telephoneNumber": telephoneNumber,
           });
           print("✅ PRINT DEBUG ✅ Register Success");
           Provider.of<UserProvider>(context, listen: false)

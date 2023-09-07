@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class PrimaryTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -9,6 +10,8 @@ class PrimaryTextField extends StatelessWidget {
   final String placeholderText;
   final ValueChanged<String>? onChanged;
   final bool isTelephoneNumber;
+  final bool isDateField;
+  final bool isGenderSelect;
 
   const PrimaryTextField({
     super.key,
@@ -17,6 +20,8 @@ class PrimaryTextField extends StatelessWidget {
     required this.placeholderText,
     this.onChanged,
     this.isTelephoneNumber = false,
+    this.isDateField = false,
+    this.isGenderSelect = false,
   });
 
   @override
@@ -27,11 +32,55 @@ class PrimaryTextField extends StatelessWidget {
       inputFormatters: isTelephoneNumber
           ? [
               FilteringTextInputFormatter.digitsOnly,
-              _TurkishPhoneNumberFormatter()
+              _TurkishPhoneNumberFormatter(),
             ]
           : [],
       keyboardType:
           isTelephoneNumber ? TextInputType.phone : TextInputType.text,
+      readOnly: isDateField || isGenderSelect,
+      onTap: () async {
+        if (isDateField) {
+          DateTime? date = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2000),
+            lastDate: DateTime(2101),
+          );
+          if (date != null) {
+            final formattedDate = DateFormat('dd/MM/yy').format(date);
+            controller.text = formattedDate;
+          }
+        } else if (isGenderSelect) {
+          final gender = await showDialog<String>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Cinsiyet Seçiniz'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: Text('Erkek'),
+                      onTap: () {
+                        Navigator.of(context).pop('Erkek');
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Kadın'),
+                      onTap: () {
+                        Navigator.of(context).pop('Kadın');
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+          if (gender != null) {
+            controller.text = gender;
+          }
+        }
+      },
       decoration: InputDecoration(
         hintText: placeholderText,
         filled: true,
