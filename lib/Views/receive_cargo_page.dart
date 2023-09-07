@@ -4,6 +4,7 @@ import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/ViewModels/ReceiveCargoViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
+import 'package:aldigitti/Views/deliver_otp_page.dart';
 import 'package:aldigitti/Views/qr_receive_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -306,6 +307,12 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
                         TextButton(
                           onPressed: () async {
                             Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DeliverOTPPage(),
+                              ),
+                            );
                           },
                           child: Text("Evet"),
                         ),
