@@ -338,4 +338,94 @@ class JourneyPlanViewModel {
       return {false: e.toString()};
     }
   }
+
+  Future<Map<bool, String>> startJourney(String journeyID) async {
+    try {
+      DocumentSnapshot journeySnapshot =
+          await _firestore.collection('journeys').doc(journeyID).get();
+
+      if (!journeySnapshot.exists) {
+        print("❌ PRINT DEBUG ❌ Journey not found.");
+        return {false: "Yolculuk Bulunamadı."};
+      }
+
+      Map<String, dynamic> journeyData =
+          journeySnapshot.data() as Map<String, dynamic>;
+
+      Map<String, dynamic> reservationsMap =
+          Map<String, dynamic>.from(journeyData['reservations'] ?? {});
+
+      for (String userID in reservationsMap.keys) {
+        if (reservationsMap[userID]['status'] != "Kargo Teslim Alındı") {
+          print("❌ PRINT DEBUG ❌ Not all packages have been received.");
+          return {
+            false:
+                "Yolculuğa Başlamak İçin Rezervasyonlarınızdaki Tüm Kargoları Teslim Almalısınız."
+          };
+        }
+      }
+
+      for (String userID in reservationsMap.keys) {
+        DocumentSnapshot userSnapshot =
+            await _firestore.collection('users').doc(userID).get();
+
+        if (userSnapshot.exists) {
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
+
+          List<Map<String, dynamic>> userReservations =
+              List<Map<String, dynamic>>.from(userData['myReservations'] ?? []);
+
+          for (Map<String, dynamic> reservation in userReservations) {
+            if (reservation['journeyID'] == journeyID) {
+              reservation['status'] = "Kargo Yola Çıktı";
+            }
+          }
+
+          await _firestore
+              .collection('users')
+              .doc(userID)
+              .update({'myReservations': userReservations});
+
+          reservationsMap[userID]['status'] = "Kargo Yola Çıktı";
+        }
+      }
+
+      await _firestore.collection('journeys').doc(journeyID).update({
+        'reservations': reservationsMap,
+        'status': "Kargo Yola Çıktı",
+      });
+
+      print("✅ PRINT DEBUG ✅ Journey has started successfully.");
+      return {true: "Yolculuk Başarıyla Başlatıldı."};
+    } catch (e) {
+      print("❌ PRINT DEBUG ❌ $e");
+      return {false: e.toString()};
+    }
+  }
+
+  Future<bool> checkJourneyStatus(String journeyID) async {
+    try {
+      DocumentSnapshot journeySnapshot =
+          await _firestore.collection('journeys').doc(journeyID).get();
+
+      if (!journeySnapshot.exists) {
+        print("❌ PRINT DEBUG ❌ Journey not found.");
+        return false;
+      }
+
+      Map<String, dynamic> journeyData =
+          journeySnapshot.data() as Map<String, dynamic>;
+
+      if (journeyData.containsKey('status') &&
+          journeyData['status'] == "Kargo Yola Çıktı") {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print("❌ PRINT DEBUG ❌ $e");
+      return false;
+    }
+  }
 }

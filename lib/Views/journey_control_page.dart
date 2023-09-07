@@ -193,7 +193,12 @@ class _JourneyControlPageState extends State<JourneyControlPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SuccessReservationPage(),
+                          builder: (context) => SuccessReservationPage(
+                            title: "Yolculuk Başarıyla Yayınlandı",
+                            description:
+                                "Rezervasyon İsteklerinizi Kontrol Ediniz",
+                            buttonText: "Yolculuklarımı Gör",
+                          ),
                         ),
                       );
                     }

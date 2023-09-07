@@ -12,11 +12,13 @@ import 'package:provider/provider.dart';
 class ReceiveCargoPage extends StatefulWidget {
   final String journeyID;
   final String userID;
+  final bool isSubmit;
 
   ReceiveCargoPage({
     super.key,
     required this.journeyID,
     required this.userID,
+    required this.isSubmit,
   });
 
   @override
@@ -285,19 +287,44 @@ class _ReceiveCargoPageState extends State<ReceiveCargoPage> {
             PrimaryNextButton(
               isDoubleInfinity: true,
               bgColor: Colors.green,
-              buttonText: "Kargoyu Al",
+              buttonText: widget.isSubmit ? "Kargoyu Teslim Et" : "Kargoyu Al",
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QRReceivePage(
-                      journeyID: widget.journeyID,
-                      reservationUserID: widget.userID,
-                      confirmReservationKey:
-                          reservationDetails?['reservationKey'],
+                if (widget.isSubmit) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        "Kargoyu Teslim Etmek İstediğinize Emin Misiniz?",
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Hayır"),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Evet"),
+                        ),
+                      ],
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QRReceivePage(
+                        journeyID: widget.journeyID,
+                        reservationUserID: widget.userID,
+                        confirmReservationKey:
+                            reservationDetails?['reservationKey'],
+                      ),
+                    ),
+                  );
+                }
               },
             )
           ],

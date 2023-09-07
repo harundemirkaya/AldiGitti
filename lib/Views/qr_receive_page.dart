@@ -64,6 +64,10 @@ class _QRReceivePageState extends State<QRReceivePage> {
             MaterialPageRoute(
               builder: (context) => SuccessReservationPage(
                 isSuccessQR: true,
+                title: "Kargo Teslim Alındı",
+                description:
+                    "Tüm rezervasyonlarınızın kargo teslimini gerçekleştirmenizin ardından yola çıkabilirsiniz!",
+                buttonText: "",
               ),
             ),
           );

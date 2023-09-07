@@ -162,8 +162,12 @@ class _ReservationDetailsPageState extends State<ReservationDetailsPage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      SuccessReservationPage(),
+                                  builder: (context) => SuccessReservationPage(
+                                    title: "Rezervasyon Başarılı",
+                                    description:
+                                        "Sürücü rezervasyonunu en kısa sürede değerlendirecek.",
+                                    buttonText: "Rezervasyonlarımı Gör",
+                                  ),
                                 ),
                               );
                             } else {

@@ -8,6 +8,7 @@ import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/deliver_cargo_page.dart';
 import 'package:aldigitti/Views/receive_cargo_page.dart';
 import 'package:aldigitti/Views/reservation_invitations_page.dart';
+import 'package:aldigitti/Views/success_reservation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,7 @@ class JourneyPlanPage extends StatefulWidget {
 
 class _JourneyPlanPageState extends State<JourneyPlanPage> {
   final JourneyPlanViewModel viewModel = JourneyPlanViewModel();
+  bool checkJourney = false;
   Map<String, String> reservationUserNames = {};
 
   Future<void> fetchReservationUserNames() async {
@@ -44,11 +46,27 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
     Provider.of<AppProvider>(context, listen: false).hideLoading();
   }
 
+  Future<void> checkJourneyMethod() async {
+    if (!mounted) return;
+    Provider.of<AppProvider>(context, listen: false).showLoading(context);
+
+    bool status =
+        await viewModel.checkJourneyStatus(widget.journey['journeyId']);
+    setState(() {
+      checkJourney = status;
+    });
+
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchReservationUserNames();
+      if (!widget.isReservation) {
+        checkJourneyMethod();
+      }
     });
   }
 
@@ -179,6 +197,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                 builder: (context) => ReceiveCargoPage(
                                   journeyID: widget.journey["journeyId"],
                                   userID: userID,
+                                  isSubmit: checkJourney,
                                 ),
                               ),
                             );
@@ -212,7 +231,9 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                                         ),
                                         !widget.isReservation
                                             ? Text(
-                                                "Kargoyu Teslim Almak İçin Tıklayın",
+                                                checkJourney
+                                                    ? "Kargoyu Teslim Etmek İçin Tıklayın"
+                                                    : "Kargoyu Teslim Almak İçin Tıklayın",
                                                 style: TextStyle(
                                                   fontSize: 12,
                                                 ),
@@ -317,7 +338,68 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
                       },
                     ),
                   )
-                : SizedBox(),
+                : SizedBox(
+                    width: double.infinity,
+                    child: PrimaryNextButton(
+                      buttonText: "Yola Çık",
+                      bgColor: Colors.green,
+                      onPressed: () async {
+                        if (checkJourney) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Hata"),
+                                content: Text("Yolculuğa Zaten Başladınız"),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Tamam'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          Map<bool, String> isSuccess = await viewModel
+                              .startJourney(widget.journey['journeyId']);
+                          if (isSuccess.keys.first) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SuccessReservationPage(
+                                  title: "Yolculuğa Çıkıldı",
+                                  description: "",
+                                  isSuccessQR: true,
+                                  buttonText: "",
+                                ),
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Hata"),
+                                  content: Text(isSuccess.values.last),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('Tamam'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        }
+                      },
+                    ),
+                  ),
             SizedBox(height: 15),
             SizedBox(
               width: double.infinity,

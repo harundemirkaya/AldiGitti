@@ -8,9 +8,15 @@ import 'package:provider/provider.dart';
 
 class SuccessReservationPage extends StatefulWidget {
   final bool isSuccessQR;
+  final String title;
+  final String description;
+  final String buttonText;
   const SuccessReservationPage({
     super.key,
     this.isSuccessQR = false,
+    required this.title,
+    required this.description,
+    required this.buttonText,
   });
 
   @override
@@ -39,9 +45,7 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                     Icon(Icons.check_circle, size: 100.0, color: Colors.black),
                     SizedBox(height: 20.0),
                     Text(
-                      widget.isSuccessQR
-                          ? "Kargo Teslim Alındı"
-                          : 'Rezervasyon Başarılı',
+                      widget.title,
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
@@ -52,9 +56,7 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                       height: 20,
                     ),
                     Text(
-                      widget.isSuccessQR
-                          ? "Tüm rezervasyonlarınızın kargo teslimini gerçekleştirmenizin ardından yola çıkabilirsiniz!"
-                          : 'Sürücü rezervasyonunu en kısa sürede değerlendirecek.',
+                      widget.description,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -80,7 +82,7 @@ class _SuccessReservationPageState extends State<SuccessReservationPage> {
                               );
                             },
                             child: Text(
-                              'Rezervasyonlarımı Gör',
+                              widget.buttonText,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16.0,
