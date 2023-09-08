@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api
 import 'package:aldigitti/Providers/AppProvider.dart';
-import 'package:aldigitti/Views/messages_page.dart';
 import 'package:aldigitti/Views/my_journeys_page.dart';
+import 'package:aldigitti/Views/my_vehicles_page.dart';
 import 'package:aldigitti/Views/profile_page.dart';
 import 'package:aldigitti/Views/publish_page.dart';
 import 'package:aldigitti/Views/search_page.dart';
@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     SearchPage(),
     MyJourneysPage(),
     PublishPage(),
-    MessagesPage(),
+    MyVehiclesPage(),
     ProfilePage(),
   ];
 
@@ -43,8 +43,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Ara',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.car_repair),
-            label: 'Yolculuklarım', // Not Fit
+            icon: Icon(Icons.join_inner),
+            label: 'Yolculuklarım', // TO DO
           ),
           BottomNavigationBarItem(
             icon: Transform.translate(
@@ -75,8 +75,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
             label: 'Yayınla',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message_outlined),
-            label: 'Mesajlar',
+            icon: Icon(Icons.drive_eta),
+            label: 'Araçlarım',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

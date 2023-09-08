@@ -86,6 +86,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   },
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Divider(),
                 SizedBox(
                   height: 20,
@@ -116,14 +119,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     );
                   },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ProfileEditRow(
-                  title: "Ödemeler ve Para İadeleri",
-                  icon: Icons.keyboard_arrow_right,
-                  onTap: () {},
                 ),
                 SizedBox(
                   height: 20,

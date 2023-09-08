@@ -167,7 +167,7 @@ class _AvailableBalancePageState extends State<AvailableBalancePage> {
               isDoubleInfinity: true,
               buttonText: "Para Çekme İsteği Oluştur",
               bgColor: Colors.green,
-              onPressed: () {
+              onPressed: () async {
                 if (userBalance['balance'] == 0) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -178,8 +178,20 @@ class _AvailableBalancePageState extends State<AvailableBalancePage> {
                     ),
                   );
                   return;
-                } else{
-                  
+                } else {
+                  bool hasBankAccount = await viewModel.hasBankAccount();
+                  if (hasBankAccount) {
+                    // TO DO
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Önce Hesabınıza Bir Ödeme Yöntemi Bağlamalısınız. Bunu Profil Sayfasındaki Ödeme Yöntemleri Kısmından Yapabilirsiniz.",
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 }
               },
             ),

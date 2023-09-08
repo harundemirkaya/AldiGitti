@@ -29,4 +29,24 @@ class AvailableBalanceViewModel {
       return {"balance": 0, "actions": []};
     }
   }
+
+  Future<bool> hasBankAccount() async {
+    User? user = _auth.currentUser;
+
+    if (user == null) {
+      print("❌ PRINT DEBUG ❌ Kullanıcı bulunamadı");
+      return false;
+    }
+
+    DocumentSnapshot doc =
+        await _firestore.collection('users').doc(user.uid).get();
+
+    if (doc.exists) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      List<dynamic>? bankAccounts = data['bankAccount'];
+      return bankAccounts != null && bankAccounts.isNotEmpty;
+    } else {
+      return false;
+    }
+  }
 }
