@@ -39,6 +39,9 @@ class RegisterViewModel {
             "birthDate": date,
             "gender": gender,
             "telephoneNumber": telephoneNumber,
+            "balance": 0,
+            "actions": [],
+            "bankAccount": []
           });
           print("✅ PRINT DEBUG ✅ Register Success");
           Provider.of<UserProvider>(context, listen: false)

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +33,7 @@ class ChangePasswordViewModel {
       if (e.code == 'wrong-password') {
         return {false: "Mevcut şifre yanlış"};
       }
-      // Diğer FirebaseAuthException hata kodlarını da burada kontrol edebilirsiniz
+
       return {false: "Firebase Auth hatası: ${e.message}"};
     } on PlatformException catch (e) {
       return {false: "Platform hatası: ${e.message}"};
