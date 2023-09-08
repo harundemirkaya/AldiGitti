@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:aldigitti/Views/Helpers/PrimaryProfileEditRow.dart';
+import 'package:aldigitti/Views/change_password_page.dart';
 import 'package:aldigitti/Views/personal_information_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,18 +75,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileEditRow(
                   title: "Şifre",
                   icon: Icons.keyboard_arrow_right,
-                  onTap: () {},
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ProfileEditRow(
-                  title: "Mail Adresi",
-                  icon: Icons.keyboard_arrow_right,
-                  onTap: () {},
-                ),
-                SizedBox(
-                  height: 20,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangePasswordPage(),
+                      ),
+                    );
+                  },
                 ),
                 Divider(),
                 SizedBox(
