@@ -12,6 +12,7 @@ class PrimaryTextField extends StatelessWidget {
   final bool isTelephoneNumber;
   final bool isDateField;
   final bool isGenderSelect;
+  final bool isIban;
 
   const PrimaryTextField({
     super.key,
@@ -22,6 +23,7 @@ class PrimaryTextField extends StatelessWidget {
     this.isTelephoneNumber = false,
     this.isDateField = false,
     this.isGenderSelect = false,
+    this.isIban = false,
   });
 
   @override
@@ -29,12 +31,16 @@ class PrimaryTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       onChanged: (onChanged != null) ? onChanged! : (String value) {},
-      inputFormatters: isTelephoneNumber
+      inputFormatters: isIban
           ? [
-              FilteringTextInputFormatter.digitsOnly,
-              _TurkishPhoneNumberFormatter(),
+              _IbanFormatter(),
             ]
-          : [],
+          : isTelephoneNumber
+              ? [
+                  FilteringTextInputFormatter.digitsOnly,
+                  _TurkishPhoneNumberFormatter(),
+                ]
+              : [],
       keyboardType:
           isTelephoneNumber ? TextInputType.phone : TextInputType.text,
       readOnly: isDateField || isGenderSelect,
@@ -133,6 +139,40 @@ class _TurkishPhoneNumberFormatter extends TextInputFormatter {
     }
 
     if (newText.length > 14) {
+      return oldValue;
+    }
+
+    return TextEditingValue(
+      text: newText,
+      selection: newValue.selection.copyWith(
+        baseOffset: newText.length,
+        extentOffset: newText.length,
+      ),
+    );
+  }
+}
+
+class _IbanFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+
+    if (newText.length < 2) {
+      return TextEditingValue(
+        text: 'TR',
+        selection: TextSelection.collapsed(offset: 2),
+      );
+    }
+
+    if (newValue.text.length > oldValue.text.length) {
+      String potentialNewChar = newText.substring(newText.length - 1);
+      if (int.tryParse(potentialNewChar) == null) {
+        return oldValue;
+      }
+    }
+
+    if (newText.length > 26) {
       return oldValue;
     }
 

@@ -11,6 +11,7 @@ class AvailableBalanceViewModel {
     User? user = _auth.currentUser;
 
     if (user == null) {
+      print("❌ PRINT DEBUG ❌ Kullanıcı bulunamadı");
       return {"balance": 0, "actions": []};
     }
 

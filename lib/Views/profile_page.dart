@@ -3,6 +3,7 @@
 import 'package:aldigitti/Views/Helpers/PrimaryProfileEditRow.dart';
 import 'package:aldigitti/Views/available_balance_page.dart';
 import 'package:aldigitti/Views/change_password_page.dart';
+import 'package:aldigitti/Views/payment_methods_page.dart';
 import 'package:aldigitti/Views/personal_information_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileEditRow(
                   title: "Ödeme Yöntemleri",
                   icon: Icons.keyboard_arrow_right,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentMethodsPage(),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 20,
