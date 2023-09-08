@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -51,7 +53,7 @@ class PaymentMethodsViewModel {
 
       return null;
     } catch (e) {
-      print(e);
+      print("❌ PRINT DEBUG ❌ Error: $e");
       return null;
     }
   }
@@ -85,7 +87,7 @@ class PaymentMethodsViewModel {
 
       return false;
     } catch (e) {
-      print("❌ PRINT DEBUG ❌ Error: ${e}");
+      print("❌ PRINT DEBUG ❌ Error: $e");
       return false;
     }
   }
