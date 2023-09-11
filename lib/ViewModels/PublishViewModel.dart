@@ -67,4 +67,35 @@ class PublishViewModel {
     }
     return false;
   }
+
+  Future<bool> checkForApprovedVehicle() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    User? currentUser = auth.currentUser;
+
+    if (currentUser != null) {
+      String currentUserId = currentUser.uid;
+
+      try {
+        DocumentSnapshot vehicleDoc =
+            await firestore.collection('vehicles').doc(currentUserId).get();
+
+        if (vehicleDoc.exists) {
+          List vehicles = vehicleDoc['vehicles'] ?? [];
+
+          for (var vehicle in vehicles) {
+            if (vehicle['status'] == 'Onaylı Araç') {
+              return true;
+            }
+          }
+        }
+      } catch (e) {
+        print("❌ Error while checking for approved vehicle: $e");
+        return false;
+      }
+    }
+
+    return false;
+  }
 }

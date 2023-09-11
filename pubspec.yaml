@@ -48,11 +48,13 @@ dependencies:
   firebase_core: ^2.15.1
   firebase_auth: ^4.7.3
   cloud_firestore: ^4.8.5
+  firebase_storage: ^11.2.6
   geolocator: ^10.0.0
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.1.0
   uuid: ^4.0.0
   flutter_phone_direct_caller: ^2.1.1
+  file_picker: ^5.5.0
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +89,7 @@ flutter:
     - lib/assets/images/location-line.svg
     - lib/assets/images/cargo-icon.png
     - lib/assets/images/car-icon.png
+    - lib/assets/images/my-car-icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

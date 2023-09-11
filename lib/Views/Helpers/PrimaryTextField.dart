@@ -1,8 +1,14 @@
-// ignore_for_file: prefer_const_constructors, file_names
+// ignore_for_file: prefer_const_constructors, file_names, use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class PrimaryTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -13,6 +19,8 @@ class PrimaryTextField extends StatelessWidget {
   final bool isDateField;
   final bool isGenderSelect;
   final bool isIban;
+  final bool isDocument;
+  final bool isNumber;
 
   const PrimaryTextField({
     super.key,
@@ -24,7 +32,34 @@ class PrimaryTextField extends StatelessWidget {
     this.isDateField = false,
     this.isGenderSelect = false,
     this.isIban = false,
+    this.isDocument = false,
+    this.isNumber = false,
   });
+
+  Future<Map<bool, String>> uploadFile(FilePickerResult? result) async {
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      var currentUserID = FirebaseAuth.instance.currentUser?.uid;
+      if (currentUserID == null) {
+        return {false: 'Kullanıcı Bulunamadı.'};
+      }
+
+      try {
+        String randomID = Uuid().v4();
+        var ref =
+            FirebaseStorage.instance.ref('uploads/$currentUserID/$randomID');
+        await ref.putFile(File(file.path!));
+
+        String downloadURL = await ref.getDownloadURL();
+
+        return {true: downloadURL};
+      } on FirebaseException catch (e) {
+        return {false: "$e"};
+      }
+    }
+    return {false: "cancel"};
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +70,17 @@ class PrimaryTextField extends StatelessWidget {
           ? [
               _IbanFormatter(),
             ]
-          : isTelephoneNumber
-              ? [
-                  FilteringTextInputFormatter.digitsOnly,
-                  _TurkishPhoneNumberFormatter(),
-                ]
-              : [],
+          : isNumber
+              ? [FilteringTextInputFormatter.digitsOnly]
+              : isTelephoneNumber
+                  ? [
+                      FilteringTextInputFormatter.digitsOnly,
+                      _TurkishPhoneNumberFormatter(),
+                    ]
+                  : [],
       keyboardType:
           isTelephoneNumber ? TextInputType.phone : TextInputType.text,
-      readOnly: isDateField || isGenderSelect,
+      readOnly: isDateField || isGenderSelect || isDocument,
       onTap: () async {
         if (isDateField) {
           DateTime? date = await showDatePicker(
@@ -85,8 +122,29 @@ class PrimaryTextField extends StatelessWidget {
           if (gender != null) {
             controller.text = gender;
           }
+        } else if (isDocument) {
+          FilePickerResult? result = await FilePicker.platform.pickFiles(
+            type: FileType.custom,
+            allowedExtensions: ['pdf', 'doc', 'docx', "png"],
+          );
+
+          if (result != null) {
+            Map<bool, String> uploadResult = await uploadFile(result);
+            if (uploadResult.keys.first) {
+              controller.text = uploadResult.values.first;
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(uploadResult.values.first),
+                ),
+              );
+            }
+          }
         }
       },
+      style: TextStyle(
+        color: isDocument ? Colors.white : Colors.black,
+      ),
       decoration: InputDecoration(
         hintText: placeholderText,
         filled: true,

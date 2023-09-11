@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
+import 'package:aldigitti/ViewModels/PublishViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryDesi.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryNavigationBar.dart';
@@ -22,6 +24,53 @@ class PublishPage extends StatefulWidget {
 
 class _PublishPageState extends State<PublishPage> {
   TextEditingController priceController = TextEditingController();
+
+  bool vehicleStatus = false;
+
+  PublishViewModel viewModel = PublishViewModel();
+
+  Future<void> checkVehicles() async {
+    if (!mounted) return;
+    Provider.of<AppProvider>(context, listen: false).showLoading(context);
+
+    bool status = await viewModel.checkForApprovedVehicle();
+    setState(() {
+      vehicleStatus = status;
+    });
+
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
+
+    if (!vehicleStatus) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Uyarı'),
+            content: Text(
+                'Yolculuk İlanı Yayınlayabilmek İçin Bir Araç Tanımlamalısınız. Aracınızın Onaylanması Ardından İlan Yayınlayabilirsiniz.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  final appProvider =
+                      Provider.of<AppProvider>(context, listen: false);
+                  appProvider.setBottomNavBarIndex(3);
+                  Navigator.of(context).pop();
+                },
+                child: Text('Tamam'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkVehicles();
+  }
 
   @override
   Widget build(BuildContext context) {
