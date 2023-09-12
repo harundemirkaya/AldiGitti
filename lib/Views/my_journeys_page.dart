@@ -40,6 +40,7 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchJourneysAndReservations();
     });

@@ -20,7 +20,7 @@ class _MyVehiclesPageState extends State<MyVehiclesPage> {
   MyVehiclesViewModel viewModel = MyVehiclesViewModel();
   List<Vehicle>? userVehicles = [];
 
-  Future<void> fetchJourneysAndReservations() async {
+  Future<void> fetchVehicles() async {
     if (!mounted) return;
     Provider.of<AppProvider>(context, listen: false).showLoading(context);
 
@@ -38,7 +38,8 @@ class _MyVehiclesPageState extends State<MyVehiclesPage> {
   @override
   void initState() {
     super.initState();
-    fetchJourneysAndReservations();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
+    fetchVehicles();
   }
 
   @override
@@ -80,7 +81,7 @@ class _MyVehiclesPageState extends State<MyVehiclesPage> {
                       if (isSuccess) {
                         setState(
                           () {
-                            fetchJourneysAndReservations();
+                            fetchVehicles();
                           },
                         );
                       }
@@ -120,7 +121,7 @@ class _MyVehiclesPageState extends State<MyVehiclesPage> {
                               if (isSuccess) {
                                 setState(
                                   () {
-                                    fetchJourneysAndReservations();
+                                    fetchVehicles();
                                   },
                                 );
                               }
@@ -144,28 +145,31 @@ class _MyVehiclesPageState extends State<MyVehiclesPage> {
                         height: 20,
                       ),
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: userVehicles!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                bottom: 20,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: PrimaryVehicleRow(
-                                  brand: userVehicles![index].brand ?? "",
-                                  model: userVehicles![index].model ?? "",
-                                  year: userVehicles![index].year ?? 0,
-                                  licensePlate:
-                                      userVehicles![index].plate ?? "",
-                                  status: userVehicles![index].status ?? "",
-                                  id: userVehicles![index].id ?? "",
-                                  onDelete: fetchJourneysAndReservations,
+                        child: RefreshIndicator(
+                          onRefresh: fetchVehicles,
+                          child: ListView.builder(
+                            itemCount: userVehicles!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: 20,
                                 ),
-                              ),
-                            );
-                          },
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: PrimaryVehicleRow(
+                                    brand: userVehicles![index].brand ?? "",
+                                    model: userVehicles![index].model ?? "",
+                                    year: userVehicles![index].year ?? 0,
+                                    licensePlate:
+                                        userVehicles![index].plate ?? "",
+                                    status: userVehicles![index].status ?? "",
+                                    id: userVehicles![index].id ?? "",
+                                    onDelete: fetchVehicles,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       )
                     ],

@@ -62,6 +62,7 @@ class _JourneyPlanPageState extends State<JourneyPlanPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchReservationUserNames();
       if (!widget.isReservation) {

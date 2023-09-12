@@ -69,6 +69,7 @@ class _PublishPageState extends State<PublishPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
     checkVehicles();
   }
 

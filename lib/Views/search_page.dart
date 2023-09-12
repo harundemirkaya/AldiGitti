@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, curly_braces_in_flow_control_structures, avoid_print, use_build_context_synchronously
 
 import 'package:aldigitti/Models/JourneyModel.dart';
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/SearchViewModel.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryCargoType.dart';
@@ -37,6 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
 
     _timer = Timer.periodic(
       Duration(seconds: 5),

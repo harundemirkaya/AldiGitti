@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:aldigitti/Providers/AppProvider.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryProfileEditRow.dart';
 import 'package:aldigitti/Views/available_balance_page.dart';
 import 'package:aldigitti/Views/change_password_page.dart';
@@ -7,6 +8,7 @@ import 'package:aldigitti/Views/payment_methods_page.dart';
 import 'package:aldigitti/Views/personal_information_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -16,6 +18,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<AppProvider>(context, listen: false).hideLoading();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
