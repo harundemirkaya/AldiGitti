@@ -10,6 +10,8 @@ class PrimaryNavigationBar extends StatelessWidget {
   final Color bgColor;
   final Color backButtonColor;
   final bool homeButton;
+  final Function(int)? onSortSelected;
+
   const PrimaryNavigationBar({
     super.key,
     this.backButton = false,
@@ -18,6 +20,7 @@ class PrimaryNavigationBar extends StatelessWidget {
     this.userName = "",
     this.bgColor = const Color.fromRGBO(61, 86, 240, 1),
     this.backButtonColor = Colors.white,
+    this.onSortSelected,
   });
 
   @override
@@ -81,7 +84,9 @@ class PrimaryNavigationBar extends StatelessWidget {
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return PrimaryFilterBottomSheet();
+                          return PrimaryFilterBottomSheet(
+                            onSortSelected: onSortSelected,
+                          );
                         },
                       );
                     },

@@ -3,7 +3,11 @@
 import 'package:flutter/material.dart';
 
 class PrimaryFilterBottomSheet extends StatefulWidget {
-  const PrimaryFilterBottomSheet({super.key});
+  final Function(int)? onSortSelected;
+  const PrimaryFilterBottomSheet({
+    super.key,
+    this.onSortSelected,
+  });
 
   @override
   State<PrimaryFilterBottomSheet> createState() =>
@@ -11,7 +15,7 @@ class PrimaryFilterBottomSheet extends StatefulWidget {
 }
 
 class _PrimaryFilterBottomSheetState extends State<PrimaryFilterBottomSheet> {
-  int? sortRadioValue = 1;
+  int? sortRadioValue = 0;
   bool twelveEighteenCheck = false;
   bool eighteenAndLaterCheck = false;
   bool verifiedProfileCheck = false;
@@ -57,101 +61,117 @@ class _PrimaryFilterBottomSheetState extends State<PrimaryFilterBottomSheet> {
             SizedBox(
               height: 5,
             ),
-            Row(
-              children: [
-                Icon(Icons.timer_outlined),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "En Erken Kalkış Saati",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(1);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.timer_outlined),
+                  SizedBox(
+                    width: 5,
                   ),
-                ),
-                Spacer(),
-                Radio(
-                  value: 1,
-                  groupValue: sortRadioValue,
-                  onChanged: (int? value) {
-                    setState(() {
-                      sortRadioValue = value;
-                    });
-                  },
-                )
-              ],
+                  Text(
+                    "En Erken Kalkış Saati",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Radio(
+                    value: 1,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Icon(Icons.attach_money),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "En Düşük Fiyat",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(2);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.attach_money),
+                  SizedBox(
+                    width: 5,
                   ),
-                ),
-                Spacer(),
-                Radio(
-                  value: 2,
-                  groupValue: sortRadioValue,
-                  onChanged: (int? value) {
-                    setState(() {
-                      sortRadioValue = value;
-                    });
-                  },
-                )
-              ],
+                  Text(
+                    "En Düşük Fiyat",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Radio(
+                    value: 2,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Icon(Icons.directions_walk),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Kalkış Yerine Yakın",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(3);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.directions_walk),
+                  SizedBox(
+                    width: 5,
                   ),
-                ),
-                Spacer(),
-                Radio(
-                  value: 3,
-                  groupValue: sortRadioValue,
-                  onChanged: (int? value) {
-                    setState(() {
-                      sortRadioValue = value;
-                    });
-                  },
-                )
-              ],
+                  Text(
+                    "Kalkış Yerine Yakın",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Radio(
+                    value: 3,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Icon(Icons.directions_walk),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Varış Yerine Yakın",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(4);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.directions_walk),
+                  SizedBox(
+                    width: 5,
                   ),
-                ),
-                Spacer(),
-                Radio(
-                  value: 4,
-                  groupValue: sortRadioValue,
-                  onChanged: (int? value) {
-                    setState(() {
-                      sortRadioValue = value;
-                    });
-                  },
-                )
-              ],
+                  Text(
+                    "Varış Yerine Yakın",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Radio(
+                    value: 4,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 10,
@@ -167,111 +187,58 @@ class _PrimaryFilterBottomSheetState extends State<PrimaryFilterBottomSheet> {
                 fontSize: 18,
               ),
             ),
-            Row(
-              children: [
-                Text(
-                  "12:00 - 18:00",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(5);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "12:00 - 18:00",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Checkbox(
-                    value: twelveEighteenCheck,
-                    onChanged: (bool? value) {
-                      setState(
-                        () {
-                          twelveEighteenCheck = value ?? false;
-                        },
-                      );
-                    })
-              ],
+                  Spacer(),
+                  Radio(
+                    value: 5,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Text(
-                  "18:00'dan Sonra",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () {
+                if (widget.onSortSelected != null) {
+                  widget.onSortSelected!(6);
+                  Navigator.pop(context);
+                }
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "18:00'dan Sonra",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Spacer(),
-                Checkbox(
-                  value: eighteenAndLaterCheck,
-                  onChanged: (bool? value) {
-                    setState(
-                      () {
-                        eighteenAndLaterCheck = value ?? false;
-                      },
-                    );
-                  },
-                ),
-              ],
+                  Spacer(),
+                  Radio(
+                    value: 6,
+                    groupValue: sortRadioValue,
+                    onChanged: (int? value) {},
+                  )
+                ],
+              ),
             ),
             SizedBox(
               height: 10,
             ),
             Divider(),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Olanaklar",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            Row(
-              children: [
-                Icon(Icons.verified_outlined),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Doğrulanmış Profil",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Spacer(),
-                Checkbox(
-                  value: verifiedProfileCheck,
-                  onChanged: (bool? value) {
-                    setState(
-                      () {
-                        verifiedProfileCheck = value ?? false;
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Icon(Icons.smoke_free_outlined),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Sigara İçilmeyen",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Spacer(),
-                Checkbox(
-                  value: dontSmokeCheck,
-                  onChanged: (bool? value) {
-                    setState(
-                      () {
-                        dontSmokeCheck = value ?? false;
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
           ],
         ),
       ),

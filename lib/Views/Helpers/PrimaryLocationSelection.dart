@@ -3,7 +3,6 @@
 import 'package:aldigitti/Models/PlaceAutoCompleteResponse.dart';
 import 'package:aldigitti/Providers/DataProvider.dart';
 import 'package:aldigitti/ViewModels/PrimaryLocationSelectionViewModel.dart';
-import 'package:aldigitti/Views/Helpers/PrimaryNextButton.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryScreenWrapper.dart';
 import 'package:aldigitti/Views/Helpers/PrimaryTextField.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class _PrimaryLocationSelectionState extends State<PrimaryLocationSelection> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_locationFocusNode);
     });
   }

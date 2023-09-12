@@ -30,8 +30,16 @@ class _PrimaryJourneyState extends State<PrimaryJourney> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-        borderRadius: BorderRadius.circular(6),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 2,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Padding(
         padding: EdgeInsets.all(10),
