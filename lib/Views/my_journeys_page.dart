@@ -93,37 +93,40 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                           Spacer(),
                         ],
                       )
-                    : ListView.builder(
-                        itemCount: userReservations.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () async {
-                              bool? shouldRefresh = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => JourneyPlanPage(
-                                    journey: userReservations[index],
-                                    isReservation: true,
+                    : RefreshIndicator(
+                        onRefresh: fetchJourneysAndReservations,
+                        child: ListView.builder(
+                          itemCount: userReservations.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () async {
+                                bool? shouldRefresh = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JourneyPlanPage(
+                                      journey: userReservations[index],
+                                      isReservation: true,
+                                    ),
                                   ),
-                                ),
-                              );
-                              if (shouldRefresh == true) {
-                                setState(() {
-                                  fetchJourneysAndReservations();
-                                });
-                              }
-                            },
-                            child: PrimaryJourneyRow(
-                              isReservation: true,
-                              date: userReservations[index]['date'],
-                              fromName: userReservations[index]['fromName'],
-                              toName: userReservations[index]['toName'],
-                              status: userReservations[index]['status'],
-                              reservationInvitations: [],
-                              reservations: [],
-                            ),
-                          );
-                        },
+                                );
+                                if (shouldRefresh == true) {
+                                  setState(() {
+                                    fetchJourneysAndReservations();
+                                  });
+                                }
+                              },
+                              child: PrimaryJourneyRow(
+                                isReservation: true,
+                                date: userReservations[index]['date'],
+                                fromName: userReservations[index]['fromName'],
+                                toName: userReservations[index]['toName'],
+                                status: userReservations[index]['status'],
+                                reservationInvitations: [],
+                                reservations: [],
+                              ),
+                            );
+                          },
+                        ),
                       ),
                 (userJourneys.isEmpty && !isLoading)
                     ? Column(
@@ -147,40 +150,43 @@ class _MyJourneysPageState extends State<MyJourneysPage> {
                           Spacer(),
                         ],
                       )
-                    : ListView.builder(
-                        itemCount: userJourneys.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () async {
-                              bool? shouldRefresh = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => JourneyPlanPage(
-                                    journey: userJourneys[index],
-                                    isReservation: false,
+                    : RefreshIndicator(
+                        onRefresh: fetchJourneysAndReservations,
+                        child: ListView.builder(
+                          itemCount: userJourneys.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () async {
+                                bool? shouldRefresh = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => JourneyPlanPage(
+                                      journey: userJourneys[index],
+                                      isReservation: false,
+                                    ),
                                   ),
-                                ),
-                              );
-                              if (shouldRefresh == true) {
-                                setState(() {
-                                  fetchJourneysAndReservations();
-                                });
-                              }
-                            },
-                            child: PrimaryJourneyRow(
-                              isReservation: false,
-                              date: userJourneys[index]['date'],
-                              fromName: userJourneys[index]['fromName'],
-                              toName: userJourneys[index]['toName'],
-                              status: userJourneys[index]['status'] ?? "",
-                              reservationInvitations: userJourneys[index]
-                                      ['reservationInvitations'] ??
-                                  [],
-                              reservations:
-                                  userJourneys[index]['reservations'] ?? [],
-                            ),
-                          );
-                        },
+                                );
+                                if (shouldRefresh == true) {
+                                  setState(() {
+                                    fetchJourneysAndReservations();
+                                  });
+                                }
+                              },
+                              child: PrimaryJourneyRow(
+                                isReservation: false,
+                                date: userJourneys[index]['date'],
+                                fromName: userJourneys[index]['fromName'],
+                                toName: userJourneys[index]['toName'],
+                                status: userJourneys[index]['status'] ?? "",
+                                reservationInvitations: userJourneys[index]
+                                        ['reservationInvitations'] ??
+                                    [],
+                                reservations:
+                                    userJourneys[index]['reservations'] ?? [],
+                              ),
+                            );
+                          },
+                        ),
                       ),
               ],
             ),
