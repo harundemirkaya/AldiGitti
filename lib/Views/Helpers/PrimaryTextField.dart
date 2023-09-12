@@ -21,6 +21,7 @@ class PrimaryTextField extends StatelessWidget {
   final bool isIban;
   final bool isDocument;
   final bool isNumber;
+  final FocusNode? focusNode;
 
   const PrimaryTextField({
     super.key,
@@ -34,6 +35,7 @@ class PrimaryTextField extends StatelessWidget {
     this.isIban = false,
     this.isDocument = false,
     this.isNumber = false,
+    this.focusNode,
   });
 
   Future<Map<bool, String>> uploadFile(FilePickerResult? result) async {
@@ -65,6 +67,7 @@ class PrimaryTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      focusNode: focusNode,
       onChanged: (onChanged != null) ? onChanged! : (String value) {},
       inputFormatters: isIban
           ? [

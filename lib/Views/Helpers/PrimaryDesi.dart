@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names
 
 import 'package:aldigitti/Providers/DataProvider.dart';
+import 'package:aldigitti/Views/Helpers/PrimaryScreenWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,53 +23,57 @@ class _PrimaryDesiState extends State<PrimaryDesi> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Desi Hesaplama'),
-          content: (widget.isPublisher ?? false)
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: maxDesiController,
-                      decoration: InputDecoration(hintText: "Max Desi"),
-                      keyboardType: TextInputType.number,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    ElevatedButton(
-                      child: Text("Seç"),
-                      onPressed: () =>
-                          _calculateDesi("", "", "", maxDesiController.text),
-                    ),
-                  ],
-                )
-              : SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
+        return ScreenWrapper(
+          child: AlertDialog(
+            title: const Text('Desi Hesaplama'),
+            content: (widget.isPublisher ?? false)
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       TextField(
-                        controller: widthController,
-                        decoration: InputDecoration(hintText: "Genişlik (cm)"),
+                        controller: maxDesiController,
+                        decoration: InputDecoration(hintText: "Max Desi"),
                         keyboardType: TextInputType.number,
                       ),
-                      TextField(
-                        controller: heightController,
-                        decoration: InputDecoration(hintText: "Yükseklik (cm)"),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextField(
-                        controller: lengthController,
-                        decoration: InputDecoration(hintText: "Uzunluk (cm)"),
-                        keyboardType: TextInputType.number,
+                      SizedBox(
+                        height: 5,
                       ),
                       ElevatedButton(
-                        child: Text("Hesapla"),
-                        onPressed: () => _calculateDesi(widthController.text,
-                            heightController.text, lengthController.text, ""),
+                        child: Text("Seç"),
+                        onPressed: () =>
+                            _calculateDesi("", "", "", maxDesiController.text),
                       ),
                     ],
+                  )
+                : SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        TextField(
+                          controller: widthController,
+                          decoration:
+                              InputDecoration(hintText: "Genişlik (cm)"),
+                          keyboardType: TextInputType.number,
+                        ),
+                        TextField(
+                          controller: heightController,
+                          decoration:
+                              InputDecoration(hintText: "Yükseklik (cm)"),
+                          keyboardType: TextInputType.number,
+                        ),
+                        TextField(
+                          controller: lengthController,
+                          decoration: InputDecoration(hintText: "Uzunluk (cm)"),
+                          keyboardType: TextInputType.number,
+                        ),
+                        ElevatedButton(
+                          child: Text("Hesapla"),
+                          onPressed: () => _calculateDesi(widthController.text,
+                              heightController.text, lengthController.text, ""),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+          ),
         );
       },
     );
